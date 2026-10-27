@@ -35,11 +35,11 @@ function setCourseLanguage(next){
   document.getElementById('menuBtn').setAttribute('aria-label',next==='ar'?'القائمة':'Menu');
   courseThemeButton.setAttribute('aria-label',next==='ar'?'تبديل الوضع الداكن/الفاتح':'Toggle dark/light theme');
   document.title=next==='ar'
-    ?'العمل عبر منصات التواصل واستخدام أدوات الذكاء الاصطناعي — Thaer Media'
-    :'Working on Social Media Platforms and Using AI Tools — Thaer Media';
+    ?'احترف التسويق عبر منصات التواصل الاجتماعي — Thaer Media'
+    :'Master Marketing on Social Media Platforms — Thaer Media';
   document.getElementById('courseMetaDescription').content=next==='ar'
-    ?'دورة وجاهية عن إنشاء وإدارة صفحات فيسبوك وإنستغرام، واتساب للأعمال، Meta Business Suite، التصميم بأدوات الذكاء الاصطناعي والحملات الإعلانية.'
-    :'An in-person course covering Facebook and Instagram page management, WhatsApp Business, Meta Business Suite, AI-assisted design, and advertising campaigns.';
+    ?'احترف التسويق عبر منصات التواصل الاجتماعي. محاور عملية لإدارة حضورك على منصات التواصل والاستفادة من أدوات الذكاء الاصطناعي.'
+    :'Master Marketing on Social Media Platforms. Practical topics for managing your social media presence and making use of artificial intelligence tools.';
   try{localStorage.setItem('lang',next)}catch(error){console.warn('Could not save language preference.',error)}
 }
 
@@ -103,20 +103,18 @@ function normalizePhone(value){
     .trim();
 }
 
-function getRegistrationMessage({name,phone,email}){
+function getRegistrationMessage({name,phone}){
   if(courseLang==='ar'){
     return [
-      'طلب تسجيل في دورة: العمل عبر منصات التواصل واستخدام أدوات الذكاء الاصطناعي',
-      `الاسم الكامل: ${name}`,
-      `رقم واتساب: ${phone}`,
-      `البريد الإلكتروني: ${email}`
+      `اسم المتدرب: ${name}`,
+      `رقم الواتساب: ${phone}`,
+      'أريد التسجيل في ورشة وسائل التواصل الاجتماعي واستخدام منصات الذكاء الإصطناعي.'
     ].join('\n');
   }
   return [
-    'Course registration: Working on Social Media Platforms and Using AI Tools',
-    `Full name: ${name}`,
+    `Trainee name: ${name}`,
     `WhatsApp number: ${phone}`,
-    `Email: ${email}`
+    'I would like to register for the social media and AI platforms workshop.'
   ].join('\n');
 }
 
@@ -150,7 +148,7 @@ courseForm.addEventListener('submit',event=>{
     return;
   }
 
-  const message=getRegistrationMessage({name,phone,email});
+  const message=getRegistrationMessage({name,phone});
   const url=`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
   courseFallback.href=url;
   const whatsappWindow=window.open(url,'_blank');

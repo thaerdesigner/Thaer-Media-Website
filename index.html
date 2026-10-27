@@ -205,6 +205,7 @@
 <script src="assets/js/data.js?v=gallery-order-20261026-3"></script>
 <script src="assets/js/render.js?v=campaign-reports-20261025-2"></script>
 <script src="assets/js/main.js?v=performance-20261026-1"></script>
+<script src="assets/js/course-content.js"></script>
 <script>
 (() => {
   const home = document.getElementById('home');
@@ -214,42 +215,9 @@
   const titles = {
     home: 'Thaer Media — نوظِّفُ خبرتنا لنجاح علامتك التجارية',
     contact: 'Thaer Media — تواصل معنا',
-    course: 'العمل عبر منصات التواصل واستخدام أدوات الذكاء الاصطناعي — Thaer Media'
+    course: 'احترف التسويق عبر منصات التواصل الاجتماعي. — Thaer Media'
   };
-  const courseMarkup = `
-    <main class="container course-main">
-      <section class="course-layout" aria-labelledby="courseTitle">
-        <figure class="course-portrait glass">
-          <img src="assets/images/course-instructor.jpg?v=image-opt-20261026-1" alt="ثائر القُريناوي" data-alt-ar="ثائر القُريناوي" data-alt-en="Thaer AlQrenawi" decoding="async" loading="lazy">
-          <span class="course-photo-shade" aria-hidden="true"></span>
-          <div class="contact-photo-caption">
-            <span class="contact-photo-status"><i></i><span data-ar="دورة تدريبية وجاهية" data-en="In-person training course">دورة تدريبية وجاهية</span></span>
-          </div>
-        </figure>
-        <div class="course-content">
-          <p class="course-eyebrow" data-ar="دورة تدريبية وجاهية" data-en="In-person training course">دورة تدريبية وجاهية</p>
-          <h1 id="courseTitle"><span class="course-title-ar" lang="ar"><span>العمل عبر منصات التواصل</span><span>واستخدام أدوات الذكاء الاصطناعي</span></span><span class="course-title-en" lang="en"><span>Working on Social Media</span><span>Platforms and Using AI Tools</span></span></h1>
-          <p class="course-description" data-ar="محاور عملية لإدارة حضورك على منصات التواصل والاستفادة من أدوات الذكاء الاصطناعي." data-en="Practical topics for managing your social media presence and using artificial intelligence tools.">محاور عملية لإدارة حضورك على منصات التواصل والاستفادة من أدوات الذكاء الاصطناعي.</p>
-          <h2 class="course-topics-title" data-ar="محاور التدريب" data-en="Training topics">محاور التدريب</h2>
-          <ul class="course-topics" aria-label="محاور التدريب" data-aria-label-ar="محاور التدريب" data-aria-label-en="Training topics">
-            <li data-ar="إنشاء وإدارة صفحات فيسبوك وإنستغرام" data-en="Creating and managing Facebook and Instagram pages">إنشاء وإدارة صفحات فيسبوك وإنستغرام</li>
-            <li data-ar="واتساب للأعمال" data-en="WhatsApp Business">واتساب للأعمال</li>
-            <li data-ar="Meta Business Suite" data-en="Meta Business Suite">Meta Business Suite</li>
-            <li data-ar="التصميم بأدوات الذكاء الاصطناعي" data-en="Designing with AI tools">التصميم بأدوات الذكاء الاصطناعي</li>
-            <li data-ar="الحملات الإعلانية" data-en="Advertising campaigns">الحملات الإعلانية</li>
-          </ul>
-          <form class="course-form glass" id="courseRegistrationForm" novalidate>
-            <label><span data-ar="الاسم الكامل" data-en="Full name">الاسم الكامل</span><input name="fullName" type="text" autocomplete="name" required minlength="3" data-placeholder-ar="اكتب اسمك الكامل" data-placeholder-en="Enter your full name" placeholder="اكتب اسمك الكامل"></label>
-            <label><span data-ar="رقم واتساب" data-en="WhatsApp number">رقم واتساب</span><input name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" required data-placeholder-ar="مثال: +970 599 351 383" data-placeholder-en="Example: +970 599 351 383" placeholder="مثال: +970 599 351 383"></label>
-            <label><span data-ar="البريد الإلكتروني" data-en="Email address">البريد الإلكتروني</span><input name="email" type="email" autocomplete="email" required data-placeholder-ar="name@example.com" data-placeholder-en="name@example.com" placeholder="name@example.com"></label>
-            <button class="course-submit" type="submit"><span data-ar="سجّل الآن" data-en="Register now">سجّل الآن</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button>
-            <p class="course-submit-note" data-ar="ستفتح رسالة التسجيل في واتساب؛ اضغط «إرسال» هناك لإتمام التسجيل." data-en="Your registration message will open in WhatsApp. Press Send there to complete your registration.">ستفتح رسالة التسجيل في واتساب؛ اضغط «إرسال» هناك لإتمام التسجيل.</p>
-            <p class="course-form-status" id="courseFormStatus" role="status" aria-live="polite" hidden></p>
-            <a class="course-whatsapp-fallback" id="courseWhatsappFallback" target="_blank" rel="noopener noreferrer" hidden><span data-ar="افتح رسالة التسجيل في واتساب" data-en="Open your registration message in WhatsApp">افتح رسالة التسجيل في واتساب</span></a>
-          </form>
-        </div>
-      </section>
-    </main>
+  const courseMarkup = window.renderCourseMarkup() + `
     <footer class="standalone-footer offline-standalone-footer">
       <div class="container">
         <div class="standalone-footer-row">
@@ -369,6 +337,7 @@
     const raw=link.getAttribute('href')||'';
     if(/^#page\//.test(raw))return raw.slice(6);
     const parsed=new URL(raw,location.href);
+    if(parsed.origin!==location.origin)return null;
     const path=parsed.pathname;
     if(path==='/'||path==='')return 'home';
     if(/\/contact\/?$/.test(path)||/\/contact\.html$/.test(path))return 'contact';
@@ -395,7 +364,7 @@
     page.className=isCourse?'offline-course-view':isContact?'offline-contact-view':'offline-work-view';
     ensureRouteStyles(route);
     if(isHome){page.replaceChildren();window.__pageTitle=null;document.title=titles.home;return;}
-    if(isCourse){page.innerHTML=courseMarkup;window.__pageTitle={ar:titles.course,en:'Working on Social Media Platforms and Using AI Tools — Thaer Media'};document.title=titles.course;}
+    if(isCourse){page.innerHTML=courseMarkup;window.__pageTitle={ar:titles.course,en:'Master Marketing on Social Media Platforms. — Thaer Media'};document.title=titles.course;}
     else if(isContact){page.innerHTML=contactMarkup;window.renderOfflineContactPage(page);window.__pageTitle=SITE_DATA.contactPage.title;document.title=window.__pageTitle.ar;}
     else{
       const slug=route.replace(/^work\//,'');
@@ -423,25 +392,27 @@
       return;
     }
     const route=routeFromLink(link);
-    if(route&&location.protocol==='file:'){
+    if(route){
       event.preventDefault();
       renderRoute(route);
-      history.pushState({offlineRoute:route},'',`${location.pathname}#page/${route}`);
+      history.pushState({offlineRoute:route},'',`${location.pathname}${route==='home'?'':`#page/${route}`}`);
     }
   });
-  window.addEventListener('popstate',()=>{if(location.protocol==='file:')renderRoute(routeFromHash()!=='home'?routeFromHash():history.state?.offlineRoute||'home');});
+  window.addEventListener('popstate',()=>renderRoute(routeFromHash()!=='home'?routeFromHash():history.state?.offlineRoute||'home'));
   window.addEventListener('hashchange',()=>renderRoute(routeFromHash()));
   document.addEventListener('submit',event=>{
     const form=event.target;
     if(form.id==='courseRegistrationForm'){
       event.preventDefault();
-      const data=new FormData(form),name=String(data.get('fullName')||'').trim().replace(/\s+/g,' '),phone=String(data.get('whatsapp')||'').trim().replace(/[٠-٩۰-۹]/g,digit=>String(digit.charCodeAt(0)-(digit.charCodeAt(0)>=0x6f0?0x6f0:0x660))),email=String(data.get('email')||'').trim();
+      const data=new FormData(form),name=String(data.get('fullName')||'').trim().replace(/\s+/g,' '),phone=String(data.get('whatsapp')||'').trim().replace(/[٠-٩۰-۹]/g,digit=>String(digit.charCodeAt(0)-(digit.charCodeAt(0)>=0x6f0?0x6f0:0x660)));
       const status=form.querySelector('#courseFormStatus'),fallback=form.querySelector('#courseWhatsappFallback'),nameInput=form.elements.namedItem('fullName'),phoneInput=form.elements.namedItem('whatsapp');
       const isEnglish=document.documentElement.lang==='en';
       nameInput.setCustomValidity(name.split(' ').length<2?(isEnglish?'Please enter your full name.':'يرجى إدخال الاسم الكامل.'):'');
       const digits=phone.replace(/\D/g,'');phoneInput.setCustomValidity(!/^[+\d\s().-]+$/.test(phone)||digits.length<8||digits.length>15?(isEnglish?'Enter a valid WhatsApp number, including the country code if possible.':'أدخل رقم واتساب صحيحاً مع رمز الدولة إن أمكن.'):'');
       if(!form.reportValidity())return;
-      const message=['طلب تسجيل في دورة: العمل عبر منصات التواصل واستخدام أدوات الذكاء الاصطناعي',`الاسم الكامل: ${name}`,`رقم واتساب: ${phone}`,`البريد الإلكتروني: ${email}`].join('\n');
+      const message=isEnglish
+        ?[`Trainee name: ${name}`,`WhatsApp number: ${phone}`,'I would like to register for the social media and AI platforms workshop.'].join('\n')
+        :[`اسم المتدرب: ${name}`,`رقم الواتساب: ${phone}`,'أريد التسجيل في ورشة وسائل التواصل الاجتماعي واستخدام منصات الذكاء الإصطناعي.'].join('\n');
       const url=`https://wa.me/${SITE_DATA.contact.whatsappNumber}?text=${encodeURIComponent(message)}`;fallback.href=url;
       const popup=window.open(url,'_blank');
       status.textContent=popup
@@ -462,12 +433,7 @@
   });
   const langButton=document.getElementById('langBtn');
   langButton?.addEventListener('click',()=>{if(!page.hidden){setTimeout(()=>{if(window.__pageTitle)document.title=document.documentElement.lang==='en'?window.__pageTitle.en:window.__pageTitle.ar},0);}});
-  if(location.protocol!=='file:'){
-    const legacyRoute=routeFromHash();
-    if(legacyRoute==='course'){location.replace('/socialmedia.courses1');return;}
-    if(legacyRoute==='contact'){location.replace('/contact');return;}
-    if(location.hash==='#home'){history.replaceState(null,'',location.pathname);}
-  }
+  if(location.hash==='#home')history.replaceState(null,'',location.pathname);
   renderRoute(routeFromHash());
 })();
 </script>

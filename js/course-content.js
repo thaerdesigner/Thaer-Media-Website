@@ -41,3 +41,8 @@ window.renderCourseMarkup=function(assetPrefix=''){
       </section>
     </main>`;
 };
+
+const standaloneCourseRoot=document.getElementById('coursePageRoot');
+if(standaloneCourseRoot){
+  standaloneCourseRoot.innerHTML=window.renderCourseMarkup(standaloneCourseRoot.dataset.assetPrefix||'');
+}

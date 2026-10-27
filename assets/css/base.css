@@ -1,0 +1,324 @@
+/* Shared across every page: fonts, reset, design tokens, and the
+   glass-card + language/direction rules used on both the homepage
+   and the work subpages. Loaded before home.css / work.css. */
+
+@font-face{font-family:"Expo Arabic";src:url("https://db.onlinewebfonts.com/t/9004b72f96afb1e5f13389f489791113.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Expo Arabic";src:url("https://db.onlinewebfonts.com/t/b009a8fb757127bf4c5ad1d5abd060e9.woff2") format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Expo Arabic";src:url("https://db.onlinewebfonts.com/t/5a46b722115434b86e5e9719ff7f6f23.woff2") format("woff2");font-weight:700 900;font-style:normal;font-display:swap}
+
+:root{
+  --green:#147467;
+  --gold:#edbd4d;
+  --gold-button:linear-gradient(110deg,#f1c64f 0%,#d5a033 100%);
+  --gold-button-text:#000;
+  --navy:#073237;
+  --ink:#073b36;
+  --white:#f4f7f3;
+  --muted:rgba(244,247,243,.72);
+  --line:rgba(124,203,183,.25);
+  --ui-line-rgb:124,203,183;
+  --shadow:0 8px 20px rgba(0,22,20,.32),0 22px 70px rgba(0,25,22,.28);
+  --radius:20px;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  /* .glass's own fill — split out from --surface-rgb so the light theme can use a
+     stronger, independently-tuned tint (see the light override below and the
+     "Light theme card contrast" note near .glass) without touching --surface-rgb,
+     which every low-opacity UI chip (nav buttons, slider controls, socials) also
+     depends on and which still works correctly as-is in both themes. */
+  --glass-fill-1:rgba(var(--surface-rgb),.075);
+  --glass-fill-2:rgba(var(--surface-rgb),.025);
+
+  /* Theme-aware tokens — dark is the default/native palette (--white/--muted
+     above stay FIXED and are used on purpose wherever text sits on a
+     permanently-dark surface, e.g. service cards, CTA, work/gallery overlays,
+     which never flip). These --text-* tokens are for content that sits
+     directly on the page background or on a .glass surface, both of which do
+     flip with the theme. */
+  --text-rgb:244,247,243;
+  --text:var(--white);
+  --text-muted:var(--muted);
+  /* --gold-text: gold, but only where it's used as TEXT sitting on a
+     surface that flips (kickers, footer titles, star ratings, the contact
+     page's highlight value). --gold itself (buttons, borders, decorative
+     glows, dot indicators) stays untouched, since those never have this
+     problem. Plain --gold text on a light background does not have enough
+     contrast for normal text, so the light theme uses a darker gold-text token. */
+  --gold-text:var(--gold);
+  --gold-text-rgb:237,189,77;
+  /* Big decorative background numbers only (.step-num, .contact-step span) — kept gold in dark
+     mode (unchanged look) but switched to near-black in light mode by request; see the light
+     override below for why this needs its own token instead of reusing --gold-text-rgb.
+     Opacity is also its own token (not shared with the light override) — the light theme needed a
+     noticeably higher opacity for these numbers to read as "dark black" rather than a faint tint,
+     but the *same* higher opacity applied to dark mode's gold would over-saturate/darken it, which
+     was never asked for and isn't the goal here. */
+  --step-num-rgb:226,185,97;
+  --step-num-a1:.24;--step-num-a2:.42;--step-num-a3:.3;
+  --bg-1:#063632;--bg-2:#08443d;--bg-3:#073934;
+  --bg-radial-1:rgba(28,139,117,.24);
+  --bg-radial-2:rgba(237,189,77,.075);
+  --bg-glow-green:rgba(39,145,125,.12);
+  --bg-glow-gold:rgba(237,189,77,.045);
+  --grid-line-alpha:.075;
+  --grid-opacity:.68;
+  --surface-rgb:255,255,255;
+  --nav-bg-rgb:4,83,73;--nav-bg-a:.82;
+  --nav-bg-scrolled-rgb:4,62,56;--nav-bg-scrolled-a:.94;
+  --hairline-rgb:244,247,243;
+  --grid-line-rgb:244,247,243;
+}
+:root[data-theme="light"]{
+  --text-rgb:7,59,54;
+  --text:var(--ink);
+  --text-muted:rgba(6,27,27,.8);
+  --gold-text:#72510d;
+  --gold-text-rgb:114,81,13;
+  /* Requested by the client specifically for the big background numbers, in two rounds: first
+     "black, but not the darkest" (near-black base + the original low opacity), then a follow-up
+     "خليها أسود غامق" (make it dark black) once that read as too faint/washed-out in practice — so
+     the opacity tokens below were raised substantially for light mode specifically, on top of the
+     near-black (not pure #000) base color. Kept as its own token rather than repurposing
+     --gold-text-rgb (which every other gold-as-text element — kickers, footer titles, stars, the
+     contact page's highlight value — still needs to stay bronze/gold). */
+  --step-num-rgb:12,11,9;
+  --step-num-a1:.55;--step-num-a2:.74;--step-num-a3:.6;
+  /* A pale mint background carries the revised teal-and-gold palette into light
+     mode while keeping dark text and white glass surfaces readable. */
+  --bg-1:#f7fbf7;--bg-2:#eaf4ed;--bg-3:#dcebe3;
+  --bg-radial-1:rgba(17,111,94,.11);
+  --bg-radial-2:rgba(226,185,97,.12);
+  --bg-glow-green:rgba(17,111,94,.08);
+  --bg-glow-gold:rgba(226,185,97,.045);
+  --grid-line-alpha:.08;
+  --grid-opacity:.36;
+  --surface-rgb:6,27,27;
+  /* Light-theme .glass card contrast: reusing the dark theme's own approach — a
+     low-opacity dark-ink tint meant to read as a highlight against whatever's
+     behind it — doesn't translate here. On a near-black page a light tint pops;
+     on a pale mint page a *darker* tint would nearly disappear into the page.
+     The fix isn't more opacity of the same
+     dark tint, it's flipping direction: a bright, mostly-opaque WHITE fill, which
+     contrasts against the mint canvas — genuine "white card floating on a
+     tinted background" instead of a variation on the page's
+     own hue. Paired with a darker bronze border (plain bright --gold reads
+     low-contrast on a light background, same reason --gold-text exists) and
+     a soft neutral shadow for lift. */
+  --glass-fill-1:rgba(255,255,255,.86);
+  --glass-fill-2:rgba(255,255,255,.58);
+  --line:rgba(17,92,78,.2);
+  --ui-line-rgb:17,92,78;
+  --shadow:0 6px 16px rgba(14,48,39,.07),0 20px 46px rgba(14,48,39,.09);
+  --nav-bg-rgb:239,248,241;--nav-bg-a:.84;
+  --nav-bg-scrolled-rgb:239,248,241;--nav-bg-scrolled-a:.96;
+  --hairline-rgb:7,59,54;
+  --grid-line-rgb:7,59,54;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:hidden;max-width:100%}
+:root{--page-gutter:clamp(20px,4vw,40px)}
+.container{width:min(1320px,calc(100% - (var(--page-gutter) * 2)));margin-inline:auto}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+a:focus-visible,button:focus-visible,[tabindex="0"]:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:var(--grid-opacity);
+  background-image:
+    linear-gradient(rgba(var(--grid-line-rgb),var(--grid-line-alpha)) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(var(--grid-line-rgb),var(--grid-line-alpha)) 1px,transparent 1px),
+    radial-gradient(ellipse at 12% 20%,var(--bg-glow-green),transparent 36%),
+    radial-gradient(ellipse at 88% 78%,var(--bg-glow-gold),transparent 32%);
+  background-size:60px 60px,60px 60px,auto,auto;
+  mask-image:linear-gradient(to bottom,black,black 78%,transparent);
+}
+
+.glass{
+  background:linear-gradient(145deg,var(--glass-fill-1),var(--glass-fill-2));
+  border:1px solid var(--line);
+  box-shadow:inset 0 1px 0 rgba(var(--surface-rgb),.09),var(--shadow);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+
+html[dir="rtl"] body{font-family:"Expo Arabic",Arial,sans-serif;direction:rtl}
+html[dir="ltr"] body{font-family:"Manrope",Arial,sans-serif;direction:ltr}
+:is(h1,h2,h3){text-wrap:balance;overflow-wrap:break-word}
+p{text-wrap:pretty;overflow-wrap:break-word}
+html[dir="ltr"] :is(h1,h2,h3,p){hyphens:none}
+html[dir="ltr"] p{orphans:2;widows:2}
+@media(max-width:640px){
+  html[dir="ltr"] h2{font-size:clamp(20px,6vw,26px)}
+  html[dir="ltr"] .section-head>p{font-size:14px}
+}
+
+/* ==================== Header (shared — identical on every page) ==================== */
+header{position:fixed;top:18px;inset-inline:0;z-index:50}
+.nav{
+  min-height:64px;border-radius:999px;padding:7px 16px;
+  display:flex;align-items:center;gap:24px;
+  background:rgba(var(--nav-bg-rgb),var(--nav-bg-a));border-color:var(--line);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  transition:background .35s var(--ease),border-color .35s var(--ease),box-shadow .35s var(--ease);
+}
+header.scrolled .nav{
+  background:rgba(var(--nav-bg-scrolled-rgb),var(--nav-bg-scrolled-a));border-color:var(--line);
+  box-shadow:0 14px 38px rgba(0,0,0,.28);
+}
+.logo{height:40px;width:auto;object-fit:contain;display:block;flex:0 0 auto}
+.navlinks{display:flex;gap:18px;align-items:center;margin-inline:auto}
+.navlinks a{
+  position:relative;padding:6px 1px;
+  color:var(--text-muted);font-size:14px;font-weight:600;
+  transition:color .25s var(--ease);
+}
+.navlinks a:after{
+  content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;border-radius:2px;
+  background:var(--gold);transform:scaleX(0);transform-origin:center;
+  transition:transform .3s var(--ease);
+}
+.navlinks a:hover{
+  color:var(--gold-text);padding-inline:9px;margin-inline:-8px;
+  border-radius:999px;background:rgba(var(--ui-line-rgb),.12)
+}
+.navlinks a:hover:after{display:none}
+.navlinks a.active{color:var(--gold-text);padding-inline:9px;margin-inline:-8px;border-radius:999px;background:rgba(var(--ui-line-rgb),.12)}
+.navlinks a.active:after{display:none}
+.navlinks:hover a.active:not(:hover){color:var(--text-muted);padding-inline:1px;margin-inline:0;background:transparent}
+.navlinks a.pointer-hover{color:var(--gold-text);padding-inline:9px;margin-inline:-8px;border-radius:999px;background:rgba(var(--ui-line-rgb),.12)}
+.navlinks a.pointer-hover:after{display:none}
+.actions{display:flex;align-items:center;gap:9px}
+.lang{
+  border:1px solid var(--line);background:rgba(var(--surface-rgb),.04);
+  color:var(--text);padding:10px 13px;border-radius:999px;cursor:pointer;
+  font-size:13px;font-weight:700;transition:border-color .25s var(--ease),background .25s var(--ease);
+}
+.lang:hover{border-color:rgba(var(--ui-line-rgb),.5);background:rgba(var(--surface-rgb),.07)}
+.theme-toggle{
+  border:1px solid var(--line);background:rgba(var(--surface-rgb),.04);
+  color:var(--text);width:40px;height:40px;padding:0;border-radius:50%;cursor:pointer;
+  display:grid;place-items:center;position:relative;
+  transition:border-color .25s var(--ease),background .25s var(--ease);
+}
+.theme-toggle:hover{border-color:rgba(var(--ui-line-rgb),.5);background:rgba(var(--surface-rgb),.07)}
+.theme-toggle svg{width:18px;height:18px;position:absolute;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:opacity .3s var(--ease),transform .35s var(--ease)}
+.theme-toggle .icon-moon{opacity:0;transform:scale(.4) rotate(-40deg)}
+.theme-toggle .icon-sun{opacity:1;transform:scale(1) rotate(0)}
+:root[data-theme="light"] .theme-toggle .icon-sun{opacity:0;transform:scale(.4) rotate(40deg)}
+:root[data-theme="light"] .theme-toggle .icon-moon{opacity:1;transform:scale(1) rotate(0)}
+.gold-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  min-height:48px;padding:0 20px;border-radius:999px;border:1px solid rgba(237,189,77,.65);
+  background:var(--gold-button);color:var(--gold-button-text);font-weight:800;box-shadow:0 10px 28px rgba(226,185,97,.18);
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease),filter .3s
+}
+.gold-btn:hover{transform:translateY(-2px);box-shadow:0 15px 35px rgba(226,185,97,.23);filter:brightness(1.04)}
+.menu{display:none;background:none;border:0;color:var(--text);font-size:25px;cursor:pointer}
+.floating-whatsapp{
+  position:fixed;left:max(20px,env(safe-area-inset-left));right:auto;bottom:max(20px,env(safe-area-inset-bottom));z-index:1100;
+  display:grid;place-items:center;width:58px;height:58px;border:1px solid rgba(255,255,255,.28);border-radius:50%;
+  background:#20bd5a;color:#fff;box-shadow:0 10px 28px rgba(0,0,0,.28),0 0 0 0 rgba(32,189,90,.4);
+  text-decoration:none;animation:whatsappFloat 3s ease-in-out infinite,whatsappPulse 2.8s ease-out infinite;
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .25s;
+}
+:root[dir="ltr"] .floating-whatsapp{left:auto;right:max(20px,env(safe-area-inset-right))}
+.floating-whatsapp svg{width:29px;height:29px;fill:currentColor}
+.floating-whatsapp:hover{transform:translateY(-4px) scale(1.04);background:#18a94f;box-shadow:0 14px 34px rgba(0,0,0,.32),0 0 0 5px rgba(32,189,90,.16)}
+.floating-whatsapp:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+@keyframes whatsappFloat{0%,100%{translate:0 0}50%{translate:0 -5px}}
+@keyframes whatsappPulse{0%,100%{box-shadow:0 10px 28px rgba(0,0,0,.28),0 0 0 0 rgba(32,189,90,.36)}55%{box-shadow:0 10px 28px rgba(0,0,0,.28),0 0 0 9px rgba(32,189,90,0)}}
+@media(max-width:600px){.floating-whatsapp{left:max(16px,env(safe-area-inset-left));right:auto;bottom:max(16px,env(safe-area-inset-bottom));width:54px;height:54px}.floating-whatsapp svg{width:27px;height:27px}:root[dir="ltr"] .floating-whatsapp{left:auto;right:max(16px,env(safe-area-inset-right))}}
+@media(prefers-reduced-motion:reduce){.floating-whatsapp{animation:none;transition:none}}
+.contact-photo-caption{position:absolute;z-index:2;inset:auto 0 8%;display:flex;justify-content:center;pointer-events:none}
+.contact-photo-status{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid rgba(255,255,255,.25);border-radius:999px;background:rgba(4,32,31,.58);color:#f4f7f3;font-size:12px;font-weight:700;white-space:nowrap;animation:contactStatusFloat 3.6s ease-in-out infinite}
+.contact-photo-status i{width:7px;height:7px;border-radius:50%;background:#7cda9a;box-shadow:0 0 10px rgba(124,218,154,.6)}
+@media(max-width:980px){
+  .contact-photo-status{gap:6px;padding:6px 10px;font-size:clamp(9px,1.3vw,10px)}
+  .contact-photo-status i{width:6px;height:6px}
+}
+@media(max-width:700px){
+  .contact-photo-status{gap:clamp(4px,1vw,6px);padding:clamp(4px,1.4vw,6px) clamp(6px,2.1vw,8px);font-size:clamp(8px,2.6vw,10px)}
+}
+@media(max-width:360px){
+  .contact-photo-status{gap:4px;padding:4px 6px;font-size:8px}
+  .contact-photo-status i{width:5px;height:5px}
+}
+@keyframes contactStatusFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@media(prefers-reduced-motion:reduce){.contact-photo-status{animation:none}}
+
+/* Safety net for the "squeeze zone" just above the mobile hamburger breakpoint (981-1180px,
+   common laptop/tablet-landscape widths) — 7 nav items + logo + actions need more room than
+   they get by default at these widths. Only the header tightens here; the rest of the page's
+   layout keeps using the normal 980px breakpoint. */
+@media(min-width:981px) and (max-width:1180px){
+  .navlinks{gap:10px}
+  .navlinks a{font-size:13px}
+  .gold-btn{padding:0 14px}
+}
+
+@media(max-width:980px){
+  header{top:10px}
+  .nav{min-height:60px;padding-block:6px;gap:10px}
+  .logo{height:36px}
+  .navlinks{
+    display:none;position:absolute;top:calc(100% + 8px);inset-inline:0;
+    flex-direction:column;align-items:stretch;gap:4px;margin:0;padding:10px;
+    border-radius:16px;
+    background:rgba(var(--nav-bg-scrolled-rgb),.94);border:1px solid var(--line);
+    box-shadow:0 20px 50px rgba(0,0,0,.30);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)
+  }
+  .navlinks a{
+    padding:12px 14px;font-size:14px;text-align:center;border-radius:11px;
+    background:rgba(var(--surface-rgb),.03);
+  }
+  .navlinks a:hover,.navlinks a.pointer-hover{padding:12px 14px;margin:0;border-radius:11px;background:rgba(var(--ui-line-rgb),.12)}
+  .navlinks a.active{padding:12px 14px;margin:0;border-radius:11px}
+  .navlinks a:after{display:none}
+  .navlinks a:hover,.navlinks a.active{background:rgba(var(--ui-line-rgb),.12);color:var(--text)}
+  .actions{gap:7px;margin-inline-start:auto}
+  .lang{padding:9px 11px;border-radius:999px;font-size:14px}
+  .theme-toggle{width:36px;height:36px;border-radius:50%}
+  .theme-toggle svg{width:17px;height:17px}
+  .actions .gold-btn{display:none}
+  .menu{display:block;width:40px;height:40px;padding:0;border-radius:50%;border:1px solid var(--line);background:rgba(var(--surface-rgb),.035);font-size:23px;line-height:1}
+}
+@media(max-width:420px){
+  .nav .logo{height:33px}
+  .nav{min-height:56px;padding-block:5px}
+  .lang{padding:8px 10px}
+  .menu{width:38px;height:38px;border-radius:50%}
+}
+
+/* ==================== Footer (shared — identical on every page) ==================== */
+footer{padding:55px 0 30px}
+.footer-grid{display:grid;grid-template-columns:1.25fr .8fr .9fr 1fr;gap:40px}
+.footer-brand p{color:var(--text-muted);line-height:1.9;max-width:320px;font-size:14px}
+.footer-title{color:var(--gold-text);font-weight:800;margin-bottom:15px}
+.footer-links{display:grid;gap:9px}
+.footer-links a{color:var(--text-muted);font-size:13px}
+.footer-links a:hover{color:var(--text)}
+.socials{display:flex;flex-wrap:wrap;gap:8px}
+.socials a{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:rgba(var(--surface-rgb),.04);border:1px solid var(--line)}
+.socials svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.socials svg.brand{width:16px;height:16px;fill:currentColor;stroke:none}
+.copy{display:flex;justify-content:center;text-align:center;gap:20px;margin-top:45px;padding-top:0;color:rgba(var(--text-rgb),.42);font-size:12px}
+:root[data-theme="light"] .copy{color:rgba(var(--text-rgb),.8)}
+.standalone-footer{padding:24px 0;background:linear-gradient(110deg,var(--bg-1),var(--bg-2));border-top:1px solid var(--line);color:var(--text-muted);font-size:12px}
+.standalone-footer>.container{display:block}
+.standalone-footer-row{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.standalone-copyright{white-space:nowrap}
+.standalone-footer-return{min-height:40px;padding-inline:16px;color:var(--gold-button-text);font-size:12px}
+:root[data-theme="light"] .standalone-footer{border-top-color:rgba(17,92,78,.16)}
+
+@media(max-width:980px){
+  .footer-grid{grid-template-columns:1fr 1fr;gap:28px}
+  .copy{display:block;line-height:1.8}
+  .copy>span{display:inline-block;margin:0;white-space:nowrap}
+  .copy>span>span{display:inline;margin:0}
+  .standalone-footer-row{flex-wrap:wrap}
+}
+@media(max-width:420px){.footer-grid{grid-template-columns:1fr;gap:24px}}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}

@@ -329,21 +329,40 @@
     lightbox.addEventListener('click',event=>{if(event.target===lightbox)lightbox.close()});
     lightbox.addEventListener('close',()=>{lightbox.classList.remove('is-open');document.body.style.overflow=''});
   }
-  function routeFromHash(){
-    const match=location.hash.match(/^#page\/(.+)$/);
-    return match?match[1]:'home';
+  function routeFromPath(path){
+    if(path==='/'||path==='/index.html')return 'home';
+    if(/\/contact\/?$/.test(path)||/\/contact\.html$/.test(path))return 'contact';
+    if(/\/socialmedia\.courses1\/?$/.test(path))return 'course';
+    const work=path.match(/\/work-(social|identity|ads|print)(?:\.html)?\/?$/);
+    return work?`work/${work[1]}`:null;
+  }
+  function routePath(route){
+    if(location.protocol==='file:')return `${location.pathname}${route==='home'?'':`?page=${encodeURIComponent(route)}`}`;
+    if(route==='home')return '/';
+    if(route==='course')return '/socialmedia.courses1';
+    if(route==='contact')return '/contact';
+    if(route.startsWith('work/'))return `/work-${route.slice(5)}/`;
+    return '/';
+  }
+  function routeFromLocation(){
+    const legacy=location.hash.match(/^#page\/(.+)$/);
+    if(legacy){
+      const route=legacy[1];
+      history.replaceState({offlineRoute:route},'',routePath(route));
+      return route;
+    }
+    if(location.protocol==='file:'){
+      const fileRoute=new URLSearchParams(location.search).get('page');
+      if(fileRoute)return fileRoute;
+    }
+    return routeFromPath(location.pathname)||'home';
   }
   function routeFromLink(link){
     const raw=link.getAttribute('href')||'';
     if(/^#page\//.test(raw))return raw.slice(6);
     const parsed=new URL(raw,location.href);
     if(parsed.origin!==location.origin)return null;
-    const path=parsed.pathname;
-    if(path==='/'||path==='')return 'home';
-    if(/\/contact\/?$/.test(path)||/\/contact\.html$/.test(path))return 'contact';
-    if(/\/socialmedia\.courses1\/?$/.test(path))return 'course';
-    const work=path.match(/\/work-(social|identity|ads|print)(?:\.html)?\/?$/);
-    return work?`work/${work[1]}`:null;
+    return routeFromPath(parsed.pathname);
   }
   function ensureRouteStyles(route){
     pageStylesheets.forEach(link=>{
@@ -368,7 +387,7 @@
     else if(isContact){page.innerHTML=contactMarkup;window.renderOfflineContactPage(page);window.__pageTitle=SITE_DATA.contactPage.title;document.title=window.__pageTitle.ar;}
     else{
       const slug=route.replace(/^work\//,'');
-      if(!SITE_DATA.work[slug]){location.hash='#home';return;}
+      if(!SITE_DATA.work[slug]){history.replaceState(null,'',routePath('home'));renderRoute('home');return;}
       page.innerHTML=workMarkup();
       if(typeof window.renderOfflineWorkPage==='function')window.renderOfflineWorkPage(slug,page);
       else renderWorkFallback(slug);
@@ -387,7 +406,7 @@
       event.preventDefault();
       const section=document.getElementById(link.hash.slice(1));
       renderRoute('home');
-      history.replaceState(null,'',location.pathname);
+      history.replaceState(null,'',routePath('home'));
       requestAnimationFrame(()=>section.scrollIntoView({behavior:'smooth',block:'start'}));
       return;
     }
@@ -395,11 +414,11 @@
     if(route){
       event.preventDefault();
       renderRoute(route);
-      history.pushState({offlineRoute:route},'',`${location.pathname}${route==='home'?'':`#page/${route}`}`);
+      history.pushState({offlineRoute:route},'',routePath(route));
     }
   });
-  window.addEventListener('popstate',()=>renderRoute(routeFromHash()!=='home'?routeFromHash():history.state?.offlineRoute||'home'));
-  window.addEventListener('hashchange',()=>renderRoute(routeFromHash()));
+  window.addEventListener('popstate',()=>renderRoute(routeFromLocation()));
+  window.addEventListener('hashchange',()=>renderRoute(routeFromLocation()));
   document.addEventListener('submit',event=>{
     const form=event.target;
     if(form.id==='courseRegistrationForm'){
@@ -433,8 +452,8 @@
   });
   const langButton=document.getElementById('langBtn');
   langButton?.addEventListener('click',()=>{if(!page.hidden){setTimeout(()=>{if(window.__pageTitle)document.title=document.documentElement.lang==='en'?window.__pageTitle.en:window.__pageTitle.ar},0);}});
-  if(location.hash==='#home')history.replaceState(null,'',location.pathname);
-  renderRoute(routeFromHash());
+  if(location.hash==='#home')history.replaceState(null,'',routePath('home'));
+  renderRoute(routeFromLocation());
 })();
 </script>
 </body>

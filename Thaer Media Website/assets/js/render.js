@@ -17,9 +17,17 @@
 (function(){
   const D = typeof SITE_DATA !== 'undefined' ? SITE_DATA : null;
   if (!D) return;
+  const assetRoot=location.protocol==='file:'&&document.currentScript
+    ?new URL('../../',document.currentScript.src).href
+    :new URL('/',location.href).href;
 
   function escAttr(str){
     return String(str==null?'':str).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  function assetUrl(path){
+    const value=String(path==null?'':path);
+    if(/^(?:[a-z][a-z\d+.-]*:|\/\/|#)/i.test(value))return value;
+    return new URL(value.replace(/^\/+/, ''),assetRoot).href;
   }
   function get(path){
     return path.split('.').reduce((o,k)=>(o==null?undefined:o[k]), D);
@@ -217,13 +225,14 @@
       const galleryItems=identityGallery?page.gallery.slice(0,4):page.gallery;
       grid.innerHTML = galleryItems.map((g,i)=>{
         const hasImage = !!g.image;
-        const artStyle = hasImage ? ` style="background-image:url('${escAttr(g.image)}');background-size:cover;background-position:center"` : '';
-        const clickAttrs = hasImage ? ` data-image="${escAttr(g.image)}" tabindex="0" role="button" aria-labelledby="galTitle${i}"` : '';
-        const displayImage = printGallery ? (g.cover || g.image) : g.image;
+        const imagePath = hasImage ? assetUrl(g.image) : '';
+        const artStyle = hasImage ? ` style="background-image:url('${escAttr(imagePath)}');background-size:cover;background-position:center"` : '';
+        const clickAttrs = hasImage ? ` data-image="${escAttr(imagePath)}" tabindex="0" role="button" aria-labelledby="galTitle${i}"` : '';
+        const displayImage = assetUrl(printGallery ? (g.cover || g.image) : g.image);
         const imageMarkup = artGallery && hasImage
           ? (adsGallery
-            ? `<div class="campaign-monitor"><img class="gallery-art-image" src="${escAttr(displayImage)}" alt="${escAttr(two(g.title).ar)}" loading="lazy" decoding="async"></div>`
-            : `<img class="gallery-art-image" src="${escAttr(displayImage)}" alt="${escAttr(two(g.title).ar)}" loading="lazy" decoding="async">`)
+            ? `<div class="campaign-monitor"><img class="gallery-art-image" src="${escAttr(displayImage)}" alt="${escAttr(two(g.title).ar)}" loading="lazy" fetchpriority="low" decoding="async"></div>`
+            : `<img class="gallery-art-image" src="${escAttr(displayImage)}" alt="${escAttr(two(g.title).ar)}" loading="lazy" fetchpriority="low" decoding="async">`)
           : '';
         const socialClass = socialGallery ? ' gallery-card-social' : '';
         const identityClass = identityGallery ? ' gallery-card-identity' : '';

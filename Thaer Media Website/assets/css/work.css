@@ -70,22 +70,21 @@ html[dir="ltr"] .lightbox-nav svg{transform:rotate(180deg)}
 .lightbox-nav svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 @media(max-width:640px){
   .lightbox[open]{
-    display:grid;grid-template-columns:minmax(0,1fr) 44px 12px 44px minmax(0,1fr);
-    grid-template-rows:minmax(0,1fr) 44px;row-gap:10px;align-items:center;justify-items:center;
-    box-sizing:border-box;padding:max(12px,env(safe-area-inset-top)) 0 max(12px,env(safe-area-inset-bottom));
+    display:flex;align-items:center;justify-content:center;
+    box-sizing:border-box;padding:max(12px,env(safe-area-inset-top)) 0 calc(92px + max(18px,env(safe-area-inset-bottom)));
   }
   .lightbox.is-open .lightbox-figure{margin:0}
-  .lightbox-figure{grid-column:1/-1;grid-row:1;align-self:center;margin:0;width:fit-content;max-width:94vw;max-height:100%;}
-  .lightbox-figure img{max-width:94vw;max-height:calc(100dvh - 148px - env(safe-area-inset-top) - env(safe-area-inset-bottom));border-radius:12px}
+  .lightbox-figure{align-self:center;margin:0;width:fit-content;max-width:94vw;max-height:100%;}
+  .lightbox-figure img{max-width:94vw;max-height:calc(100dvh - 190px - env(safe-area-inset-top) - env(safe-area-inset-bottom));border-radius:12px;touch-action:pan-y pinch-zoom}
   .lightbox-close{top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));left:auto;width:44px;height:44px;font-size:20px}
   html[dir="ltr"] .lightbox-close{left:max(12px,env(safe-area-inset-left));right:auto}
   html[dir="rtl"] .lightbox-close{right:max(12px,env(safe-area-inset-right));left:auto}
-  .lightbox-nav{position:relative;top:auto;right:auto;bottom:auto;left:auto;width:44px;height:44px;transform:none;}
+  .lightbox-nav{position:fixed;top:auto;bottom:max(24px,calc(env(safe-area-inset-bottom) + 18px));width:46px;height:46px;transform:none;}
   .lightbox-nav:hover{transform:scale(1.04)}
-  .lightbox-nav.prev{grid-column:2;grid-row:2}
-  .lightbox-nav.next{grid-column:4;grid-row:2}
-  html[dir="rtl"] .lightbox-nav.prev{grid-column:4}
-  html[dir="rtl"] .lightbox-nav.next{grid-column:2}
+  .lightbox-nav.prev{left:calc(50% - 52px);right:auto}
+  .lightbox-nav.next{right:calc(50% - 52px);left:auto}
+  html[dir="rtl"] .lightbox-nav.prev{left:auto;right:calc(50% - 52px)}
+  html[dir="rtl"] .lightbox-nav.next{right:auto;left:calc(50% - 52px)}
   .lightbox-nav svg{width:20px;height:20px}
 }
 

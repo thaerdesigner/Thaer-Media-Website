@@ -138,6 +138,7 @@ body:before{
   box-shadow:inset 0 1px 0 rgba(var(--surface-rgb),.09),var(--shadow);
   backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
 }
+.service.glass,.work-card.glass,.gallery-card.glass{backdrop-filter:none;-webkit-backdrop-filter:none}
 
 html[dir="rtl"] body{font-family:"Expo Arabic",Arial,sans-serif;direction:rtl}
 html[dir="ltr"] body{font-family:"Manrope",Arial,sans-serif;direction:ltr}

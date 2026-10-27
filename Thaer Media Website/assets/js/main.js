@@ -122,8 +122,20 @@ function updateWorkCovers(){
   arts.forEach(art=>coverObserver.observe(art));
 }
 function updateAdSlideImages(){
-  document.querySelectorAll('#adSlider img[data-slide-ar][data-slide-en]').forEach(image=>{
-    image.src=image.getAttribute(lang==='ar'?'data-slide-ar':'data-slide-en');
+  const slides=[...document.querySelectorAll('#adSlider .ad-slide')];
+  const originalSlides=slides.filter(slide=>!slide.dataset.slideClone);
+  originalSlides.forEach((slide,index)=>{slide.dataset.slideIndex=String(index)});
+  const nextSlide=(activeAdSlide+1)%originalSlides.length;
+  slides.forEach(slide=>{
+    const slideIndex=Number(slide.dataset.slideIndex);
+    if(slideIndex!==activeAdSlide&&slideIndex!==nextSlide)return;
+    const image=slide.querySelector('img[data-slide-ar][data-slide-en]');
+    if(!image)return;
+    const source=image.getAttribute(lang==='ar'?'data-slide-ar':'data-slide-en');
+    if(image.dataset.loadedSource!==source){
+      image.src=source;
+      image.dataset.loadedSource=source;
+    }
   });
   requestAnimationFrame(fitAdRegisterButtons);
 }
@@ -137,7 +149,7 @@ function fitAdRegisterButtons(){
       ['left','right','top','width','height'].forEach(property=>button.style.removeProperty(property));
       return;
     }
-    if(!image.naturalWidth||!image.naturalHeight)return;
+    if(!image.complete||image.naturalWidth<=1||!image.naturalHeight)return;
     const box=slide.getBoundingClientRect();
     if(!box.width||!box.height)return;
     const scale=Math.max(box.width/image.naturalWidth,box.height/image.naturalHeight);
@@ -234,6 +246,7 @@ document.querySelectorAll('.service, .work-card').forEach(el=>glowObserver.obser
 const adSlider=document.getElementById('adSlider');
 if(adSlider){
   const adSlides=[...adSlider.querySelectorAll('.ad-slide')];
+  adSlides.forEach((slide,index)=>{slide.dataset.slideIndex=String(index)});
   adSlider.querySelectorAll('.ad-slide-link img').forEach(image=>image.addEventListener('load',fitAdRegisterButtons));
   const adDots=[...adSlider.querySelectorAll('.ad-slider-dots button')];
   const track=adSlider.querySelector('.ad-slider-track');
@@ -241,6 +254,10 @@ if(adSlider){
   const lastClone=adSlides[adSlides.length-1].cloneNode(true);
   firstClone.classList.remove('active');
   lastClone.classList.remove('active');
+  firstClone.dataset.slideClone='first';
+  firstClone.dataset.slideIndex='0';
+  lastClone.dataset.slideClone='last';
+  lastClone.dataset.slideIndex=String(adSlides.length-1);
   firstClone.setAttribute('aria-hidden','true');
   lastClone.setAttribute('aria-hidden','true');
   firstClone.querySelectorAll('a').forEach(link=>link.tabIndex=-1);
@@ -251,6 +268,7 @@ if(adSlider){
   let adTimer;
   function updateAdSlide(index){
     activeAdSlide=(index+adSlides.length)%adSlides.length;
+    updateAdSlideImages();
     adSlides.forEach((item,i)=>{
       const active=i===activeAdSlide;
       item.classList.toggle('active',active);

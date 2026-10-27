@@ -56,7 +56,7 @@ const SITE_DATA = {
 
   /* روابط قائمة التنقل بالهيدر (الصفحة الرئيسية فقط، ثنائية اللغة) */
   nav: [
-    { href: "#home", ar: "الرئيسية", en: "Home" },
+    { href: "/", ar: "الرئيسية", en: "Home" },
     { href: "#services", ar: "الخدمات", en: "Services" },
     { href: "#work", ar: "أعمالنا", en: "Work" },
     { href: "#about", ar: "من نحن", en: "About" },

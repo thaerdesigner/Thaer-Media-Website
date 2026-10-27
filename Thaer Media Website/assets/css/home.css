@@ -146,7 +146,7 @@ h2{font-size:clamp(28px,2.25vw,32px);line-height:1.15;margin:0;letter-spacing:-.
   background:radial-gradient(circle at 18% 22%,rgba(17,82,78,.44),transparent 25%),
              radial-gradient(circle at 78% 72%,rgba(34,116,108,.34),transparent 24%),
              radial-gradient(circle at 50% 50%,rgba(226,185,97,.10),transparent 36%);
-  filter:blur(22px);opacity:.96;
+  filter:blur(14px);opacity:.96;
   animation:serviceGlow 8s ease-in-out infinite alternate;
   animation-play-state:paused;
 }
@@ -214,7 +214,7 @@ h2{font-size:clamp(28px,2.25vw,32px);line-height:1.15;margin:0;letter-spacing:-.
   background:radial-gradient(circle at 18% 22%,rgba(226,185,97,.10),transparent 22%),
              radial-gradient(circle at 78% 72%,rgba(226,185,97,.055),transparent 23%),
              radial-gradient(circle at 48% 46%,rgba(17,82,78,.48),transparent 40%);
-  filter:blur(24px);opacity:.92;
+  filter:blur(16px);opacity:.92;
   animation:workGlow 9s ease-in-out infinite alternate;
   animation-play-state:paused;
 }

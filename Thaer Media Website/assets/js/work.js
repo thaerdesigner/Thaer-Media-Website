@@ -125,7 +125,13 @@ themeBtn?.addEventListener('click',()=>{
     if(!items.length) return;
     current=(index+items.length)%items.length;
     const card=items[current];
+    imgEl.loading='eager';
+    imgEl.fetchPriority='high';
     imgEl.src=card.getAttribute('data-image');
+    for(const offset of [-1,1]){
+      const neighbor=items[(current+offset+items.length)%items.length];
+      if(neighbor){const preload=new Image();preload.src=neighbor.getAttribute('data-image');}
+    }
     const h2=card.querySelector('.gallery-overlay h2');
     const p=card.querySelector('.gallery-overlay p');
     const span=card.querySelector('.gallery-overlay span');
@@ -204,7 +210,7 @@ themeBtn?.addEventListener('click',()=>{
     const deltaX=event.changedTouches[0].clientX-swipeStart.x;
     const deltaY=event.changedTouches[0].clientY-swipeStart.y;
     swipeStart=null;
-    if(Math.abs(deltaX)<48||Math.abs(deltaX)<Math.abs(deltaY)*1.25)return;
+    if(Math.abs(deltaX)<30||Math.abs(deltaX)<Math.abs(deltaY)*1.15)return;
     const forward=document.documentElement.dir==='rtl'?deltaX>0:deltaX<0;
     show(current+(forward?1:-1));
   },{passive:true});

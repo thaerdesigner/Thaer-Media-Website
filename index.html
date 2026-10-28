@@ -25,7 +25,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/base.css?v=render-performance-20261027-1">
 <link rel="stylesheet" href="assets/css/home.css?v=render-performance-20261027-1">
-<link rel="stylesheet" href="assets/css/work.css?v=gallery-nav-position-20261028-1" media="not all" data-page-stylesheet="work">
+<link rel="stylesheet" href="assets/css/work.css?v=gallery-nav-position-20261028-2" media="not all" data-page-stylesheet="work">
 <link rel="stylesheet" href="assets/css/contact.css" media="not all" data-page-stylesheet="contact">
 <link rel="stylesheet" href="assets/css/course.css?v=20261027-course-cards-1" media="not all" data-page-stylesheet="course">
 <link rel="icon" type="image/x-icon" href="assets/icon/TH.png">
@@ -314,7 +314,7 @@
     lightbox.querySelector('#lightboxClose').addEventListener('click',()=>lightbox.close());
     lightbox.querySelector('#lightboxPrev').addEventListener('click',()=>show(current-1));
     lightbox.querySelector('#lightboxNext').addEventListener('click',()=>show(current+1));
-    image.addEventListener('load',positionNav);window.addEventListener('resize',positionNav,{passive:true});new MutationObserver(positionNav).observe(document.documentElement,{attributes:true,attributeFilter:['dir']});
+    image.addEventListener('load',positionNav);lightbox.querySelector('.lightbox-figure').addEventListener('transitionend',positionNav);window.addEventListener('resize',positionNav,{passive:true});new MutationObserver(positionNav).observe(document.documentElement,{attributes:true,attributeFilter:['dir']});
     let swipeStart=null;
     const touchDevice=window.matchMedia('(hover: none) and (pointer: coarse)');
     lightbox.addEventListener('touchstart',event=>{

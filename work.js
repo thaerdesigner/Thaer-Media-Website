@@ -232,6 +232,7 @@ themeBtn?.addEventListener('click',()=>{
 
   closeBtn.addEventListener('click', close);
   imgEl.addEventListener('load',positionLightboxNav);
+  lightbox.querySelector('.lightbox-figure').addEventListener('transitionend',positionLightboxNav);
   window.addEventListener('resize',positionLightboxNav,{passive:true});
   new MutationObserver(positionLightboxNav).observe(document.documentElement,{attributes:true,attributeFilter:['dir']});
   prevBtn.addEventListener('click', ()=>show(current-1));

@@ -204,7 +204,7 @@
 </footer>
 <script src="assets/js/data.js?v=gallery-image-load-20261028-1"></script>
 <script src="assets/js/render.js?v=gallery-image-load-20261028-1"></script>
-<script src="assets/js/main.js?v=render-performance-20261027-1"></script>
+<script src="assets/js/main.js?v=gallery-direct-navigation-20261028-1"></script>
 <script src="assets/js/course-content.js?v=20261027-course-render-1"></script>
 <script>
 (() => {
@@ -415,6 +415,10 @@
     }
     const route=routeFromLink(link);
     if(route){
+      // Gallery routes have real, deployable index.html documents. Let the
+      // browser load that document instead of rendering the hidden SPA shell;
+      // some hosts defer/fail gallery asset requests during an in-page swap.
+      if(route.startsWith('work/'))return;
       event.preventDefault();
       renderRoute(route);
       history.pushState({offlineRoute:route},'',routePath(route));

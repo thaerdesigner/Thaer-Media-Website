@@ -25,7 +25,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/base.css?v=render-performance-20261027-1">
 <link rel="stylesheet" href="assets/css/home.css?v=render-performance-20261027-1">
-<link rel="stylesheet" href="assets/css/work.css?v=gallery-mobile-controls-20261027-1" media="not all" data-page-stylesheet="work">
+<link rel="stylesheet" href="assets/css/work.css?v=gallery-nav-position-20261028-1" media="not all" data-page-stylesheet="work">
 <link rel="stylesheet" href="assets/css/contact.css" media="not all" data-page-stylesheet="contact">
 <link rel="stylesheet" href="assets/css/course.css?v=20261027-course-cards-1" media="not all" data-page-stylesheet="course">
 <link rel="icon" type="image/x-icon" href="assets/icon/TH.png">
@@ -308,11 +308,13 @@
     const desc=lightbox.querySelector('#lightboxDesc');
     let items=[],current=0;
     const collect=()=>items=[...page.querySelectorAll('.gallery-card[data-image]')];
+    const positionNav=()=>{if(!lightbox.open)return;const rect=image.getBoundingClientRect();if(!rect.width||!rect.height)return;const prev=lightbox.querySelector('#lightboxPrev'),next=lightbox.querySelector('#lightboxNext'),mobile=matchMedia('(max-width:640px)').matches,size=prev.getBoundingClientRect().width||48;if(mobile){const safeBottom=Math.max(18,(parseFloat(getComputedStyle(lightbox).paddingBottom)||110)-92),top=Math.min(rect.bottom+16,innerHeight-size-safeBottom);prev.style.top=next.style.top=`${Math.max(12,top)}px`;prev.style.bottom=next.style.bottom='auto';prev.style.left=prev.style.right=next.style.left=next.style.right='';return;}const gap=18,rtl=document.documentElement.dir==='rtl',maxLeft=innerWidth-size-12,prevLeft=rtl?rect.right+gap:rect.left-gap-size,nextLeft=rtl?rect.left-gap-size:rect.right+gap,top=rect.top+rect.height/2;prev.style.left=`${Math.max(12,Math.min(maxLeft,prevLeft))}px`;next.style.left=`${Math.max(12,Math.min(maxLeft,nextLeft))}px`;prev.style.right=next.style.right='auto';prev.style.top=next.style.top=`${top}px`;};
     const show=index=>{collect();if(!items.length)return;current=(index+items.length)%items.length;const card=items[current],heading=card.querySelector('h2'),paragraph=card.querySelector('p');image.loading='eager';image.fetchPriority='high';image.src=card.dataset.image;for(const offset of [-1,1]){const neighbor=items[(current+offset+items.length)%items.length];if(neighbor){const preload=new Image();preload.src=neighbor.dataset.image;}}image.alt=heading.textContent;number.textContent=card.querySelector('.gallery-overlay span').textContent;title.textContent=heading.textContent;desc.textContent=paragraph.textContent;};
     document.addEventListener('click',event=>{const card=event.target.closest('#offlinePage .gallery-card[data-image]');if(!card)return;collect();show(items.indexOf(card));lightbox.showModal();document.body.style.overflow='hidden';requestAnimationFrame(()=>lightbox.classList.add('is-open'));});
     lightbox.querySelector('#lightboxClose').addEventListener('click',()=>lightbox.close());
     lightbox.querySelector('#lightboxPrev').addEventListener('click',()=>show(current-1));
     lightbox.querySelector('#lightboxNext').addEventListener('click',()=>show(current+1));
+    image.addEventListener('load',positionNav);window.addEventListener('resize',positionNav,{passive:true});new MutationObserver(positionNav).observe(document.documentElement,{attributes:true,attributeFilter:['dir']});
     let swipeStart=null;
     const touchDevice=window.matchMedia('(hover: none) and (pointer: coarse)');
     lightbox.addEventListener('touchstart',event=>{
@@ -418,7 +420,7 @@
       // Gallery routes have real, deployable index.html documents. Let the
       // browser load that document instead of rendering the hidden SPA shell;
       // some hosts defer/fail gallery asset requests during an in-page swap.
-      if(route.startsWith('work/'))return;
+      if(route.startsWith('work/')&&location.protocol!=='file:')return;
       event.preventDefault();
       renderRoute(route);
       history.pushState({offlineRoute:route},'',routePath(route));

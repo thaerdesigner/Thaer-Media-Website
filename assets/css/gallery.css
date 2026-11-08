@@ -54,8 +54,7 @@
 .gallery-grid--ads .gallery-open:hover .gallery-frame img{transform:none}
 
 @media (max-width:640px){
-  .gallery-grid{gap:12px}
-  .gallery-grid--identity,.gallery-grid--ads{grid-template-columns:1fr}
+  .gallery-grid{grid-template-columns:1fr;gap:14px}
   .gallery-open{padding:6px;border-radius:16px}
   .gallery-frame{border-radius:11px}
   .gallery-zoom{display:none}

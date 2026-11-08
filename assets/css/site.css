@@ -311,7 +311,7 @@ html[lang="en"] .lang-toggle{font-family:var(--font-ar);font-size:1rem}
 .socials a:hover{color:var(--accent-text);border-color:var(--accent-text);transform:translateY(-2px)}
 .socials svg{width:17px;height:17px;fill:currentColor}
 .socials svg.stroke{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.footer-bottom{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-block:20px 28px;border-top:1px solid var(--hairline);color:var(--text-subtle);font-size:var(--fs-small)}
+.footer-bottom{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;padding-block:20px 28px;border-top:1px solid var(--hairline);color:var(--text-subtle);font-size:var(--fs-small)}
 .footer-bottom a{color:var(--text-muted)}
 .footer-bottom a:hover{color:var(--accent-text)}
 @media (max-width:900px){

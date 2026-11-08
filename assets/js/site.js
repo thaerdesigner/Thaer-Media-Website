@@ -195,7 +195,6 @@
         </div>
         <div class="footer-bottom">
           <p>© ${year} Thaer Media. <span data-ar="جميع الحقوق محفوظة." data-en="All rights reserved.">جميع الحقوق محفوظة.</span></p>
-          <a href="${esc(url('contact/'))}" data-ar="هل لديك مشروع؟ لنتحدث" data-en="Have a project? Let’s talk">هل لديك مشروع؟ لنتحدث</a>
         </div>
       </div>`;
   }

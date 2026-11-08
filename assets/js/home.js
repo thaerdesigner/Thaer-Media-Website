@@ -69,13 +69,31 @@
 
   /* ---------- Work ---------- */
   document.getElementById('workGrid').innerHTML = D.workTeaser.map(w => `
-    <a class="work-card" href="${esc(url(w.href))}">
+    <a class="work-card" href="${esc(url(w.href))}" data-work="${esc(w.href)}">
       <img src="${esc(url(w.coverAr))}" data-src-ar="${esc(w.coverAr)}" data-src-en="${esc(w.coverEn)}" alt="" width="1200" height="800" loading="lazy" decoding="async">
       <span class="work-card-body">
         <h3 ${attrs(w.title)}>${esc(w.title.ar)}</h3>
         <span class="work-card-arrow" aria-hidden="true">${S.icons.arrow}</span>
       </span>
     </a>`).join('');
+
+  /* Service cards that have a portfolio scroll down to its cover in "Our work"
+     and highlight it; the visitor then opens the gallery from the cover.
+     Services without a portfolio (content, marketing) go to the contact page. */
+  document.getElementById('servicesGrid').addEventListener('click', event => {
+    const card = event.target.closest('.service-card');
+    if (!card || event.ctrlKey || event.metaKey || event.shiftKey) return;
+    const service = D.services[[...card.parentElement.children].indexOf(card)];
+    const cover = service && document.querySelector(`.work-card[data-work="${CSS.escape(service.href)}"]`);
+    if (!cover) return;
+    event.preventDefault();
+    cover.scrollIntoView({ behavior: S.reducedMotion.matches ? 'auto' : 'smooth', block: 'center' });
+    document.querySelectorAll('.work-card.is-focus').forEach(el => el.classList.remove('is-focus'));
+    cover.classList.add('is-focus');
+    clearTimeout(cover._focusTimer);
+    cover._focusTimer = setTimeout(() => cover.classList.remove('is-focus'), 2600);
+    setTimeout(() => cover.focus({ preventScroll: true }), S.reducedMotion.matches ? 0 : 600);
+  });
 
   /* ---------- Process ---------- */
   document.getElementById('processGrid').innerHTML = D.process.map((p, i) => `

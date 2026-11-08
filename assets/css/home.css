@@ -170,6 +170,11 @@ html[dir="rtl"] .work-card-arrow svg{transform:scaleX(-1)}
 .work-card-body::before{content:"";position:absolute;inset:-200% auto -200% -60%;width:40%;z-index:-1;background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent);transform:skewX(-20deg) translateX(-100%);pointer-events:none}
 .work-card{transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s var(--ease)}
 .work-card:hover{transform:translateY(-6px);border-color:rgba(237,189,77,.48);box-shadow:var(--shadow)}
+/* Highlight when reached from a service card */
+.work-card.is-focus{border-color:var(--gold);animation:coverFocus 1.3s var(--ease) 2}
+.work-card.is-focus .work-card-arrow{animation:arrowNudge 1.3s var(--ease) 2}
+@keyframes coverFocus{0%,100%{box-shadow:var(--shadow),0 0 0 0 rgba(237,189,77,.55)}50%{box-shadow:var(--shadow),0 0 0 8px rgba(237,189,77,0)}}
+@keyframes arrowNudge{0%,100%{transform:none}50%{transform:scale(1.15)}}
 .work-card:hover .work-card-arrow{transform:scale(1.08)}
 .work-card:focus-visible{box-shadow:var(--focus-ring);border-radius:var(--radius-lg)}
 @media (max-width:700px){.work-grid{grid-template-columns:1fr;gap:14px}.work-card-body{padding:16px 18px}.work-card-arrow{width:40px;height:40px}}

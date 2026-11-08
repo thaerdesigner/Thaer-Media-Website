@@ -192,6 +192,16 @@ const CONFIG = {
   });
   $('langToggle').addEventListener('click', () => applyLanguage(lang() === 'ar' ? 'en' : 'ar'));
 
+  /* In-page links scroll smoothly without adding #give / #how to the address */
+  document.querySelectorAll('[data-scroll]').forEach(a => a.addEventListener('click', e => {
+    const target = document.getElementById(a.dataset.scroll);
+    if (!target) return;
+    e.preventDefault();
+    const y = target.getBoundingClientRect().top + scrollY - document.querySelector('.top').offsetHeight - 12;
+    window.scrollTo({ top: y, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  }));
+  if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+
   /* Photo */
   document.querySelectorAll('[data-photo]').forEach(img => { img.src = CONFIG.photo; });
 

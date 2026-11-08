@@ -2,6 +2,11 @@
    sponsor.css — standalone design for the "Sponsor a student" page
    Independent of the main site's styles.
    ========================================================================== */
+/* Arabic letters use Expo Arabic (same as the main site); unicode-range keeps
+   English letters and all digits in Readex Pro / Fraunces. */
+@font-face{font-family:"Sponsor Arabic";src:url("https://db.onlinewebfonts.com/t/9004b72f96afb1e5f13389f489791113.woff2") format("woff2");font-weight:300 400;font-display:swap;unicode-range:U+0600-065F,U+066A-06EF,U+06FA-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F}
+@font-face{font-family:"Sponsor Arabic";src:url("https://db.onlinewebfonts.com/t/b009a8fb757127bf4c5ad1d5abd060e9.woff2") format("woff2");font-weight:500 600;font-display:swap;unicode-range:U+0600-065F,U+066A-06EF,U+06FA-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F}
+@font-face{font-family:"Sponsor Arabic";src:url("https://db.onlinewebfonts.com/t/5a46b722115434b86e5e9719ff7f6f23.woff2") format("woff2");font-weight:700 900;font-display:swap;unicode-range:U+0600-065F,U+066A-06EF,U+06FA-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F}
 :root{
   --paper:#f6f2ea;
   --paper-2:#efe8dc;
@@ -28,7 +33,7 @@
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:clip}
 body{
   margin:0;background:var(--paper);color:var(--ink);
-  font-family:"Readex Pro",Tahoma,sans-serif;font-size:1rem;line-height:1.7;font-weight:400;
+  font-family:"Sponsor Arabic","Readex Pro",Tahoma,sans-serif;font-size:1rem;line-height:1.7;font-weight:400;
   -webkit-font-smoothing:antialiased;overflow-x:clip;
 }
 html[lang="en"] body{line-height:1.6}
@@ -47,7 +52,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 .top.is-scrolled{border-bottom-color:var(--line)}
 .top-row{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px}
 .mark{display:flex;align-items:center;gap:10px}
-.mark-badge{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:var(--night);color:var(--paper);font-family:"Fraunces",serif;font-weight:600;font-size:.95rem;letter-spacing:.02em}
+.mark-badge{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:var(--night);color:var(--paper);font-family:"Fraunces","Sponsor Arabic",serif;font-weight:600;font-size:.95rem;letter-spacing:.02em}
 .mark-text{display:grid;line-height:1.2}
 .mark-text strong{font-size:.95rem;font-weight:600}
 .mark-text small{font-size:.75rem;color:var(--ink-3)}
@@ -80,7 +85,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(111,127,92,.5)}60%{box-shadow:0 0 0 7px rgba(111,127,92,0)}}
 .hero h1{margin-top:22px;display:grid;font-size:clamp(1.9rem,1.1rem + 3vw,3.3rem);line-height:1.15;font-weight:600;letter-spacing:-.01em}
 .hero h1 em{font-style:normal;color:var(--accent)}
-html[lang="en"] .hero h1{font-size:clamp(2.2rem,1.2rem + 3.6vw,4rem);font-family:"Fraunces",serif;font-weight:500;letter-spacing:-.025em;line-height:1.05}
+html[lang="en"] .hero h1{font-size:clamp(2.2rem,1.2rem + 3.6vw,4rem);font-family:"Fraunces","Sponsor Arabic",serif;font-weight:500;letter-spacing:-.025em;line-height:1.05}
 html[lang="en"] .hero h1 em{font-style:italic}
 .lead{margin-top:20px;max-width:54ch;font-size:clamp(1.02rem,.98rem + .3vw,1.15rem);color:var(--ink-2);font-weight:300}
 .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
@@ -94,7 +99,7 @@ html[dir="ltr"] .hero-card{transform:rotate(1.5deg)}
 .hero-note strong{font-weight:600}
 .hero-note span{font-size:.85rem;color:var(--ink-3)}
 .hero-stat{position:absolute;inset-inline-start:-28px;top:26px;display:grid;padding:14px 18px;border-radius:16px;background:var(--night);color:var(--paper);box-shadow:0 14px 30px rgba(31,37,48,.25);max-width:190px}
-.hero-stat-num{font-family:"Fraunces",serif;font-size:2rem;line-height:1;color:#f0b49c}
+.hero-stat-num{font-family:"Fraunces","Sponsor Arabic",serif;font-size:2rem;line-height:1;color:#f0b49c}
 .hero-stat span:last-child{font-size:.82rem;margin-top:6px;opacity:.85;line-height:1.4}
 
 @media (max-width:900px){
@@ -118,7 +123,7 @@ html[dir="ltr"] .hero-card{transform:rotate(1.5deg)}
 html[lang="ar"] .eyebrow{letter-spacing:0}
 .eyebrow.light{color:#f0b49c}
 .head h2{font-size:clamp(1.6rem,1.2rem + 1.7vw,2.5rem);line-height:1.25;font-weight:600}
-html[lang="en"] .head h2{font-family:"Fraunces",serif;font-weight:500;letter-spacing:-.02em}
+html[lang="en"] .head h2{font-family:"Fraunces","Sponsor Arabic",serif;font-weight:500;letter-spacing:-.02em}
 .head p{color:var(--ink-2);font-weight:300}
 
 .cards.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
@@ -137,14 +142,14 @@ html[lang="en"] .head h2{font-family:"Fraunces",serif;font-weight:500;letter-spa
 .split .head{margin-bottom:0;position:sticky;top:100px}
 .covers{display:grid;gap:12px}
 .covers li{display:flex;gap:18px;align-items:flex-start;padding:22px 24px;border-radius:var(--radius);background:var(--card);border:1px solid var(--line)}
-.num{flex:none;min-width:52px;height:52px;display:grid;place-items:center;border-radius:14px;background:var(--sage-soft);color:var(--sage);font-family:"Fraunces",serif;font-size:1.35rem;font-weight:600}
+.num{flex:none;min-width:52px;height:52px;display:grid;place-items:center;border-radius:14px;background:var(--sage-soft);color:var(--sage);font-family:"Fraunces","Sponsor Arabic",serif;font-size:1.35rem;font-weight:600}
 .covers strong{display:block;font-weight:600;font-size:1.05rem}
 .covers li span:not(.num){color:var(--ink-2);font-weight:300;font-size:.95rem}
 @media (max-width:860px){.split{grid-template-columns:1fr}.split .head{position:static}}
 
 .steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;counter-reset:s}
 .steps li{position:relative;padding:28px;border-radius:var(--radius);background:var(--card);border:1px solid var(--line)}
-.steps li > span{display:block;font-family:"Fraunces",serif;font-size:2.4rem;line-height:1;color:var(--accent);opacity:.9;margin-bottom:14px}
+.steps li > span{display:block;font-family:"Fraunces","Sponsor Arabic",serif;font-size:2.4rem;line-height:1;color:var(--accent);opacity:.9;margin-bottom:14px}
 .steps h3{font-size:1.1rem;font-weight:600;margin-bottom:6px}
 .steps p{color:var(--ink-2);font-weight:300}
 @media (max-width:860px){.steps{grid-template-columns:1fr}}
@@ -160,7 +165,7 @@ html[lang="en"] .head h2{font-family:"Fraunces",serif;font-weight:500;letter-spa
 .tier{display:grid;gap:4px;padding:22px;border-radius:var(--radius);border:1.5px solid rgba(246,242,234,.18);background:rgba(246,242,234,.04);text-align:start;transition:border-color .2s,background-color .2s,transform .2s var(--ease)}
 .tier:hover{border-color:rgba(246,242,234,.45);transform:translateY(-2px)}
 .tier.is-on{border-color:#f0b49c;background:rgba(240,180,156,.1)}
-.tier-amount{font-family:"Fraunces",serif;font-size:2rem;line-height:1.1;color:#fff}
+.tier-amount{font-family:"Fraunces","Sponsor Arabic",serif;font-size:2rem;line-height:1.1;color:#fff}
 .tier-name{font-weight:600}
 .tier-note{font-size:.85rem;opacity:.7}
 .custom{display:grid;gap:8px;max-width:860px;margin:16px auto 0}

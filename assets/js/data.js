@@ -72,12 +72,12 @@ const SITE_DATA = window.SITE_DATA = {
       { href: "work-identity/", icon: "identity",
         title: { ar: "تصاميم الهوية البصرية", en: "Visual identity design" },
         desc:  { ar: "نصمّم لمشروعك الشعار الأمثل، ونمنحه هوية بصرية متكاملة ومميزة.", en: "We design the right logo for your business and build a complete, distinctive identity around it." } },
-      { href: "work-ads/",      icon: "ads",
-        title: { ar: "إدارة الحملات الإعلانية", en: "Ad campaign management" },
-        desc:  { ar: "نطلق حملاتك ونتابعها باستمرار، لتصل إلى جمهورك المستهدف بدقة.", en: "We launch and monitor your campaigns so they reach exactly the right audience." } },
       { href: "work-print/",    icon: "print",
         title: { ar: "تصاميم المطبوعات", en: "Print design" },
         desc:  { ar: "ننجز تصاميم مطبوعاتك باحترافية ولمسات فنية تمنحها حضوراً إبداعياً.", en: "Print designs made with professionalism and artistic touches that make them stand out." } },
+      { href: "work-ads/",      icon: "ads",
+        title: { ar: "نتائج الحملات الإعلانية", en: "Ad campaign results" },
+        desc:  { ar: "نطلق حملاتك ونتابعها باستمرار، لتصل إلى جمهورك المستهدف بدقة.", en: "We launch and monitor your campaigns so they reach exactly the right audience." } },
       { href: "contact/",       icon: "content",
         title: { ar: "صناعة المحتوى", en: "Content creation" },
         desc:  { ar: "نرتّب أفكارك ونصنع محتوى يليق بعلامتك التجارية، من الموشن جرافيك إلى مونتاج الفيديو.", en: "We shape your ideas into content worthy of your brand, from motion graphics to video editing." } },
@@ -91,7 +91,7 @@ const SITE_DATA = window.SITE_DATA = {
       { href: "work-social/",   coverAr: "assets/work-covers/ar/01-social-media.jpg",   coverEn: "assets/work-covers/en/01-social-media.jpg",   title: { ar: "تصاميم السوشيال ميديا", en: "Social media design" } },
       { href: "work-identity/", coverAr: "assets/work-covers/ar/02-brand-identity.jpg", coverEn: "assets/work-covers/en/02-brand-identity.jpg", title: { ar: "تصاميم الهوية البصرية", en: "Visual identity design" } },
       { href: "work-print/",    coverAr: "assets/work-covers/ar/04-print-design.jpg",   coverEn: "assets/work-covers/en/04-print-design.jpg",   title: { ar: "تصاميم المطبوعات",      en: "Print design" } },
-      { href: "work-ads/",      coverAr: "assets/work-covers/ar/03-advertising.jpg",    coverEn: "assets/work-covers/en/03-advertising.jpg",    title: { ar: "إدارة الحملات الإعلانية", en: "Ad campaign management" } }
+      { href: "work-ads/",      coverAr: "assets/work-covers/ar/03-advertising.jpg",    coverEn: "assets/work-covers/en/03-advertising.jpg",    title: { ar: "نتائج الحملات الإعلانية", en: "Ad campaign results" } }
     ],
 
     process: [
@@ -136,22 +136,6 @@ const SITE_DATA = window.SITE_DATA = {
         { image: "assets/gallery/identity/tomoh.jpg",       alt: { ar: "هوية طموح البصرية",        en: "Tomoh visual identity" } }
       ]
     },
-    ads: {
-      title: { ar: "إدارة الحملات الإعلانية", en: "Ad campaign management" },
-      intro: { ar: "نتائج حقيقية من تقارير حملات أدرناها: تفاعل، ووصول، ومحادثات بتكلفة مدروسة.", en: "Real results from campaigns we managed: engagement, reach and conversations at a measured cost." },
-      gallery: [
-        { image: "assets/gallery/ads/06.jpg", alt: { ar: "تقرير حملة تفاعل", en: "Engagement campaign report" } },
-        { image: "assets/gallery/ads/09.jpg", alt: { ar: "تقرير حملة تفاعل", en: "Engagement campaign report" } },
-        { image: "assets/gallery/ads/04.jpg", alt: { ar: "تقرير حملة وصول ووعي", en: "Reach and awareness campaign report" } },
-        { image: "assets/gallery/ads/05.jpg", alt: { ar: "تقرير حملة رسائل", en: "Messaging campaign report" } },
-        { image: "assets/gallery/ads/01.jpg", alt: { ar: "تقرير حملة تفاعل", en: "Engagement campaign report" } },
-        { image: "assets/gallery/ads/08.jpg", alt: { ar: "تقرير حملة تفاعل", en: "Engagement campaign report" } },
-        { image: "assets/gallery/ads/02.jpg", alt: { ar: "تقرير حملة رسائل", en: "Messaging campaign report" } },
-        { image: "assets/gallery/ads/07.jpg", alt: { ar: "تقرير حملة رسائل", en: "Messaging campaign report" } },
-        { image: "assets/gallery/ads/10.jpg", alt: { ar: "تقرير حملة رسائل", en: "Messaging campaign report" } },
-        { image: "assets/gallery/ads/03.jpg", alt: { ar: "تقرير حملة وصول ووعي", en: "Reach and awareness campaign report" } }
-      ]
-    },
     print: {
       title: { ar: "تصاميم المطبوعات", en: "Print design" },
       intro: { ar: "لافتات ومنيو ورول أب وتصاميم عرض، معروضة كما تظهر في مكانها الحقيقي.", en: "Signage, menus, roll-ups and displays, shown as they appear in place." },
@@ -178,6 +162,22 @@ const SITE_DATA = window.SITE_DATA = {
         { cover: "assets/gallery/print/covers/22.jpg", image: "assets/gallery/print/artwork/22.jpg", alt: { ar: "لافتة إعلانية", en: "Advertising sign" } },
         { cover: "assets/gallery/print/covers/19.jpg", image: "assets/gallery/print/artwork/19.jpg", alt: { ar: "لافتة طولية", en: "Vertical banner" } },
         { cover: "assets/gallery/print/covers/21.jpg", image: "assets/gallery/print/artwork/21.jpg", alt: { ar: "ستاند عرض", en: "Display stand" } }
+      ]
+    },
+    ads: {
+      title: { ar: "نتائج الحملات الإعلانية", en: "Ad campaign results" },
+      intro: { ar: "نتائج حقيقية من تقارير حملات أدرناها: تفاعل، ووصول، ومحادثات بتكلفة مدروسة.", en: "Real results from campaigns we managed: engagement, reach and conversations at a measured cost." },
+      gallery: [
+        { image: "assets/gallery/ads/06.jpg", alt: { ar: "تقرير حملة تفاعل", en: "Engagement campaign report" } },
+        { image: "assets/gallery/ads/09.jpg", alt: { ar: "تقرير حملة تفاعل", en: "Engagement campaign report" } },
+        { image: "assets/gallery/ads/04.jpg", alt: { ar: "تقرير حملة وصول ووعي", en: "Reach and awareness campaign report" } },
+        { image: "assets/gallery/ads/05.jpg", alt: { ar: "تقرير حملة رسائل", en: "Messaging campaign report" } },
+        { image: "assets/gallery/ads/01.jpg", alt: { ar: "تقرير حملة تفاعل", en: "Engagement campaign report" } },
+        { image: "assets/gallery/ads/08.jpg", alt: { ar: "تقرير حملة تفاعل", en: "Engagement campaign report" } },
+        { image: "assets/gallery/ads/02.jpg", alt: { ar: "تقرير حملة رسائل", en: "Messaging campaign report" } },
+        { image: "assets/gallery/ads/07.jpg", alt: { ar: "تقرير حملة رسائل", en: "Messaging campaign report" } },
+        { image: "assets/gallery/ads/10.jpg", alt: { ar: "تقرير حملة رسائل", en: "Messaging campaign report" } },
+        { image: "assets/gallery/ads/03.jpg", alt: { ar: "تقرير حملة وصول ووعي", en: "Reach and awareness campaign report" } }
       ]
     }
   }

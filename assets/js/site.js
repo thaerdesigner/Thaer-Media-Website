@@ -156,6 +156,7 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg>
           <span data-ar="الرئيسية" data-en="Home">الرئيسية</span>
         </a>
+        <p class="footer-copy">© ${new Date().getFullYear()} Thaer Media. <span data-ar="جميع الحقوق محفوظة." data-en="All rights reserved.">جميع الحقوق محفوظة.</span></p>
       </div>`;
       return;
     }

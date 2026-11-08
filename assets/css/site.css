@@ -291,7 +291,18 @@ html[lang="en"] .lang-toggle{font-family:var(--font-ar);font-size:1rem}
 .site-footer{margin-top:var(--section-space);border-top:1px solid var(--hairline);background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.16))}
 :root[data-theme="light"] .site-footer{background:linear-gradient(180deg,rgba(255,255,255,.4),rgba(255,255,255,.75))}
 .site-footer--simple{border-top:0;background:none}
-.site-footer--simple .container{display:flex;justify-content:center;padding-block:8px clamp(32px,5vw,48px)}
+/* Thin divider, Home button on the start side (right in Arabic, left in English), copyright on the other */
+.site-footer--simple .container{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding-block:24px clamp(28px,4vw,40px);border-top:1px solid var(--hairline);
+}
+.site-footer--simple .btn{flex:none}
+.footer-copy{min-width:0;color:var(--text-subtle);font-size:var(--fs-small);text-align:end;line-height:1.5}
+@media (max-width:480px){
+  .site-footer--simple .btn{--btn-h:44px;padding:0 18px;font-size:.92rem}
+  .footer-copy{font-size:.78rem}
+  .footer-copy span{display:block}
+}
 .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:40px;padding-block:44px 32px}
 .footer-brand img{height:44px;width:auto}
 .footer-brand p{margin-top:16px;color:var(--text-muted);max-width:32ch}

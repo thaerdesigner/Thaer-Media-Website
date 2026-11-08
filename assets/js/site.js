@@ -146,6 +146,19 @@
   function renderFooter() {
     const footer = document.getElementById('siteFooter');
     if (!footer) return;
+    /* Inner pages (galleries, contact, course) get a minimal footer with a
+       single "Home" button; the full footer is only on the homepage and 404. */
+    if (['gallery', 'contact', 'course'].includes(page)) {
+      footer.classList.add('site-footer--simple');
+      footer.innerHTML = `
+      <div class="container">
+        <a class="btn btn--primary" href="${esc(url(''))}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg>
+          <span data-ar="الرئيسية" data-en="Home">الرئيسية</span>
+        </a>
+      </div>`;
+      return;
+    }
     const year = new Date().getFullYear();
     const links = D.nav.map(item => `<a href="${esc(url(item.href))}" data-ar="${esc(item.ar)}" data-en="${esc(item.en)}">${esc(item.ar)}</a>`).join('');
     const services = D.home.services.map(s => `<a href="${esc(url(s.href))}" data-ar="${esc(s.title.ar)}" data-en="${esc(s.title.en)}">${esc(s.title.ar)}</a>`).join('');

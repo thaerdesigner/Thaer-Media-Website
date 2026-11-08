@@ -73,7 +73,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 .btn-line:hover{background:var(--ink);color:var(--paper)}
 .btn-ghost{border:1.5px solid rgba(246,242,234,.35);color:var(--paper)}
 .btn-ghost:hover{border-color:var(--paper);background:rgba(246,242,234,.08)}
-.btn-block{width:100%}
+.btn-block{width:100%;white-space:normal;text-align:center;line-height:1.3;padding-block:10px}
 .btn-soft{background:var(--accent-soft);color:var(--accent-dark)}
 .btn-soft:hover{background:#ecd1c4;transform:translateY(-2px)}
 
@@ -179,8 +179,9 @@ html[lang="en"] .head h2{font-family:"Fraunces","Sponsor Arabic",serif;font-weig
 .pay-title{max-width:860px;margin:32px auto 12px;font-size:1.1rem;font-weight:600}
 .methods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:860px;margin-inline:auto;align-items:stretch}
 .method:last-child:nth-child(odd){grid-column:1/-1}
-.method{display:grid;gap:18px;align-content:space-between;padding:22px;border-radius:var(--radius);background:var(--card);color:var(--ink)}
-.method-head{display:flex;gap:14px;align-items:flex-start}
+.method{min-width:0;display:grid;gap:18px;align-content:space-between;padding:22px;border-radius:var(--radius);background:var(--card);color:var(--ink)}
+.method-head{display:flex;gap:14px;align-items:flex-start;min-width:0}
+.method-head > div{min-width:0}
 .method-icon{flex:none;width:44px;height:44px;display:grid;place-items:center;border-radius:12px;background:var(--accent-soft);color:var(--accent)}
 .method-icon svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .method h4{font-size:1.05rem;font-weight:600}
@@ -199,11 +200,13 @@ html[lang="en"] .head h2{font-family:"Fraunces","Sponsor Arabic",serif;font-weig
 .confirm p{max-width:44ch;opacity:.85;font-weight:300}
 .confirm-actions{display:flex;flex-wrap:wrap;gap:10px}
 @media (max-width:760px){
-  .tiers{grid-template-columns:1fr}
+  .tiers{grid-template-columns:minmax(0,1fr)}
   .tier{grid-template-columns:auto 1fr;column-gap:16px;align-items:center}
   .tier-amount{grid-row:span 2;font-size:1.6rem;min-width:84px}
-  .methods{grid-template-columns:1fr}
-  .confirm-actions{width:100%;display:grid}
+  .methods{grid-template-columns:minmax(0,1fr)}
+  .confirm-actions{width:100%;display:grid;grid-template-columns:minmax(0,1fr)}
+  .confirm-actions .btn{white-space:normal;text-align:center;padding-inline:16px}
+  .give-panel{padding-inline:18px}
 }
 
 /* ---------- FAQ ---------- */

@@ -7,6 +7,8 @@ const CONFIG = {
      ضع صورة جديدة داخل مجلد sponsor بنفس الاسم photo.jpg لتستبدلها،
      أو اكتب هنا اسم/مسار الصورة الجديدة. يُفضّل صورة طولية (3:4). */
   photo: 'photo.jpg',
+  /* صورة المدرب في قسم «من يدرّب الطلاب؟» — نفس الطريقة: استبدل trainer.jpg */
+  trainerPhoto: 'trainer.jpg',
 
   currencySymbol: '$',
   whatsappNumber: '970599351383',  // أرقام فقط مع رمز الدولة
@@ -204,6 +206,7 @@ const CONFIG = {
 
   /* Photo */
   document.querySelectorAll('[data-photo]').forEach(img => { img.src = CONFIG.photo; });
+  document.querySelectorAll('[data-trainer]').forEach(img => { img.src = CONFIG.trainerPhoto; });
 
   /* Hero figure */
   document.querySelectorAll('[data-amount="full"]').forEach(el => {
@@ -215,7 +218,7 @@ const CONFIG = {
   $('footMail').textContent = CONFIG.email;
 
   /* Reveal on scroll */
-  const items = document.querySelectorAll('.card, .covers li, .steps li, .give-panel, .faq details, .head');
+  const items = document.querySelectorAll('.card, .covers li, .steps li, .give-panel, .faq details, .head, .trainer-media, .trainer-copy');
   if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
     items.forEach(el => el.classList.add('rv'));
     const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }), { threshold: 0.12 });

@@ -78,7 +78,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 .btn-soft:hover{background:#ecd1c4;transform:translateY(-2px)}
 
 /* ---------- Hero ---------- */
-.hero{padding-block:clamp(36px,6vw,80px) clamp(48px,7vw,96px)}
+.hero{padding-block:clamp(24px,4vw,52px) clamp(32px,4.5vw,60px)}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(36px,6vw,80px);align-items:center}
 .kicker{display:inline-flex;align-items:center;gap:10px;padding:6px 14px 6px 16px;border-radius:999px;background:var(--sage-soft);color:var(--sage);font-size:.9rem;font-weight:500}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--sage);animation:pulse 2.4s ease-in-out infinite}
@@ -115,9 +115,11 @@ html[dir="ltr"] .hero-card{transform:rotate(1.5deg)}
 }
 
 /* ---------- Blocks ---------- */
-.block{padding-block:clamp(56px,8vw,104px)}
+.block{padding-block:clamp(36px,5vw,64px)}
+/* two plain sections in a row share one gap instead of two */
+.block:not(.tinted) + .block:not(.tinted),.hero + .block:not(.tinted){padding-top:0}
 .block.tinted{background:var(--paper-2)}
-.head{display:grid;gap:10px;margin-bottom:clamp(28px,4vw,48px);max-width:640px}
+.head{display:grid;gap:8px;margin-bottom:clamp(20px,3vw,32px);max-width:640px}
 .head.center{text-align:center;margin-inline:auto;justify-items:center}
 .eyebrow{font-size:.85rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
 html[lang="ar"] .eyebrow{letter-spacing:0}
@@ -174,7 +176,7 @@ html[lang="en"] .head h2{font-family:"Fraunces","Sponsor Arabic",serif;font-weig
 .custom-field:focus-within{border-color:#f0b49c}
 .custom-field input{flex:1;min-width:0;height:52px;border:0;background:none;color:#fff;font:inherit;font-size:1.2rem;outline:none;direction:ltr}
 .cur{opacity:.7}
-.pay-title{max-width:860px;margin:44px auto 14px;font-size:1.1rem;font-weight:600}
+.pay-title{max-width:860px;margin:32px auto 12px;font-size:1.1rem;font-weight:600}
 .methods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:860px;margin-inline:auto;align-items:stretch}
 .method:last-child:nth-child(odd){grid-column:1/-1}
 .method{display:grid;gap:18px;align-content:space-between;padding:22px;border-radius:var(--radius);background:var(--card);color:var(--ink)}
@@ -193,7 +195,7 @@ html[lang="en"] .head h2{font-family:"Fraunces","Sponsor Arabic",serif;font-weig
 .field-copy.is-copied{border-color:var(--sage);background:var(--sage-soft)}
 .field-copy.is-copied svg{stroke:var(--sage)}
 .copied{max-width:860px;margin:12px auto 0;font-size:.88rem;color:#cfe0bd}
-.confirm{max-width:860px;margin:36px auto 0;padding-top:28px;border-top:1px solid rgba(246,242,234,.14);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+.confirm{max-width:860px;margin:28px auto 0;padding-top:22px;border-top:1px solid rgba(246,242,234,.14);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
 .confirm p{max-width:44ch;opacity:.85;font-weight:300}
 .confirm-actions{display:flex;flex-wrap:wrap;gap:10px}
 @media (max-width:760px){

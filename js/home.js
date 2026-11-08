@@ -1,0 +1,213 @@
+/* ==========================================================================
+   home.js — homepage content and interactions
+   Renders metrics, promo slides, services, work, process and testimonials
+   from data.js, and runs the two carousels.
+   ========================================================================== */
+(function () {
+  'use strict';
+  const S = window.SITE;
+  const D = S.data.home;
+  const { esc, url } = S;
+  const attrs = value => `data-ar="${esc(value.ar)}" data-en="${esc(value.en)}"`;
+
+  /* ---------- Metrics ---------- */
+  const metrics = document.getElementById('metrics');
+  metrics.innerHTML = D.metrics.map(m => `
+    <div class="metric">
+      <dt ${attrs(m)}>${esc(m.ar)}</dt>
+      <dd><span class="metric-value" data-count="${m.value}">${m.value}</span><span aria-hidden="true">+</span></dd>
+    </div>`).join('');
+
+  function animateCounters() {
+    const counters = metrics.querySelectorAll('[data-count]');
+    if (S.reducedMotion.matches || !('IntersectionObserver' in window)) return;
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+        const el = entry.target;
+        const target = Number(el.dataset.count);
+        const start = performance.now();
+        const duration = 1200;
+        const tick = now => {
+          const p = Math.min((now - start) / duration, 1);
+          el.textContent = String(Math.round((1 - Math.pow(1 - p, 3)) * target));
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        el.textContent = '0';
+        requestAnimationFrame(tick);
+      });
+    }, { threshold: 0.6 });
+    counters.forEach(c => observer.observe(c));
+  }
+
+  /* ---------- Promo slides ---------- */
+  document.getElementById('promoCta').href = url(D.slidesLink);
+  document.getElementById('promoTrack').innerHTML = D.slides.map((s, i) => `
+    <div class="slide"><a class="promo-slide" href="${esc(url(D.slidesLink))}">
+      <img src="${esc(url(s.ar))}" data-src-ar="${esc(s.ar)}" data-src-en="${esc(s.en)}"
+           alt="${esc(s.altAr)}" data-alt-ar="${esc(s.altAr)}" data-alt-en="${esc(s.altEn)}"
+           width="1440" height="480" decoding="async" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}>
+    </a></div>`).join('');
+
+  /* ---------- Services ---------- */
+  const SERVICE_ICONS = {
+    social: '<rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M10.5 18.5h3"/><path d="M12 13.4s-3.2-1.9-3.2-4a1.7 1.7 0 0 1 3.2-.8 1.7 1.7 0 0 1 3.2.8c0 2.1-3.2 4-3.2 4Z"/>',
+    identity: '<path d="m12 19 7-7 3 3-7 7-3-3Z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5Z"/><path d="m2 2 7.586 7.586"/><circle cx="11" cy="11" r="2"/>',
+    ads: '<path d="M3 11v3a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/>',
+    print: '<path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="7" rx="1"/><path d="M18 12h.01"/>',
+    content: '<rect x="2" y="6" width="14" height="12" rx="2"/><path d="m16 10.5 5.2-3a.5.5 0 0 1 .8.4v8.2a.5.5 0 0 1-.8.4l-5.2-3"/><path d="m7.5 9.5 4 2.5-4 2.5Z"/>',
+    marketing: '<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-6"/><path d="M15 8h5v5"/>'
+  };
+  document.getElementById('servicesGrid').innerHTML = D.services.map(s => `
+    <a class="service-card card" href="${esc(url(s.href))}">
+      <span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24">${SERVICE_ICONS[s.icon] || ''}</svg></span>
+      <h3 ${attrs(s.title)}>${esc(s.title.ar)}</h3>
+      <p ${attrs(s.desc)}>${esc(s.desc.ar)}</p>
+      <span class="card-link"><span data-ar="${s.href.startsWith('contact') ? 'اطلب الخدمة' : 'شاهد الأعمال'}" data-en="${s.href.startsWith('contact') ? 'Request this service' : 'View the work'}">${s.href.startsWith('contact') ? 'اطلب الخدمة' : 'شاهد الأعمال'}</span>${S.icons.arrow}</span>
+    </a>`).join('');
+
+  /* ---------- Work ---------- */
+  document.getElementById('workGrid').innerHTML = D.workTeaser.map(w => `
+    <a class="work-card" href="${esc(url(w.href))}">
+      <img src="${esc(url(w.coverAr))}" data-src-ar="${esc(w.coverAr)}" data-src-en="${esc(w.coverEn)}" alt="" width="1200" height="800" loading="lazy" decoding="async">
+      <span class="work-card-body">
+        <h3 ${attrs(w.title)}>${esc(w.title.ar)}</h3>
+        <span class="work-card-arrow" aria-hidden="true">${S.icons.arrow}</span>
+      </span>
+    </a>`).join('');
+
+  /* ---------- Process ---------- */
+  document.getElementById('processGrid').innerHTML = D.process.map((p, i) => `
+    <li class="process-step card">
+      <span class="process-num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
+      <h3 ${attrs(p.title)}>${esc(p.title.ar)}</h3>
+      <p ${attrs(p.desc)}>${esc(p.desc.ar)}</p>
+    </li>`).join('');
+
+  /* ---------- Testimonials ---------- */
+  document.getElementById('testimonialTrack').innerHTML = D.testimonials.map(item => `
+    <figure class="slide testimonial">
+      <div class="stars" role="img" aria-label="تقييم 5 من 5" data-label-ar="تقييم 5 من 5" data-label-en="Rated 5 out of 5">★★★★★</div>
+      <blockquote ${attrs(item.quote)}>${esc(item.quote.ar)}</blockquote>
+      <figcaption ${attrs(item.author)}>${esc(item.author.ar)}</figcaption>
+    </figure>`).join('');
+
+  /* ---------- Hero title: always exactly two lines ----------
+     Each line is nowrap; if a line is wider than its column (e.g. a wider
+     web font loads), the title is scaled down just enough to fit. */
+  const heroTitle = document.getElementById('heroTitle');
+  function fitHeroTitle() {
+    heroTitle.style.fontSize = '';
+    const box = heroTitle.clientWidth;
+    const widest = Math.max(...[...heroTitle.querySelectorAll('.hero-line')].map(line => {
+      const range = document.createRange();
+      range.selectNodeContents(line);
+      return range.getBoundingClientRect().width;
+    }));
+    if (widest > box) heroTitle.style.fontSize = (parseFloat(getComputedStyle(heroTitle).fontSize) * box / widest * 0.98) + 'px';
+  }
+  let fitTimer;
+  window.addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(fitHeroTitle, 100); });
+  document.fonts?.ready.then(fitHeroTitle);
+  S.onLanguageChange(() => requestAnimationFrame(fitHeroTitle));
+
+  /* ---------- Carousel ---------- */
+  function Carousel(root) {
+    const track = root.querySelector('.slider-track');
+    const viewport = root.querySelector('.slider-viewport');
+    const slides = [...track.children];
+    const dotsBox = root.querySelector('.slider-dots');
+    const delay = Number(root.dataset.autoplay) || 0;
+    let index = 0;
+    let timer = null;
+    let paused = false;
+    let inView = true;
+    if (slides.length < 2) { root.classList.add('is-single'); return; }
+
+    dotsBox.innerHTML = slides.map((_, i) => `<button type="button" class="slider-dot" data-label-ar="الشريحة ${i + 1} من ${slides.length}" data-label-en="Slide ${i + 1} of ${slides.length}" aria-label="الشريحة ${i + 1} من ${slides.length}"></button>`).join('');
+    const dots = [...dotsBox.children];
+    slides.forEach((slide, i) => {
+      slide.setAttribute('role', 'group');
+      slide.setAttribute('aria-roledescription', 'slide');
+      slide.setAttribute('data-label-ar', `${i + 1} من ${slides.length}`);
+      slide.setAttribute('data-label-en', `${i + 1} of ${slides.length}`);
+      slide.setAttribute('aria-label', `${i + 1} من ${slides.length}`);
+    });
+
+    function go(next, { user = false } = {}) {
+      index = (next + slides.length) % slides.length;
+      const sign = document.documentElement.dir === 'rtl' ? 1 : -1;
+      track.style.transform = `translateX(${sign * index * 100}%)`;
+      slides.forEach((slide, i) => {
+        const active = i === index;
+        slide.classList.toggle('is-active', active);
+        slide.setAttribute('aria-hidden', String(!active));
+        slide.inert = !active;
+        /* Make sure the current and next images are requested */
+        if (active || i === (index + 1) % slides.length) slide.querySelectorAll('img[loading="lazy"]').forEach(img => { img.loading = 'eager'; });
+      });
+      dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === index)));
+      if (user) restart();
+    }
+    function stop() { clearInterval(timer); timer = null; }
+    function restart() {
+      stop();
+      if (!delay || paused || !inView || S.reducedMotion.matches || document.hidden) return;
+      timer = setInterval(() => go(index + 1), delay);
+    }
+
+    root.querySelectorAll('.slider-arrow').forEach(btn => btn.addEventListener('click', () => go(index + (btn.dataset.dir === 'next' ? 1 : -1), { user: true })));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => go(i, { user: true })));
+    root.addEventListener('keydown', event => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      const rtl = document.documentElement.dir === 'rtl';
+      const forward = (event.key === 'ArrowLeft') === rtl;
+      go(index + (forward ? 1 : -1), { user: true });
+    });
+    root.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') { paused = true; stop(); } });
+    root.addEventListener('pointerleave', event => { if (event.pointerType === 'mouse') { paused = false; restart(); } });
+    root.addEventListener('focusin', () => { paused = true; stop(); });
+    root.addEventListener('focusout', event => { if (!root.contains(event.relatedTarget)) { paused = false; restart(); } });
+    document.addEventListener('visibilitychange', restart);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; restart(); }, { threshold: 0.3 }).observe(root);
+    }
+
+    /* Swipe */
+    let startX = null, startY = null, moved = false;
+    viewport.addEventListener('pointerdown', event => {
+      if (event.pointerType === 'mouse') return;
+      startX = event.clientX; startY = event.clientY; moved = false;
+    });
+    viewport.addEventListener('pointermove', event => {
+      if (startX !== null && Math.abs(event.clientX - startX) > 10) moved = true;
+    });
+    const end = event => {
+      if (startX === null) return;
+      const dx = event.clientX - startX, dy = event.clientY - startY;
+      startX = null;
+      if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+      const forward = document.documentElement.dir === 'rtl' ? dx > 0 : dx < 0;
+      go(index + (forward ? 1 : -1), { user: true });
+    };
+    viewport.addEventListener('pointerup', end);
+    viewport.addEventListener('pointercancel', () => { startX = null; });
+    /* Don't follow the slide link after a swipe */
+    viewport.addEventListener('click', event => { if (moved) { event.preventDefault(); moved = false; } }, true);
+
+    S.onLanguageChange(() => {
+      track.style.transition = 'none';
+      go(index);
+      track.offsetWidth; // apply without animating
+      track.style.transition = '';
+    });
+    go(0);
+    restart();
+  }
+
+  Carousel(document.getElementById('promoSlider'));
+  Carousel(document.getElementById('testimonialSlider'));
+  S.ready();
+  animateCounters();
+})();

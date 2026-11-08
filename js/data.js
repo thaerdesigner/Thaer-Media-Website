@@ -1,344 +1,196 @@
 /* ============================================================
-   data.js — محتوى الصفحات الرئيسية
+   data.js — محتوى الموقع
    ============================================================
-   معظم نصوص وصور صفحات الموقع الرئيسية موجودة هون لتسهيل تحديثها
-   من غير تعديل ملفات الـHTML أو الـCSS. صفحة الدورة مستقلة بملفاتها.
+   كل النصوص والصور والروابط التي تتكرر في الموقع موجودة هنا،
+   لتعديلها من مكان واحد دون لمس ملفات HTML أو CSS.
 
-   كيف تستخدمه:
-   - أي نص: لاقي المكان المناسب تحت وبدّل القيمة بين علامتي التنصيص "...".
-     معظم نصوص صفحات الموقع الرئيسية لها لغتين { ar: "...", en: "..." } —
-     لازم تعدّل الاثنين مع بعض حتى يبقى المحتوى متطابق بالعربي والإنجليزي.
-   - أي صورة: حمّل الصورة الجديدة داخل مجلد assets/images (أو المجلد
-     المناسب المذكور جنب كل حقل صورة)، وبدّل بس اسم/مسار الملف بالقيمة.
-     خلي نفس صيغة الملف تقريباً (jpg/png) وحجم مقارب حتى ما يتغيّر شكل
-     الموقع. لازم الصورة تكون فعلاً موجودة بنفس المسار وإلا بتظهر مكسورة.
-   - عناصر زي "آراء العملاء" و"معرض الأعمال" هي قائمة (array) — تقدر
-     تضيف عنصر جديد بنسخ آخر {...} داخل الأقواس المربعة [...] وتعدّل
-     قيَمه، أو تحذف عنصر كامل بحذف الـ{...} تبعه (وحذف الفاصلة الزايدة
-     إذا صار آخر عنصر).
-   - لا تحذف الفواصل (,) أو الأقواس { } [ ] — بس بدّل النصوص والمسارات
-     بين علامتي التنصيص. لو صار خطأ بالملف الموقع كله بيتوقف عن الشغل،
-     فبعد أي تعديل افتح الموقع وتأكد إنه شغال زي العادة.
+   - كل نص له لغتان: { ar: "...", en: "..." } — عدّل الاثنتين معاً.
+   - مسارات الصور تبدأ من جذر الموقع (assets/...)، ويجب أن تكون
+     الصورة موجودة فعلاً في المسار المكتوب. استخدم أسماء ملفات
+     إنجليزية بلا مسافات (مثل 23.jpg أو new-brand.jpg).
+   - القوائم [ ... ] يمكن الإضافة إليها بنسخ عنصر { ... } كامل
+     وتعديل قيمه. لا تحذف الفواصل أو الأقواس.
+   - بعد أي تعديل افتح الموقع وتأكد أنه يعمل كالمعتاد.
    ============================================================ */
 
-const SITE_DATA = {
+const SITE_DATA = window.SITE_DATA = {
 
-  /* عنوان المتصفح ووصف المحرك لكل صفحة */
-  meta: {
-    home: {
-      title: { ar: "Thaer Media — نوظِّفُ خبرتنا لنجاح علامتك التجارية", en: "Thaer Media — We turn experience into brand success" },
-      description: "Thaer Media — Social media design, brand identity, advertising campaigns, creative design, content creation and marketing solutions."
-    }
-  },
-
-  /* بيانات التواصل الأساسية لحقول صفحة التواصل وروابط الفوتر */
+  /* بيانات التواصل — تُستخدم في النماذج وزر واتساب والفوتر */
   contact: {
-    whatsappNumber: "970599351383",
-    whatsappUrl: "https://wa.me/970599351383",
-    whatsappDisplay: "+970 59 935 1383",
-    email: "thaeralqrenawi@gmail.com",
-    emailUrl: "mailto:thaeralqrenawi@gmail.com"
+    whatsappNumber: "970599351383",          // أرقام فقط، مع رمز الدولة
+    email: "thaeralqrenawi@gmail.com"
   },
 
-  /* روابط منصات التواصل الاجتماعي — تظهر بأيقونات بفوتر كل صفحة */
+  /* حسابات التواصل الاجتماعي — تظهر في فوتر كل الصفحات */
   socials: [
-    { key: "whatsapp", url: "https://wa.me/970599351383" },
-    { key: "email", url: "mailto:thaeralqrenawi@gmail.com" },
+    { key: "whatsapp",  url: "https://wa.me/970599351383" },
+    { key: "email",     url: "mailto:thaeralqrenawi@gmail.com" },
     { key: "instagram", url: "https://www.instagram.com/thaerdesigner/" },
-    { key: "facebook", url: "https://www.facebook.com/thaerdesigner12" },
-    { key: "linkedin", url: "https://www.linkedin.com/in/thaerdesigner/" },
-    { key: "behance", url: "https://www.behance.net/gallery/215783633/My-Portfolio-2022-2024" },
-    { key: "x", url: "https://www.x.com/thaerdesigner" },
-    { key: "threads", url: "https://www.threads.net/@thaerdesigner" },
-    { key: "tiktok", url: "https://www.tiktok.com/@thaerdesigner" },
-    { key: "snapchat", url: "https://www.snapchat.com/add/thaerdesigner" }
+    { key: "facebook",  url: "https://www.facebook.com/thaerdesigner12" },
+    { key: "linkedin",  url: "https://www.linkedin.com/in/thaerdesigner/" },
+    { key: "behance",   url: "https://www.behance.net/gallery/215783633/My-Portfolio-2022-2024" },
+    { key: "x",         url: "https://x.com/thaerdesigner" },
+    { key: "threads",   url: "https://www.threads.net/@thaerdesigner" },
+    { key: "tiktok",    url: "https://www.tiktok.com/@thaerdesigner" },
+    { key: "snapchat",  url: "https://www.snapchat.com/add/thaerdesigner" }
   ],
 
-  /* روابط قائمة التنقل بالهيدر (الصفحة الرئيسية فقط، ثنائية اللغة) */
+  /* روابط القائمة العلوية — "#" تعني قسماً داخل الصفحة الرئيسية */
   nav: [
-    { href: "#home", ar: "الرئيسية", en: "Home" },
-    { href: "#services", ar: "الخدمات", en: "Services" },
-    { href: "#work", ar: "أعمالنا", en: "Work" },
-    { href: "#about", ar: "من نحن", en: "About" },
-    { href: "#process", ar: "كيف نعمل", en: "Process" },
-    { href: "#testimonials", ar: "آراء العملاء", en: "Testimonials" },
-    { href: "/contact", ar: "تواصل", en: "Contact" }
+    { href: "#home",         ar: "الرئيسية",     en: "Home" },
+    { href: "#services",     ar: "خدماتنا",      en: "Services" },
+    { href: "#work",         ar: "أعمالنا",      en: "Work" },
+    { href: "#about",        ar: "من نحن",       en: "About" },
+    { href: "#process",      ar: "كيف نعمل",     en: "Process" },
+    { href: "#testimonials", ar: "آراء العملاء", en: "Reviews" },
+    { href: "contact/",      ar: "تواصل معنا",   en: "Contact" }
   ],
 
   /* ======================== الصفحة الرئيسية ======================== */
   home: {
+    metrics: [
+      { value: 12,  ar: "سنة خبرة",    en: "Years of experience" },
+      { value: 500, ar: "مشروع منجز",  en: "Completed projects" },
+      { value: 100, ar: "عميل مميز",   en: "Valued clients" }
+    ],
 
-    hero: {
-      // الصورة الشخصية بأعلى الصفحة الرئيسية — غيّر المسار لصورة جديدة بنفس المقاس تقريباً (عمودي)
-      photo: "assets/images/hero-person.jpg",
-      heading: { ar: "<span class='heading-white'>نوظِّفُ خبرتنا</span><span class='heading-gold'>لنجاح علامتك التجارية</span>", en: "<span class='heading-white'>We turn experience into</span> <span class='heading-gold'>brand success</span>" },
-      paragraph: {
-        ar: "نصنع حضوراً رقمياً متكاملاً من خلال تقديم خدمات التصميم الإبداعي والهوية البصرية وصناعة المحتوى والحملات الإعلانية",
-        en: "We build distinctive brands with design, content and campaigns."
-      },
-      primaryButton: { href: "/contact", ar: "لنتحدث عن مشروعك", en: "Let's discuss your project" },
-      secondaryButton: { href: "#work", ar: "شاهد أعمالنا", en: "Explore our work" },
-      chipOne: { ar: "إبداع × استراتيجية", en: "Creative × Strategy" },
-      chipTwo: { ar: "تصميم • محتوى • إعلانات", en: "Design • Content • Ads" },
-      yearsOfExperience: 12,
-      metricYearsLabel: { ar: "عاماً من الخبرة", en: "Years of experience" },
-      metricSolutions: { ar: "حلول تسويقية<br>متكاملة", en: "Marketing solutions" },
-      metricPresence: { ar: "حضور عربي<br>وعالمي", en: "Arabic & global reach" }
-    },
+    /* السلايدات الإعلانية — صورة لكل لغة بمقاس 1440×480 */
+    slides: [
+      { ar: "assets/ad-slides/ad-slide-01.jpg", en: "assets/ad-slides/ad-slide-01-en.jpg", altAr: "دورة التواصل الاجتماعي واستخدام منصات الذكاء الاصطناعي", altEn: "Social media and AI platforms course" },
+      { ar: "assets/ad-slides/ad-slide-02.jpg", en: "assets/ad-slides/ad-slide-02-en.jpg", altAr: "تعلّم أساسيات العمل الحر عبر منصات التواصل", altEn: "Learn the basics of freelancing on social media" },
+      { ar: "assets/ad-slides/ad-slide-03.jpg", en: "assets/ad-slides/ad-slide-03-en.jpg", altAr: "اكتسب الفرصة في تعلّم أساسيات التواصل الاجتماعي ومنصات الذكاء الاصطناعي", altEn: "Learn social media and AI platform essentials" },
+      { ar: "assets/ad-slides/ad-slide-04.jpg", en: "assets/ad-slides/ad-slide-04-en.jpg", altAr: "فرصتك لبناء مصدر دخل إضافي عبر منصات التواصل", altEn: "Build an additional income source through social media" },
+      { ar: "assets/ad-slides/ad-slide-05.jpg", en: "assets/ad-slides/ad-slide-05-en.jpg", altAr: "سجّل في ورشة التواصل الاجتماعي", altEn: "Register for the social media workshop" }
+    ],
+    slidesLink: "socialmedia.courses1/",
 
-    servicesHead: {
-      heading: { ar: "<span class='section-kicker'>خدماتنا:</span> ما نستطيع تقديمه لعلامتك أو نشاطك التجاري", en: "<span class='section-kicker'>Our services:</span> Creative solutions for brands" },
-      paragraph: {
-        ar: "من الفكرة إلى التنفيذ، نربط التصميم والتسويق والمحتوى ضمن منظومة واحدة متناسقة.",
-        en: "We bring design, marketing and content together to grow your brand."
-      }
-    },
-    /* بطاقات الخدمات الست — الأيقونة من مجلد assets/service-icons */
+    /* بطاقات الخدمات — icon: اسم الأيقونة (social, identity, ads, print, content, marketing) */
     services: [
-      { slug: "social", href: "/work-social/", icon: "assets/service-icons/social.svg",
-        title: { ar: "تصاميم السوشيال ميديا", en: "Social Media Design" },
-        desc: { ar: "تصاميم تجارية مميزة ولافتة تعكس هوية العلامة التجارية وتبني حضوراً بصرياً ثابتاً.", en: "Designs that make your brand stand out." } },
-      { slug: "identity", href: "/work-identity/", icon: "assets/service-icons/branding.png",
-        title: { ar: "الهوية البصرية", en: "Brand Identity" },
-        desc: { ar: "نظام بصري متكامل يمنح علامتك التجارية حضوراً احترافياً قابلاً للتوسع والانتشار.", en: "A clear visual identity for your brand." } },
-      { slug: "ads", href: "/work-ads/", icon: "assets/service-icons/megaphone.png",
-        title: { ar: "إدارة الحملات الإعلانية", en: "Advertising Campaign Management" },
-        desc: { ar: "إنشاء وإدارة حملاتك الإعلانية المدفوعة على منصات التواصل للوصول إلى أكبر جمهور ممكن.", en: "Campaigns that expand your reach." } },
-      { slug: "print", href: "/work-print/", icon: "assets/service-icons/offset.png",
-        title: { ar: "تصاميم المطبوعات", en: "Print Design" },
-        desc: { ar: "تصاميم بصرية مبتكرة وغير تقليدية للمطبوعات لأصحاب الشركات والمؤسسات والأنشطة التجارية.", en: "Distinctive designs for print." } },
-      { slug: "content", href: "#work", icon: "assets/service-icons/video.png",
-        title: { ar: "صناعة المحتوى", en: "Content Creation" },
-        desc: { ar: "إنشاء وتعديل المحتوى المرئي لإظهار علامتك التجارية من خلال فيديوهات مميزة تشمل الموشن جرافيك والمونتاج.", en: "Video content that brings your brand to life." } },
-      { slug: "marketing", href: "#work", icon: "assets/service-icons/innovation.png",
-        title: { ar: "حلول تسويقية", en: "Marketing Solutions" },
-        desc: { ar: "استشارات تسويقية عملية تساعدك على اتخاذ قرارات أفضل وبناء حضور أقوى.", en: "Practical guidance to grow your brand." } }
+      { href: "work-social/",   icon: "social",
+        title: { ar: "تصاميم السوشيال ميديا", en: "Social media design" },
+        desc:  { ar: "تصاميم تميّز حضورك، وتلفت انتباه جمهورك، وتحمل طابع علامتك التجارية.", en: "Designs that set your presence apart, catch your audience’s eye and carry your brand’s character." } },
+      { href: "work-identity/", icon: "identity",
+        title: { ar: "تصاميم الهوية البصرية", en: "Visual identity design" },
+        desc:  { ar: "نصمّم لمشروعك الشعار الأمثل، ونمنحه هوية بصرية متكاملة ومميزة.", en: "We design the right logo for your business and build a complete, distinctive identity around it." } },
+      { href: "work-ads/",      icon: "ads",
+        title: { ar: "إدارة الحملات الإعلانية", en: "Ad campaign management" },
+        desc:  { ar: "نطلق حملاتك ونتابعها باستمرار، لتصل إلى جمهورك المستهدف بدقة.", en: "We launch and monitor your campaigns so they reach exactly the right audience." } },
+      { href: "work-print/",    icon: "print",
+        title: { ar: "تصاميم المطبوعات", en: "Print design" },
+        desc:  { ar: "ننجز تصاميم مطبوعاتك باحترافية ولمسات فنية تمنحها حضوراً إبداعياً.", en: "Print designs made with professionalism and artistic touches that make them stand out." } },
+      { href: "contact/",       icon: "content",
+        title: { ar: "صناعة المحتوى", en: "Content creation" },
+        desc:  { ar: "نرتّب أفكارك ونصنع محتوى يليق بعلامتك التجارية، من الموشن جرافيك إلى مونتاج الفيديو.", en: "We shape your ideas into content worthy of your brand, from motion graphics to video editing." } },
+      { href: "contact/",       icon: "marketing",
+        title: { ar: "حلول تسويقية", en: "Marketing solutions" },
+        desc:  { ar: "نساعدك على حل تحديات حساباتك على منصات التواصل من خلال استشارات مفصّلة وفعّالة.", en: "We help you solve your social media challenges through detailed, effective consultations." } }
     ],
 
-    workHead: {
-      heading: { ar: "<span class='section-kicker'>مختارات من أعمالنا:</span> معرض لبعض أعمالنا المميزة", en: "<span class='section-kicker'>Selected work:</span> A selection of our featured work" },
-      paragraph: {
-        ar: "معرض مرن لعرض المشاريع بأسلوب بصري متنوع، مع معلومات المشروع فوق الصورة عند التفاعل.",
-        en: "Explore projects shaped by original ideas and thoughtful design."
-      }
-    },
-    /* شريط "مختارات من أعمالنا" بالصفحة الرئيسية — صورة الغلاف مختلفة حسب
-       اللغة (عربي/إنجليزي)، من مجلد assets/work-covers/ar أو /en */
+    /* بطاقات "أعمالنا" — غلاف لكل لغة من مجلد assets/work-covers */
     workTeaser: [
-      { slug: "social", href: "/work-social/", coverAr: "assets/work-covers/ar/01-social-media.jpg", coverEn: "assets/work-covers/en/01-social-media.jpg", badge: "01 · SOCIAL MEDIA",
-        title: { ar: "تصاميم السوشيال ميديا", en: "Social Media Design" },
-        desc: { ar: "استعرض أعمالنا في تصاميم السوشيال ميديا.", en: "Explore our social media design work." } },
-      { slug: "identity", href: "/work-identity/", coverAr: "assets/work-covers/ar/02-brand-identity.jpg", coverEn: "assets/work-covers/en/02-brand-identity.jpg", badge: "02 · BRAND IDENTITY",
-        title: { ar: "الهوية البصرية", en: "Brand Identity" },
-        desc: { ar: "استعرض أعمالنا في بناء الهوية البصرية.", en: "Explore our brand identity work." } },
-      { slug: "ads", href: "/work-ads/", coverAr: "assets/work-covers/ar/03-advertising.jpg", coverEn: "assets/work-covers/en/03-advertising.jpg", badge: "03 · ADVERTISING",
-        title: { ar: "إدارة الحملات الإعلانية", en: "Advertising Campaigns" },
-        desc: { ar: "استعرض أعمالنا في الحملات الإعلانية.", en: "Explore our advertising campaign work." } },
-      { slug: "print", href: "/work-print/", coverAr: "assets/work-covers/ar/04-print-design.jpg", coverEn: "assets/work-covers/en/04-print-design.jpg", badge: "04 · PRINT DESIGN",
-        title: { ar: "تصاميم المطبوعات", en: "Print Design" },
-        desc: { ar: "استعرض أعمالنا في تصاميم المطبوعات.", en: "Explore our print design work." } },
+      { href: "work-social/",   coverAr: "assets/work-covers/ar/01-social-media.jpg",   coverEn: "assets/work-covers/en/01-social-media.jpg",   title: { ar: "تصاميم السوشيال ميديا", en: "Social media design" } },
+      { href: "work-identity/", coverAr: "assets/work-covers/ar/02-brand-identity.jpg", coverEn: "assets/work-covers/en/02-brand-identity.jpg", title: { ar: "تصاميم الهوية البصرية", en: "Visual identity design" } },
+      { href: "work-print/",    coverAr: "assets/work-covers/ar/04-print-design.jpg",   coverEn: "assets/work-covers/en/04-print-design.jpg",   title: { ar: "تصاميم المطبوعات",      en: "Print design" } },
+      { href: "work-ads/",      coverAr: "assets/work-covers/ar/03-advertising.jpg",    coverEn: "assets/work-covers/en/03-advertising.jpg",    title: { ar: "إدارة الحملات الإعلانية", en: "Ad campaign management" } }
     ],
 
-    about: {
-      // ثلاث صور قسم "من نحن" (اللوحة الكبيرة + صورتين صغار)
-      mainPhoto: "assets/images/about-main.jpg",
-      miniPhotoOne: "assets/images/about-palette.jpg",
-      miniPhotoTwo: "assets/images/about-desk.jpg",
-      heading: { ar: "<span class='section-kicker'>من نحن:</span> خبرة تفهم العلامة قبل أن تصممها", en: "<span class='section-kicker'>About us:</span> Strategy behind every design" },
-      lead: {
-        ar: "نبدأ من فهم علامتك التجارية، جمهورها وهدفها، ثم نبني لغة بصرية وتسويقية تخدمها.",
-        en: "We learn your brand before we create."
-      },
-      paragraph: {
-        ar: "نجمع بين خدمات متنوعة ما بين التصميم الإحترافي وصناعة المحتوى وإدارة الحملات والحلول التسويقية لنمنح المشاريع حضوراً متماسكاً في منصات التواصل.",
-        en: "Design, content and campaigns for a consistent brand."
-      },
-      bullets: [
-        { ar: "تفكير استراتيجي", en: "Strategic thinking" },
-        { ar: "تنفيذ إبداعي", en: "Creative execution" },
-        { ar: "هوية متناسقة", en: "Consistent identity" },
-        { ar: "حلول قابلة للتوسع", en: "Scalable solutions" }
-      ]
-    },
-
-    processHead: {
-      heading: { ar: "<span class='section-kicker'>كيف نعمل:</span> من الاستماع إلى التسليم", en: "<span class='section-kicker'>Our process:</span> From listening to delivery" },
-      paragraph: {
-        ar: "خمس مراحل واضحة تحافظ على جودة المشروع واتساقه من البداية للنهاية.",
-        en: "Five focused stages, from first conversation to final delivery."
-      }
-    },
     process: [
-      { num: "01", title: { ar: "نفهم", en: "Listen" }, desc: { ar: "نستمع للهدف، الجمهور والتحدي.", en: "We listen to the goal, audience and challenge." } },
-      { num: "02", title: { ar: "نخطط", en: "Plan" }, desc: { ar: "نحدد الاتجاه والرسالة والأولويات.", en: "We define direction, message and priorities." } },
-      { num: "03", title: { ar: "نبدع", en: "Create" }, desc: { ar: "نحوّل الاستراتيجية إلى أفكار بصرية.", en: "We turn strategy into visual ideas." } },
-      { num: "04", title: { ar: "ننّفذ", en: "Execute" }, desc: { ar: "ننتج ونطوّر ونجهز المخرجات.", en: "We produce, refine and prepare deliverables." } },
-      { num: "05", title: { ar: "نراجع", en: "Review" }, desc: { ar: "نتأكد من الجودة والتسليم بالشكل الصحيح.", en: "We review quality and deliver everything properly." } }
+      { title: { ar: "نسمع",  en: "We listen" },  desc: { ar: "نفهم تفاصيل نشاطك، ونتعرّف على جمهورك واحتياجك.", en: "We get to know your business, your audience and what you need." } },
+      { title: { ar: "نخطّط", en: "We plan" },    desc: { ar: "نرسم لك خطة واضحة واستراتيجية فعّالة.", en: "We draw up a clear plan and an effective strategy." } },
+      { title: { ar: "نبتكر", en: "We create" },  desc: { ar: "نحوّل خطتك إلى محتوى مرئي ومكتوب يلفت الانتباه.", en: "We turn your plan into visual and written content that stands out." } },
+      { title: { ar: "ننفّذ", en: "We execute" }, desc: { ar: "ننفّذ أعمالك لتكون جاهزة للانتشار.", en: "We produce your work so it is ready to reach your audience." } },
+      { title: { ar: "نراجع ونسلّم", en: "We review and deliver" }, desc: { ar: "نراجع معك كل تفاصيل العمل، ثم نبدأ النشر.", en: "We review every detail with you, then go live." } }
     ],
 
-    testimonialsHead: {
-      heading: { ar: "<span class='section-kicker'>آراء العملاء:</span> تجارب تستحق أن تُسمع", en: "<span class='section-kicker'>Client feedback:</span> Experiences worth hearing" },
-      paragraph: {
-        ar: "مساحة تفاعلية لعرض آراء العملاء بشكل واضح وأنيق.",
-        en: "An interactive space for presenting client feedback with clarity and style."
-      }
-    },
-    /* آراء العملاء — كل ما تضيف عميل جديد ضيف {...} جديد هون، بينضاف
-       تلقائياً كشريحة جديدة بالسلايدر (وما في حد أقصى للعدد) */
+    /* آراء العملاء — أضف رأياً جديداً بنسخ عنصر كامل */
     testimonials: [
-      { quote: { ar: "“تصميم احترافي، فهم سريع للهدف، ونتيجة تعكس العلامة بالشكل الذي كنا نبحث عنه.”", en: "“Professional design, fast understanding of the objective, and a result that truly reflects the brand.”" },
+      { quote: { ar: "تصميم احترافي ونتيجة تعكس علامتنا كما نريد.", en: "Professional design and a result that feels true to our brand." },
         author: { ar: "عميل Thaer Media", en: "Thaer Media client" } },
-      { quote: { ar: "“العمل كان منظماً وواضحاً من الفكرة حتى التسليم، والهوية ظهرت بشكل أقوى بكثير.”", en: "“The process was clear and organized from concept to delivery, and the identity became much stronger.”" },
+      { quote: { ar: "عمل منظّم من الفكرة إلى التسليم، وهوية أقوى.", en: "An organized process from concept to delivery, and a much stronger identity." },
         author: { ar: "عميل Thaer Media", en: "Thaer Media client" } },
-      { quote: { ar: "“احترافية في التفاصيل، ومرونة في التعديل، والأهم أن النتيجة كانت عملية وليست مجرد شكل.”", en: "“Attention to detail, flexibility during revisions, and most importantly, a result that works—not just looks good.”" },
+      { quote: { ar: "اهتمام بالتفاصيل ونتيجة عملية، وليست مجرد شكل جميل.", en: "Attention to detail and a result that works, not just looks good." },
         author: { ar: "عميل Thaer Media", en: "Thaer Media client" } },
-      { quote: { ar: "“التواصل كان سلساً، وكل مرحلة كانت واضحة، والنتيجة جاءت متوافقة مع احتياجنا.”", en: "“Communication was smooth, every stage was clear, and the result matched our needs.”" },
+      { quote: { ar: "تواصل سلس ومراحل واضحة ونتيجة تناسب احتياجنا.", en: "Smooth communication, clear steps and a result that met our needs." },
         author: { ar: "عميل Thaer Media", en: "Thaer Media client" } },
-      { quote: { ar: "“اهتمام جميل بالتفاصيل وسرعة في التنفيذ، تجربة تعاون مريحة من البداية للنهاية.”", en: "“Great attention to detail and fast delivery—a smooth collaboration from start to finish.”" },
+      { quote: { ar: "عناية بالتفاصيل وسرعة في التنفيذ، وتجربة تعاون مريحة.", en: "Careful attention, fast delivery and a genuinely smooth collaboration." },
         author: { ar: "عميل Thaer Media", en: "Thaer Media client" } }
-    ],
-
-    cta: {
-      heading: { ar: "<span class='section-kicker'>لنبدأ:</span> لديك فكرة؟ خلّينا نحولها إلى حضور قوي.", en: "<span class='section-kicker'>Let's begin:</span> Turn your idea into impact" },
-      paragraph: {
-        ar: "أرسل تفاصيل مشروعك أو الخدمة التي تحتاجها، وسنبدأ من فهم احتياجك وتحديد أفضل اتجاه للتنفيذ.",
-        en: "Tell us what you need, and we'll recommend the right next step."
-      },
-      whatsappButton: { ar: "تواصل عبر واتساب", en: "Chat on WhatsApp" },
-      emailButton: { ar: "راسلنا بالبريد", en: "Email us" }
-    }
+    ]
   },
 
-  /* ======================== الفوتر (كل الصفحات) ======================== */
-  footer: {
-    tagline: {
-      ar: "حلول إبداعية وتسويقية تساعد العلامات التجارية على بناء حضور أقوى وأكثر اتساقاً.",
-      en: "Creative ideas that help brands grow."
-    },
-    linksTitle: { ar: "روابط", en: "Links" },
-    servicesTitle: { ar: "الخدمات", en: "Services" },
-    contactTitle: { ar: "تواصل", en: "Contact" },
-    /* روابط الخدمات بعمود الفوتر */
-    servicesList: [
-      { ar: "تصاميم السوشيال ميديا", en: "Social Media Design" },
-      { ar: "الهوية البصرية", en: "Brand Identity" },
-      { ar: "إدارة الحملات الإعلانية", en: "Advertising Campaigns" },
-      { ar: "تصاميم المطبوعات", en: "Print Design" },
-      { ar: "صناعة المحتوى", en: "Content Creation" },
-      { ar: "حلول تسويقية", en: "Marketing Solutions" }
-    ],
-    copyright: {
-      ar: " Thaer Media. جميع الحقوق محفوظة.",
-      en: " Thaer Media. All rights reserved."
-    }
-  },
-
-  /* ======================== صفحات الأعمال الستة ======================== */
-  /* كل صفحة إلها عنوان ووصف بلغتين، ومعرض صور (gallery) تقدر تضيف/تحذف/
-     تعدّل عناصره بحرية. "image" خليها فاضية "" لين توفر صورة حقيقية
-     للمشروع — وقتها بتظهر الصورة بدل الخلفية الزخرفية الحالية. */
+  /* ======================== معارض الأعمال ======================== */
+  /* title: عنوان الصفحة، alt: وصف الصورة لمحركات البحث وقارئات الشاشة.
+     في المطبوعات: cover غلاف البطاقة، image التصميم الذي يظهر عند التكبير. */
   work: {
     social: {
-      title: { ar: "تصاميم السوشيال ميديا", en: "Social Media Design" },
-      description: { ar: "هنا سنعرض الأعمال الخاصة بخدمة تصاميم السوشيال ميديا بعد إضافة المشاريع والصور المعتمدة.", en: "Explore our social media design projects." },
-      gallery: [
-        { number: "01", title: { ar: "مساحة عمل", en: "Project Space" }, description: { ar: "سيتم إضافة المشروع هنا.", en: "The project will be added here." }, image: "assets/gallery/social/01.jpg" },
-        { number: "02", title: { ar: "مساحة عمل", en: "Project Space" }, description: { ar: "سيتم إضافة المشروع هنا.", en: "The project will be added here." }, image: "assets/gallery/social/02.jpg" },
-        { number: "03", title: { ar: "مساحة عمل", en: "Project Space" }, description: { ar: "سيتم إضافة المشروع هنا.", en: "The project will be added here." }, image: "assets/gallery/social/03.jpg" },
-        { number: "04", title: { ar: "مساحة عمل", en: "Project Space" }, description: { ar: "سيتم إضافة المشروع هنا.", en: "The project will be added here." }, image: "assets/gallery/social/04.jpg" },
-        { number: "05", title: { ar: "مساحة عمل", en: "Project Space" }, description: { ar: "سيتم إضافة المشروع هنا.", en: "The project will be added here." }, image: "assets/gallery/social/05.jpg" },
-        { number: "06", title: { ar: "مساحة عمل", en: "Project Space" }, description: { ar: "سيتم إضافة المشروع هنا.", en: "The project will be added here." }, image: "assets/gallery/social/06.jpg" }
-      ]
+      title: { ar: "تصاميم السوشيال ميديا", en: "Social media design" },
+      intro: { ar: "مختارات من تصاميم منصات التواصل التي صمّمناها لعلامات تجارية في مجالات مختلفة.", en: "A selection of social media designs we created for brands across different industries." },
+      gallery: []   // تُملأ تلقائياً من socialOrder أسفل الملف
     },
     identity: {
-      title: { ar: "الهوية البصرية", en: "Brand Identity" },
-      description: { ar: "هنا سنعرض الأعمال الخاصة بخدمة الهوية البصرية بعد إضافة المشاريع والصور المعتمدة.", en: "Explore our brand identity projects." },
+      title: { ar: "تصاميم الهوية البصرية", en: "Visual identity design" },
+      intro: { ar: "هويات بصرية متكاملة، من الشعار إلى تطبيقاته على المطبوعات والوسائط.", en: "Complete visual identities, from the logo to its applications across print and media." },
       gallery: [
-        { number: "01", title: { ar: "هوية Thaer Media", en: "Thaer Media Identity" }, description: { ar: "تصميم هوية بصرية.", en: "Brand identity design." }, image: "assets/gallery/identity/Idendety.jpg?v=image-opt-20261026-1" },
-        { number: "02", title: { ar: "هوية بصمة", en: "Busma Identity" }, description: { ar: "تصميم هوية بصرية.", en: "Brand identity design." }, image: "assets/gallery/identity/براند بصمة.jpg?v=image-opt-20261026-1" },
-        { number: "03", title: { ar: "هوية مركز مهارة", en: "Mahara Center Identity" }, description: { ar: "تصميم هوية بصرية.", en: "Brand identity design." }, image: "assets/gallery/identity/براند جديد.jpg?v=image-opt-20261026-1" },
-        { number: "04", title: { ar: "هوية طموح", en: "Tomoh Identity" }, description: { ar: "تصميم هوية بصرية.", en: "Brand identity design." }, image: "assets/gallery/identity/براند.jpg?v=image-opt-20261026-1" },
+        { image: "assets/gallery/identity/thaer-media.jpg", alt: { ar: "هوية Thaer Media البصرية", en: "Thaer Media visual identity" } },
+        { image: "assets/gallery/identity/busma.jpg",       alt: { ar: "هوية بصمة البصرية",        en: "Busma visual identity" } },
+        { image: "assets/gallery/identity/mahara.jpg",      alt: { ar: "هوية مركز مهارة البصرية",   en: "Mahara Center visual identity" } },
+        { image: "assets/gallery/identity/tomoh.jpg",       alt: { ar: "هوية طموح البصرية",        en: "Tomoh visual identity" } }
       ]
     },
     ads: {
-      title: { ar: "إدارة الحملات الإعلانية", en: "Advertising Campaigns" },
-      description: { ar: "هنا سنعرض الأعمال الخاصة بخدمة إدارة الحملات الإعلانية بعد إضافة المشاريع والصور المعتمدة.", en: "Explore our advertising campaign projects." },
+      title: { ar: "إدارة الحملات الإعلانية", en: "Ad campaign management" },
+      intro: { ar: "نتائج حقيقية من تقارير حملات أدرناها: تفاعل، ووصول، ومحادثات بتكلفة مدروسة.", en: "Real results from campaigns we managed: engagement, reach and conversations at a measured cost." },
       gallery: [
-        { number: "01", title: { ar: "حملة تفاعل", en: "Engagement campaign" }, description: { ar: "التفاعلات والمبلغ المنفق وتكلفة النتيجة موضحة في تقرير الحملة.", en: "The report shows interactions, amount spent, and cost per result." }, image: "assets/gallery/ads/06.jpg?v=image-opt-20261026-1" },
-        { number: "02", title: { ar: "حملة تفاعل", en: "Engagement campaign" }, description: { ar: "التفاعلات والمبلغ المنفق وتكلفة النتيجة موضحة في تقرير الحملة.", en: "The report shows interactions, amount spent, and cost per result." }, image: "assets/gallery/ads/09.jpg?v=image-opt-20261026-1" },
-        { number: "03", title: { ar: "حملة وصول ووعي", en: "Reach and awareness campaign" }, description: { ar: "الوصول والمبلغ المنفق وتكلفة الوصول موضحة في تقرير الحملة.", en: "The report shows reach, amount spent, and cost per reach." }, image: "assets/gallery/ads/04.jpg?v=image-opt-20261026-1" },
-        { number: "04", title: { ar: "حملة رسائل", en: "Messaging campaign" }, description: { ar: "المحادثات التي بدأها الإعلان والمبلغ المنفق وتكلفة المحادثة موضحة في التقرير.", en: "The report shows conversations started, amount spent, and cost per conversation." }, image: "assets/gallery/ads/05.jpg?v=image-opt-20261026-1" },
-        { number: "05", title: { ar: "حملة تفاعل", en: "Engagement campaign" }, description: { ar: "التفاعلات والمبلغ المنفق وتكلفة النتيجة موضحة في تقرير الحملة.", en: "The report shows interactions, amount spent, and cost per result." }, image: "assets/gallery/ads/01.jpg?v=image-opt-20261026-1" },
-        { number: "06", title: { ar: "حملة تفاعل", en: "Engagement campaign" }, description: { ar: "التفاعلات والمبلغ المنفق وتكلفة النتيجة موضحة في تقرير الحملة.", en: "The report shows interactions, amount spent, and cost per result." }, image: "assets/gallery/ads/08.jpg?v=image-opt-20261026-1" },
-        { number: "07", title: { ar: "حملة رسائل", en: "Messaging campaign" }, description: { ar: "المحادثات التي بدأها الإعلان والمبلغ المنفق وتكلفة المحادثة موضحة في التقرير.", en: "The report shows conversations started, amount spent, and cost per conversation." }, image: "assets/gallery/ads/02.jpg?v=image-opt-20261026-1" },
-        { number: "08", title: { ar: "حملة رسائل", en: "Messaging campaign" }, description: { ar: "المحادثات التي بدأها الإعلان والمبلغ المنفق وتكلفة المحادثة موضحة في التقرير.", en: "The report shows conversations started, amount spent, and cost per conversation." }, image: "assets/gallery/ads/07.jpg?v=image-opt-20261026-1" },
-        { number: "09", title: { ar: "حملة رسائل", en: "Messaging campaign" }, description: { ar: "المحادثات التي بدأها الإعلان والمبلغ المنفق وتكلفة المحادثة موضحة في التقرير.", en: "The report shows conversations started, amount spent, and cost per conversation." }, image: "assets/gallery/ads/10.jpg?v=image-opt-20261026-1" },
-        { number: "10", title: { ar: "حملة وصول ووعي", en: "Reach and awareness campaign" }, description: { ar: "الوصول والمبلغ المنفق وتكلفة الوصول موضحة في تقرير الحملة.", en: "The report shows reach, amount spent, and cost per reach." }, image: "assets/gallery/ads/03.jpg?v=image-opt-20261026-1" },
+        { image: "assets/gallery/ads/06.jpg", alt: { ar: "تقرير حملة تفاعل", en: "Engagement campaign report" } },
+        { image: "assets/gallery/ads/09.jpg", alt: { ar: "تقرير حملة تفاعل", en: "Engagement campaign report" } },
+        { image: "assets/gallery/ads/04.jpg", alt: { ar: "تقرير حملة وصول ووعي", en: "Reach and awareness campaign report" } },
+        { image: "assets/gallery/ads/05.jpg", alt: { ar: "تقرير حملة رسائل", en: "Messaging campaign report" } },
+        { image: "assets/gallery/ads/01.jpg", alt: { ar: "تقرير حملة تفاعل", en: "Engagement campaign report" } },
+        { image: "assets/gallery/ads/08.jpg", alt: { ar: "تقرير حملة تفاعل", en: "Engagement campaign report" } },
+        { image: "assets/gallery/ads/02.jpg", alt: { ar: "تقرير حملة رسائل", en: "Messaging campaign report" } },
+        { image: "assets/gallery/ads/07.jpg", alt: { ar: "تقرير حملة رسائل", en: "Messaging campaign report" } },
+        { image: "assets/gallery/ads/10.jpg", alt: { ar: "تقرير حملة رسائل", en: "Messaging campaign report" } },
+        { image: "assets/gallery/ads/03.jpg", alt: { ar: "تقرير حملة وصول ووعي", en: "Reach and awareness campaign report" } }
       ]
     },
     print: {
-      title: { ar: "تصاميم المطبوعات", en: "Print Design" },
-      description: { ar: "هنا سنعرض الأعمال الخاصة بخدمة تصاميم المطبوعات بعد إضافة المشاريع والصور المعتمدة.", en: "Explore our print design projects." },
+      title: { ar: "تصاميم المطبوعات", en: "Print design" },
+      intro: { ar: "لافتات ومنيو ورول أب وتصاميم عرض، معروضة كما تظهر في مكانها الحقيقي.", en: "Signage, menus, roll-ups and displays, shown as they appear in place." },
       gallery: [
-        { number: "01", title: { ar: "430.110 يافطة", en: "Print design 02" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/430.110 يافطة.jpg", cover: "assets/gallery/print/covers/02.jpg", mockup: "wide-billboard" },
-        { number: "02", title: { ar: "BillBoard 220.100", en: "Print design 03" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/BillBoard 220.100.jpg", cover: "assets/gallery/print/covers/03.jpg", mockup: "rollup" },
-        { number: "03", title: { ar: "600.90 يافطة", en: "Print design 04" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/600.90 يافطة.jpg", cover: "assets/gallery/print/covers/04.jpg", mockup: "medium-banner" },
-        { number: "04", title: { ar: "اليافطة", en: "Print design 05" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/اليافطة.jpg", cover: "assets/gallery/print/covers/05.jpg", mockup: "medium-banner" },
-        { number: "05", title: { ar: "جانب الثلاجة", en: "Print design 06" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/جانب الثلاجة.jpg", cover: "assets/gallery/print/covers/06.jpg?v=20261025-9", mockup: "freezer-side" },
-        { number: "06", title: { ar: "واجهة الثلاجة", en: "Print design 07" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/واجهة الثلاجة.jpg", cover: "assets/gallery/print/covers/07.jpg", mockup: "freezer" },
-        { number: "07", title: { ar: "364.118", en: "Print design 01" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/364.118.jpg", cover: "assets/gallery/print/covers/01.jpg", mockup: "billboard" },
-        { number: "08", title: { ar: "المنيو كامل", en: "Print design 08" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/المنيو كامل.jpg", cover: "assets/gallery/print/covers/08.jpg", mockup: "menu-portrait" },
-        { number: "09", title: { ar: "دوندورما 430.100", en: "Print design 09" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/دوندورما 430.100.jpg", cover: "assets/gallery/print/covers/09.jpg", mockup: "wide-billboard" },
-        { number: "10", title: { ar: "مطحنة طيبة للتوابل والبهارات والعطارة", en: "Print design 10" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/مطحنة طيبة للتوابل والبهارات والعطارة.jpg", cover: "assets/gallery/print/covers/10.jpg", mockup: "medium-banner" },
-        { number: "11", title: { ar: "حائط الشعار 500.280", en: "Print design 11" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/حائط الشعار 500.280.jpg", cover: "assets/gallery/print/covers/11.jpg", mockup: "wall" },
-        { number: "12", title: { ar: "320.125 يافطة", en: "Print design 12" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/320.125 يافطة.jpg", cover: "assets/gallery/print/covers/12.jpg", mockup: "billboard" },
-        { number: "13", title: { ar: "فتيات القران", en: "Print design 13" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/فتيات القران.jpg", cover: "assets/gallery/print/covers/13.jpg", mockup: "billboard" },
-        { number: "14", title: { ar: "يافطة الدكتور نجدت 3.1", en: "Print design 18" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/يافطة الدكتور نجدت 3.1.jpg", cover: "assets/gallery/print/covers/18.jpg", mockup: "banner" },
-        { number: "15", title: { ar: "رول اب 200.80 رمضان", en: "Print design 14" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/رول اب 200.80 رمضان.jpg", cover: "assets/gallery/print/covers/14.jpg", mockup: "rollup" },
-        { number: "16", title: { ar: "يافطة برنامج التدريب على البروتوكول الدولي لرعاية الجروح 200.60", en: "Print design 15" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/يافطة برنامج التدريب على البروتوكول الدولي لرعاية الجروح 200.60.jpg", cover: "assets/gallery/print/covers/15.jpg", mockup: "billboard" },
-        { number: "17", title: { ar: "لافتة اعلانية 220.100", en: "Print design 16" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/لافتة اعلانية 220.100.jpg", cover: "assets/gallery/print/covers/16.jpg", mockup: "rollup" },
-        { number: "18", title: { ar: "يافطة صيدلية الطاهر 430.110", en: "Print design 17" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/يافطة صيدلية الطاهر 430.110.jpg", cover: "assets/gallery/print/covers/17.jpg", mockup: "wide-billboard" },
-        { number: "19", title: { ar: "يافطة 150.120", en: "Print design 20" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/يافطة 150.120.jpg", cover: "assets/gallery/print/covers/20.jpg", mockup: "portrait-wall" },
-        { number: "20", title: { ar: "يافطة", en: "Print design 22" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/يافطة.jpg", cover: "assets/gallery/print/covers/22.jpg", mockup: "billboard" },
-        { number: "21", title: { ar: "يافطة طولية", en: "Print design 19" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/يافطة طولية.jpg", cover: "assets/gallery/print/covers/19.jpg", mockup: "wide-rollup" },
-        { number: "22", title: { ar: "ستاند", en: "Print design 21" }, description: { ar: "تصميم مطبوع.", en: "Print design." }, image: "assets/gallery/print/artwork/ستاند.jpg", cover: "assets/gallery/print/covers/21.jpg", mockup: "wide-rollup" },
+        { cover: "assets/gallery/print/covers/02.jpg", image: "assets/gallery/print/artwork/02.jpg", alt: { ar: "لافتة محل بمقاس 430×110 سم", en: "Storefront sign, 430×110 cm" } },
+        { cover: "assets/gallery/print/covers/03.jpg", image: "assets/gallery/print/artwork/03.jpg", alt: { ar: "لوحة إعلانية بمقاس 220×100 سم", en: "Billboard, 220×100 cm" } },
+        { cover: "assets/gallery/print/covers/04.jpg", image: "assets/gallery/print/artwork/04.jpg", alt: { ar: "لافتة محل بمقاس 600×90 سم", en: "Storefront sign, 600×90 cm" } },
+        { cover: "assets/gallery/print/covers/05.jpg", image: "assets/gallery/print/artwork/05.jpg", alt: { ar: "لافتة محل تجاري", en: "Storefront sign" } },
+        { cover: "assets/gallery/print/covers/06.jpg", image: "assets/gallery/print/artwork/06.jpg", alt: { ar: "تصميم جانب ثلاجة عرض", en: "Display freezer side panel" } },
+        { cover: "assets/gallery/print/covers/07.jpg", image: "assets/gallery/print/artwork/07.jpg", alt: { ar: "تصميم واجهة ثلاجة عرض", en: "Display freezer front panel" } },
+        { cover: "assets/gallery/print/covers/01.jpg", image: "assets/gallery/print/artwork/01.jpg", alt: { ar: "لافتة بمقاس 364×118 سم", en: "Sign, 364×118 cm" } },
+        { cover: "assets/gallery/print/covers/08.jpg", image: "assets/gallery/print/artwork/08.jpg", alt: { ar: "قائمة طعام (منيو) كاملة", en: "Full restaurant menu" } },
+        { cover: "assets/gallery/print/covers/09.jpg", image: "assets/gallery/print/artwork/09.jpg", alt: { ar: "لافتة دوندورما بمقاس 430×100 سم", en: "Dondurma sign, 430×100 cm" } },
+        { cover: "assets/gallery/print/covers/10.jpg", image: "assets/gallery/print/artwork/10.jpg", alt: { ar: "لافتة مطحنة طيبة للتوابل والبهارات والعطارة", en: "Taiba spice mill sign" } },
+        { cover: "assets/gallery/print/covers/11.jpg", image: "assets/gallery/print/artwork/11.jpg", alt: { ar: "جدار الشعار بمقاس 500×280 سم", en: "Logo wall, 500×280 cm" } },
+        { cover: "assets/gallery/print/covers/12.jpg", image: "assets/gallery/print/artwork/12.jpg", alt: { ar: "لافتة بمقاس 320×125 سم", en: "Sign, 320×125 cm" } },
+        { cover: "assets/gallery/print/covers/13.jpg", image: "assets/gallery/print/artwork/13.jpg", alt: { ar: "لافتة مشروع فتيات القرآن", en: "Quran Girls project banner" } },
+        { cover: "assets/gallery/print/covers/18.jpg", image: "assets/gallery/print/artwork/18.jpg", alt: { ar: "لافتة عيادة الدكتور نجدت", en: "Dr. Najdat clinic sign" } },
+        { cover: "assets/gallery/print/covers/14.jpg", image: "assets/gallery/print/artwork/14.jpg", alt: { ar: "رول أب رمضاني بمقاس 200×80 سم", en: "Ramadan roll-up, 200×80 cm" } },
+        { cover: "assets/gallery/print/covers/15.jpg", image: "assets/gallery/print/artwork/15.jpg", alt: { ar: "لافتة برنامج التدريب على البروتوكول الدولي لرعاية الجروح", en: "International wound care protocol training banner" } },
+        { cover: "assets/gallery/print/covers/16.jpg", image: "assets/gallery/print/artwork/16.jpg", alt: { ar: "لافتة إعلانية بمقاس 220×100 سم", en: "Advertising banner, 220×100 cm" } },
+        { cover: "assets/gallery/print/covers/17.jpg", image: "assets/gallery/print/artwork/17.jpg", alt: { ar: "لافتة صيدلية الطاهر بمقاس 430×110 سم", en: "Al-Taher pharmacy sign, 430×110 cm" } },
+        { cover: "assets/gallery/print/covers/20.jpg", image: "assets/gallery/print/artwork/20.jpg", alt: { ar: "لافتة بمقاس 150×120 سم", en: "Sign, 150×120 cm" } },
+        { cover: "assets/gallery/print/covers/22.jpg", image: "assets/gallery/print/artwork/22.jpg", alt: { ar: "لافتة إعلانية", en: "Advertising sign" } },
+        { cover: "assets/gallery/print/covers/19.jpg", image: "assets/gallery/print/artwork/19.jpg", alt: { ar: "لافتة طولية", en: "Vertical banner" } },
+        { cover: "assets/gallery/print/covers/21.jpg", image: "assets/gallery/print/artwork/21.jpg", alt: { ar: "ستاند عرض", en: "Display stand" } }
       ]
-    },
-  },
-
-  /* ======================== صفحة التواصل ======================== */
-  contactPage: {
-    title: { ar: "Thaer Media — تواصل معنا", en: "Thaer Media — Contact Us" },
-    heading: { ar: "<span class='section-kicker'>لنتحدث:</span> ما الفكرة التي تعمل عليها؟", en: "<span class='section-kicker'>Let's talk about</span> your project" },
-    paragraph: { ar: "أخبرني عن مشروعك أو التحدي الذي تريد حله، وسأساعدك في تحديد الخطوة المناسبة.", en: "Tell me about your project, and I'll help you take the next step." },
-    /* type يحدد واتساب أو إيميل حتى ياخذ الرقم/الرابط من SITE_DATA.contact تلقائياً (مكان
-       واحد لتحديث رقم الواتساب أو الإيميل بدل تكراره هون كمان) */
-    methods: [
-      { type: "whatsapp", title: { ar: "تواصل عبر واتساب", en: "Message me on WhatsApp" }, description: { ar: "ابدأ محادثة مباشرة لمشاركة فكرتك وتفاصيل مشروعك.", en: "Start a direct conversation and share your idea and project details." } },
-      { type: "email", title: { ar: "البريد الإلكتروني", en: "Email" }, description: { ar: "أرسل تفاصيل أكثر أو أرفق ملفات مشروعك.", en: "Share more details or attach files related to your project." } }
-    ],
-    processHeading: { ar: "<span class='section-kicker'>كيف نبدأ:</span> خطوة بسيطة تفصل فكرتك عن التنفيذ", en: "<span class='section-kicker'>How we work:</span> Idea to launch" },
-    processParagraph: { ar: "نقاش واضح يساعدنا على فهم احتياجك ورسم اتجاه مناسب.", en: "A clear conversation helps us find the right direction." },
-    process: [
-      { num: "01", title: { ar: "شارك فكرتك", en: "Share your idea" }, description: { ar: "أرسل رسالة مختصرة عن مشروعك والنتيجة التي تطمح إليها.", en: "Send a short message about your project and the result you're aiming for." } },
-      { num: "02", title: { ar: "نحدد احتياجك", en: "Define what you need" }, description: { ar: "نناقش التفاصيل والجمهور والاتجاه الأنسب للعمل.", en: "We discuss the details, audience and the best direction for the work." } },
-      { num: "03", title: { ar: "نبدأ بخطة واضحة", en: "Set a clear plan" }, description: { ar: "نتفق على نطاق العمل والخطوة التالية قبل التنفيذ.", en: "We agree on the scope and next step before execution." } }
-    ]
+    }
   }
-
 };
 
-// Curated social-media campaign portfolio: the original designs remain in
-// assets/Designs/social media designs, while these optimized copies are served
-// directly in the gallery and lightbox.
-const socialGallerySourceOrder = ["02","04","03","05","06","07","09","10","08","11","13","12","14","15","16","17","19","18","20","21","22","23","24","01","32","33","34","25","26","27","28","29","31","30"];
-SITE_DATA.work.social.gallery = socialGallerySourceOrder.map((source, index) => {
-  const number = String(index + 1).padStart(2, "0");
-  const label = "Social media design " + number;
-  return {
-    number,
-    title: { ar: label, en: label },
-    description: { ar: "", en: "" },
-    image: "assets/gallery/social/" + source + ".jpg?v=social-portfolio-ordered-20261026-1"
-  };
-});
+/* ترتيب صور السوشيال ميديا (أسماء الملفات داخل assets/gallery/social/).
+   الصور الطولية (4:5) أولاً، ثم المربعة (1:1). لإضافة صورة جديدة
+   ارفعها باسم رقمي جديد (مثل 35.jpg) وأضف رقمها هنا في المكان المناسب.
+   يمكنك أيضاً وضع نسخة مصغّرة منها (عرض 640px) في مجلد social/thumbs
+   بنفس الاسم لتسريع تحميل المعرض؛ إن لم توجد تُستخدم الصورة الأصلية. */
+const socialOrder = ["02","04","03","05","06","07","09","10","08","11","13","12","14","15","16","17","19","18","20","21","22","23","24","01","32","33","34","25","26","27","28","29","31","30"];
+SITE_DATA.work.social.gallery = socialOrder.map((file, index) => ({
+  image: "assets/gallery/social/" + file + ".jpg",
+  thumb: "assets/gallery/social/thumbs/" + file + ".jpg",
+  alt: { ar: "تصميم سوشيال ميديا " + (index + 1), en: "Social media design " + (index + 1) }
+}));

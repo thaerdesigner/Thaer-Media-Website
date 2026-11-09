@@ -66,16 +66,16 @@ const SITE_DATA = window.SITE_DATA = {
 
     /* بطاقات الخدمات — icon: اسم الأيقونة (social, identity, ads, print, content, marketing) */
     services: [
-      { href: "work-social/",   icon: "social",
+      { href: "work.social/",   icon: "social",
         title: { ar: "تصاميم السوشيال ميديا", en: "Social media design" },
         desc:  { ar: "تصاميم تميّز حضورك، وتلفت انتباه جمهورك، وتحمل طابع علامتك التجارية.", en: "Designs that set your presence apart, catch your audience’s eye and carry your brand’s character." } },
-      { href: "work-identity/", icon: "identity",
+      { href: "work.brand/", icon: "identity",
         title: { ar: "تصاميم الهوية البصرية", en: "Visual identity design" },
         desc:  { ar: "نصمّم لمشروعك الشعار الأمثل، ونمنحه هوية بصرية متكاملة ومميزة.", en: "We design the right logo for your business and build a complete, distinctive identity around it." } },
-      { href: "work-print/",    icon: "print",
+      { href: "work.print/",    icon: "print",
         title: { ar: "تصاميم المطبوعات", en: "Print design" },
         desc:  { ar: "ننجز تصاميم مطبوعاتك باحترافية ولمسات فنية تمنحها حضوراً إبداعياً.", en: "Print designs made with professionalism and artistic touches that make them stand out." } },
-      { href: "work-ads/",      icon: "ads",
+      { href: "work.ads/",      icon: "ads",
         title: { ar: "نتائج الحملات الإعلانية", en: "Ad campaign results" },
         desc:  { ar: "نطلق حملاتك ونتابعها باستمرار، لتصل إلى جمهورك المستهدف بدقة.", en: "We launch and monitor your campaigns so they reach exactly the right audience." } },
       { href: "contact/",       icon: "content",
@@ -88,10 +88,10 @@ const SITE_DATA = window.SITE_DATA = {
 
     /* بطاقات "أعمالنا" — غلاف لكل لغة من مجلد assets/work-covers */
     workTeaser: [
-      { href: "work-social/",   coverAr: "assets/work-covers/ar/01-social-media.jpg",   coverEn: "assets/work-covers/en/01-social-media.jpg",   title: { ar: "تصاميم السوشيال ميديا", en: "Social media design" } },
-      { href: "work-identity/", coverAr: "assets/work-covers/ar/02-brand-identity.jpg", coverEn: "assets/work-covers/en/02-brand-identity.jpg", title: { ar: "تصاميم الهوية البصرية", en: "Visual identity design" } },
-      { href: "work-print/",    coverAr: "assets/work-covers/ar/04-print-design.jpg",   coverEn: "assets/work-covers/en/04-print-design.jpg",   title: { ar: "تصاميم المطبوعات",      en: "Print design" } },
-      { href: "work-ads/",      coverAr: "assets/work-covers/ar/03-advertising.jpg",    coverEn: "assets/work-covers/en/03-advertising.jpg",    title: { ar: "نتائج الحملات الإعلانية", en: "Ad campaign results" } }
+      { href: "work.social/",   coverAr: "assets/work-covers/ar/01-social-media.jpg",   coverEn: "assets/work-covers/en/01-social-media.jpg",   title: { ar: "تصاميم السوشيال ميديا", en: "Social media design" } },
+      { href: "work.brand/", coverAr: "assets/work-covers/ar/02-brand-identity.jpg", coverEn: "assets/work-covers/en/02-brand-identity.jpg", title: { ar: "تصاميم الهوية البصرية", en: "Visual identity design" } },
+      { href: "work.print/",    coverAr: "assets/work-covers/ar/04-print-design.jpg",   coverEn: "assets/work-covers/en/04-print-design.jpg",   title: { ar: "تصاميم المطبوعات",      en: "Print design" } },
+      { href: "work.ads/",      coverAr: "assets/work-covers/ar/03-advertising.jpg",    coverEn: "assets/work-covers/en/03-advertising.jpg",    title: { ar: "نتائج الحملات الإعلانية", en: "Ad campaign results" } }
     ],
 
     process: [
@@ -122,11 +122,13 @@ const SITE_DATA = window.SITE_DATA = {
      في المطبوعات: cover غلاف البطاقة، image التصميم الذي يظهر عند التكبير. */
   work: {
     social: {
+      path: "work.social/",
       title: { ar: "تصاميم السوشيال ميديا", en: "Social media design" },
       intro: { ar: "مختارات من تصاميم منصات التواصل التي صمّمناها لعلامات تجارية في مجالات مختلفة.", en: "A selection of social media designs we created for brands across different industries." },
       gallery: []   // تُملأ تلقائياً من socialOrder أسفل الملف
     },
     identity: {
+      path: "work.brand/",
       title: { ar: "تصاميم الهوية البصرية", en: "Visual identity design" },
       intro: { ar: "هويات بصرية متكاملة، من الشعار إلى تطبيقاته على المطبوعات والوسائط.", en: "Complete visual identities, from the logo to its applications across print and media." },
       gallery: [
@@ -137,6 +139,7 @@ const SITE_DATA = window.SITE_DATA = {
       ]
     },
     print: {
+      path: "work.print/",
       title: { ar: "تصاميم المطبوعات", en: "Print design" },
       intro: { ar: "لافتات ومنيو ورول أب وتصاميم عرض، معروضة كما تظهر في مكانها الحقيقي.", en: "Signage, menus, roll-ups and displays, shown as they appear in place." },
       gallery: [
@@ -165,6 +168,7 @@ const SITE_DATA = window.SITE_DATA = {
       ]
     },
     ads: {
+      path: "work.ads/",
       title: { ar: "نتائج الحملات الإعلانية", en: "Ad campaign results" },
       intro: { ar: "نتائج حقيقية من تقارير حملات أدرناها: تفاعل، ووصول، ومحادثات بتكلفة مدروسة.", en: "Real results from campaigns we managed: engagement, reach and conversations at a measured cost." },
       gallery: [

@@ -9,10 +9,10 @@
 | `/` | `index.html` | الرئيسية: الخدمات، الأعمال، من نحن، طريقة العمل، آراء العملاء |
 | `/contact/` | `contact/index.html` | صفحة التواصل ونموذج واتساب |
 | `/socialmedia.courses1/` | `socialmedia.courses1/index.html` | صفحة الورشة التدريبية ونموذج التسجيل |
-| `/work-social/` | `work-social/index.html` | معرض السوشيال ميديا |
-| `/work-identity/` | `work-identity/index.html` | معرض الهويات البصرية |
-| `/work-ads/` | `work-ads/index.html` | معرض نتائج الحملات الإعلانية |
-| `/work-print/` | `work-print/index.html` | معرض المطبوعات |
+| `/work.social/` | `work.social/index.html` | معرض السوشيال ميديا |
+| `/work.brand/` | `work.brand/index.html` | معرض الهويات البصرية |
+| `/work.ads/` | `work.ads/index.html` | معرض نتائج الحملات الإعلانية |
+| `/work.print/` | `work.print/index.html` | معرض المطبوعات |
 | `/sponsor/` | `sponsor/index.html` | صفحة كفالة طالب (مستقلة، لا يوجد لها رابط داخل الموقع) |
 | أي رابط غير موجود | `404.html` | صفحة «الصفحة غير موجودة» |
 
@@ -22,7 +22,7 @@
 
 ```text
 index.html, 404.html, robots.txt, sitemap.xml
-contact/ · socialmedia.courses1/ · work-social/ · work-identity/ · work-ads/ · work-print/
+contact/ · socialmedia.courses1/ · work.social/ · work.brand/ · work.ads/ · work.print/
 assets/
   css/
     site.css      نظام التصميم المشترك: الألوان، الخطوط، الهيدر، الفوتر، الأزرار، النماذج
@@ -79,7 +79,7 @@ python3 -m http.server 8080
 ## النشر
 
 - ارفع محتوى المجلد كاملاً إلى جذر الاستضافة مع الحفاظ على أسماء المجلدات.
-- بعد تعديل ملف CSS أو JS، غيّر رقم `?v=10` في روابط الملفات داخل صفحات HTML (مثلاً إلى `?v=11`) حتى يحصل الزوار على النسخة الجديدة بدل النسخة المخزنة.
+- بعد تعديل ملف CSS أو JS، غيّر رقم `?v=11` في روابط الملفات داخل صفحات HTML (مثلاً إلى `?v=12`) حتى يحصل الزوار على النسخة الجديدة بدل النسخة المخزنة.
 - إذا غيّرت الدومين، حدّث الروابط التي تبدأ بـ `https://thaerdesigner.com` في وسوم `canonical` و`og:` داخل الصفحات، وفي `sitemap.xml` و`robots.txt`.
 
 ## ملاحظات

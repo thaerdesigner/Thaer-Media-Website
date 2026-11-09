@@ -30,7 +30,7 @@
   /* Tabs to the other galleries */
   const tabs = document.getElementById('galleryTabs');
   tabs.innerHTML = Object.entries(S.data.work).map(([key, g]) => `
-    <a href="${esc(url('work-' + key + '/'))}"${key === slug ? ' aria-current="page"' : ''} data-ar="${esc(g.title.ar)}" data-en="${esc(g.title.en)}">${esc(g.title.ar)}</a>`).join('');
+    <a href="${esc(url(g.path))}"${key === slug ? ' aria-current="page"' : ''} data-ar="${esc(g.title.ar)}" data-en="${esc(g.title.en)}">${esc(g.title.ar)}</a>`).join('');
 
   /* ---------- Grid ---------- */
   grid.innerHTML = work.gallery.map((item, i) => {

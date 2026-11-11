@@ -378,7 +378,39 @@
     applyLanguage(lang());
     setupReveal();
     setupScrollSpy();
+    setupCleanHashLinks();
   };
+
+  /* In-page links (#home, #services, …) scroll smoothly without adding the
+     #section to the address bar; arriving from another page with a hash
+     (e.g. /#work) scrolls to it and then removes the hash from the URL. */
+  function scrollToId(id, smooth) {
+    const target = id === 'home' ? null : document.getElementById(id);
+    const behavior = smooth && !reducedMotion.matches ? 'smooth' : 'auto';
+    if (!target) { window.scrollTo({ top: 0, behavior }); return; }
+    target.scrollIntoView({ behavior, block: 'start' });
+    if (id === 'main') { target.setAttribute('tabindex', '-1'); target.focus({ preventScroll: true }); }
+  }
+  const cleanUrl = () => history.replaceState(history.state, '', location.pathname + location.search);
+  function setupCleanHashLinks() {
+    document.addEventListener('click', event => {
+      if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      const link = event.target.closest('a[href*="#"]');
+      if (!link || link.target === '_blank') return;
+      const dest = new URL(link.href, location.href);
+      if (dest.origin !== location.origin || dest.pathname !== location.pathname || !dest.hash) return;
+      const id = decodeURIComponent(dest.hash.slice(1));
+      if (id !== 'home' && !document.getElementById(id)) return;
+      event.preventDefault();
+      scrollToId(id, true);
+      if (location.hash) cleanUrl();
+    });
+    if (location.hash) {
+      const id = decodeURIComponent(location.hash.slice(1));
+      cleanUrl();
+      if (id === 'home' || document.getElementById(id)) requestAnimationFrame(() => scrollToId(id, false));
+    }
+  }
   /* Pages without a page script */
   document.addEventListener('DOMContentLoaded', () => window.SITE.ready());
 })();

@@ -159,7 +159,9 @@ html[dir="rtl"] .service-card:hover .card-link svg{transform:scaleX(-1) translat
   aspect-ratio:3/2;background:var(--surface-solid);border:1px solid var(--border);box-shadow:var(--shadow-sm);
   isolation:isolate;
 }
-.work-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
+.work-card img,.work-card-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
+.work-card--wide{grid-column:1/-1;aspect-ratio:12/5}
+.work-card:hover .work-card-video{transform:scale(1.03)}
 .work-card::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(3,24,22,.88) 0%,rgba(3,24,22,.35) 36%,transparent 62%)}
 .work-card-body{position:absolute;inset-inline:0;bottom:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 24px}
 .work-card h3{color:#fff;font-size:clamp(1.15rem,1rem + .6vw,1.5rem)}
@@ -177,7 +179,7 @@ html[dir="rtl"] .work-card-arrow svg{transform:scaleX(-1)}
 @keyframes arrowNudge{0%,100%{transform:none}50%{transform:scale(1.15)}}
 .work-card:hover .work-card-arrow{transform:scale(1.08)}
 .work-card:focus-visible{box-shadow:var(--focus-ring);border-radius:var(--radius-lg)}
-@media (max-width:700px){.work-grid{grid-template-columns:1fr;gap:14px}.work-card-body{padding:16px 18px}.work-card-arrow{width:40px;height:40px}}
+@media (max-width:700px){.work-card--wide{aspect-ratio:3/2}.work-grid{grid-template-columns:1fr;gap:14px}.work-card-body{padding:16px 18px}.work-card-arrow{width:40px;height:40px}}
 
 /* ---------- About ---------- */
 .about-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(32px,5vw,72px)}

@@ -10,7 +10,8 @@
   const slug = document.body.dataset.gallery;
   const work = S.data.work[slug];
   const grid = document.getElementById('galleryGrid');
-  if (!work || !grid) { S.ready(); return; }
+  if (!work || !grid) { S.ready();
+  revealCurrentTab(); return; }
 
   /* ---------- Header ---------- */
   const intro = document.getElementById('galleryIntro');
@@ -31,6 +32,16 @@
   const tabs = document.getElementById('galleryTabs');
   tabs.innerHTML = Object.entries(S.data.work).map(([key, g]) => `
     <a href="${esc(url(g.path))}"${key === slug ? ' aria-current="page"' : ''} data-ar="${esc(g.title.ar)}" data-en="${esc(g.title.en)}">${esc(g.title.ar)}</a>`).join('');
+
+  /* Keep the current gallery's tab in view on narrow screens */
+  function revealCurrentTab() {
+    const tab = document.querySelector('#galleryTabs [aria-current="page"]');
+    if (!tab) return;
+    const row = tab.parentElement;
+    const r = tab.getBoundingClientRect(), box = row.getBoundingClientRect();
+    if (r.left < box.left || r.right > box.right) row.scrollLeft += (r.left + r.width / 2) - (box.left + box.width / 2);
+  }
+  S.onLanguageChange(() => requestAnimationFrame(revealCurrentTab));
 
   /* ---------- Grid ---------- */
   grid.innerHTML = work.gallery.map((item, i) => {
@@ -56,6 +67,7 @@
   });
 
   S.ready();
+  revealCurrentTab();
 
   /* ---------- Lightbox ---------- */
   const box = document.getElementById('lightbox');

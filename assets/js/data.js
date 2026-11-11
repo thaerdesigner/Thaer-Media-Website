@@ -78,7 +78,7 @@ const SITE_DATA = window.SITE_DATA = {
       { href: "work.ads/",      icon: "ads",
         title: { ar: "نتائج الحملات الإعلانية", en: "Ad campaign results" },
         desc:  { ar: "نطلق حملاتك ونتابعها باستمرار، لتصل إلى جمهورك المستهدف بدقة.", en: "We launch and monitor your campaigns so they reach exactly the right audience." } },
-      { href: "contact/",       icon: "content",
+      { href: "work.video/",    icon: "content",
         title: { ar: "صناعة المحتوى", en: "Content creation" },
         desc:  { ar: "نرتّب أفكارك ونصنع محتوى يليق بعلامتك التجارية، من الموشن جرافيك إلى مونتاج الفيديو.", en: "We shape your ideas into content worthy of your brand, from motion graphics to video editing." } },
       { href: "contact/",       icon: "marketing",
@@ -91,7 +91,9 @@ const SITE_DATA = window.SITE_DATA = {
       { href: "work.social/",   coverAr: "assets/work-covers/ar/01-social-media.jpg",   coverEn: "assets/work-covers/en/01-social-media.jpg",   title: { ar: "تصاميم السوشيال ميديا", en: "Social media design" } },
       { href: "work.brand/", coverAr: "assets/work-covers/ar/02-brand-identity.jpg", coverEn: "assets/work-covers/en/02-brand-identity.jpg", title: { ar: "تصاميم الهوية البصرية", en: "Visual identity design" } },
       { href: "work.print/",    coverAr: "assets/work-covers/ar/04-print-design.jpg",   coverEn: "assets/work-covers/en/04-print-design.jpg",   title: { ar: "تصاميم المطبوعات",      en: "Print design" } },
-      { href: "work.ads/",      coverAr: "assets/work-covers/ar/03-advertising.jpg",    coverEn: "assets/work-covers/en/03-advertising.jpg",    title: { ar: "نتائج الحملات الإعلانية", en: "Ad campaign results" } }
+      { href: "work.ads/",      coverAr: "assets/work-covers/ar/03-advertising.jpg",    coverEn: "assets/work-covers/en/03-advertising.jpg",    title: { ar: "نتائج الحملات الإعلانية", en: "Ad campaign results" } },
+      /* غلاف عريض متحرك (فيديو قصير بدون صوت) — poster صورة تظهر قبل تحميل الفيديو */
+      { href: "work.video/", wide: true, coverVideo: "assets/work-covers/video/content-cover.mp4", poster: "assets/work-covers/video/content-cover.jpg", title: { ar: "صناعة المحتوى", en: "Content creation" } }
     ],
 
     process: [
@@ -182,6 +184,18 @@ const SITE_DATA = window.SITE_DATA = {
         { image: "assets/gallery/ads/07.jpg", alt: { ar: "تقرير حملة رسائل", en: "Messaging campaign report" } },
         { image: "assets/gallery/ads/10.jpg", alt: { ar: "تقرير حملة رسائل", en: "Messaging campaign report" } },
         { image: "assets/gallery/ads/03.jpg", alt: { ar: "تقرير حملة وصول ووعي", en: "Reach and awareness campaign report" } }
+      ]
+    },
+    /* معرض الفيديو (مونتاج وموشن جرافيك) — فيديوهات عمودية 9:16 قصيرة.
+       لكل فيديو: video ملف الفيديو، poster غلافه (1080×1920، المحتوى الأساسي في
+       منتصفه بمقاس 4:5)، duration مدته كما تظهر على البطاقة، alt وصف قصير. */
+    video: {
+      path: "work.video/",
+      type: "video",
+      title: { ar: "صناعة المحتوى", en: "Content creation" },
+      intro: { ar: "مونتاج فيديو وموشن جرافيك لمحتوى قصير يلفت الانتباه على منصات التواصل.", en: "Video editing and motion graphics for short-form content that stands out on social media." },
+      gallery: [
+        // { video: "assets/gallery/video/01.mp4", poster: "assets/gallery/video/posters/01.jpg", duration: "0:30", alt: { ar: "وصف الفيديو", en: "Video description" } }
       ]
     }
   }

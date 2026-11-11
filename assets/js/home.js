@@ -69,8 +69,10 @@
 
   /* ---------- Work ---------- */
   document.getElementById('workGrid').innerHTML = D.workTeaser.map(w => `
-    <a class="work-card" href="${esc(url(w.href))}" data-work="${esc(w.href)}">
-      <img src="${esc(url(w.coverAr))}" data-src-ar="${esc(w.coverAr)}" data-src-en="${esc(w.coverEn)}" alt="" width="1200" height="800" loading="lazy" decoding="async">
+    <a class="work-card${w.wide ? ' work-card--wide' : ''}" href="${esc(url(w.href))}" data-work="${esc(w.href)}">
+      ${w.coverVideo
+        ? `<video class="work-card-video" muted loop playsinline preload="none" poster="${esc(url(w.poster))}" data-src="${esc(url(w.coverVideo))}" aria-hidden="true"></video>`
+        : `<img src="${esc(url(w.coverAr))}" data-src-ar="${esc(w.coverAr)}" data-src-en="${esc(w.coverEn)}" alt="" width="1200" height="800" loading="lazy" decoding="async">`}
       <span class="work-card-body">
         <h3 ${attrs(w.title)}>${esc(w.title.ar)}</h3>
         <span class="work-card-arrow" aria-hidden="true">${S.icons.arrow}</span>
@@ -94,6 +96,19 @@
     cover._focusTimer = setTimeout(() => cover.classList.remove('is-focus'), 2600);
     setTimeout(() => cover.focus({ preventScroll: true }), S.reducedMotion.matches ? 0 : 600);
   });
+
+  /* Animated covers play only while on screen (and never with reduced motion) */
+  const coverVideos = document.querySelectorAll('.work-card-video');
+  if (coverVideos.length && 'IntersectionObserver' in window && !S.reducedMotion.matches) {
+    const io = new IntersectionObserver(entries => entries.forEach(entry => {
+      const v = entry.target;
+      if (entry.isIntersecting) {
+        if (!v.src) v.src = v.dataset.src;
+        v.play().catch(() => {});
+      } else v.pause();
+    }), { threshold: 0.25 });
+    coverVideos.forEach(v => io.observe(v));
+  }
 
   /* ---------- Process ---------- */
   document.getElementById('processGrid').innerHTML = D.process.map((p, i) => `

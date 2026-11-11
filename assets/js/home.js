@@ -153,17 +153,53 @@
       slide.setAttribute('aria-label', `${i + 1} من ${slides.length}`);
     });
 
-    function go(next, { user = false } = {}) {
-      index = (next + slides.length) % slides.length;
+    /* Seamless loop: a copy of the last slide sits before the first and a
+       copy of the first after the last. Moving past either end animates onto
+       the copy, then silently jumps to the real slide, so the carousel always
+       moves in the same direction instead of rewinding through every slide. */
+    const n = slides.length;
+    const cloneOf = slide => {
+      const c = slide.cloneNode(true);
+      c.classList.add('is-clone');
+      c.removeAttribute('aria-label');
+      c.setAttribute('aria-hidden', 'true');
+      c.inert = true;
+      c.querySelectorAll('img').forEach(img => { img.loading = 'eager'; });
+      return c;
+    };
+    track.prepend(cloneOf(slides[n - 1]));
+    track.append(cloneOf(slides[0]));
+    let pos = 1;           // position on the track, including the two copies
+    let moving = false;
+    const reduce = () => S.reducedMotion.matches;
+    function place(animate) {
       const sign = document.documentElement.dir === 'rtl' ? 1 : -1;
-      track.style.transform = `translateX(${sign * index * 100}%)`;
+      if (!animate) track.style.transition = 'none';
+      track.style.transform = `translateX(${sign * pos * 100}%)`;
+      if (!animate) { track.offsetWidth; track.style.transition = ''; }
+      moving = animate;
+    }
+    function settle() {
+      if (pos === 0) { pos = n; place(false); }
+      else if (pos === n + 1) { pos = 1; place(false); }
+      moving = false;
+    }
+    track.addEventListener('transitionend', event => {
+      if (event.target === track && event.propertyName === 'transform') settle();
+    });
+    function go(next, { user = false, step = null } = {}) {
+      if (moving) settle();                          // finish a jump before the next move
+      pos = step !== null ? pos + step : next + 1;
+      index = ((pos - 1) % n + n) % n;
+      place(!reduce());
+      if (reduce()) settle();
       slides.forEach((slide, i) => {
         const active = i === index;
         slide.classList.toggle('is-active', active);
         slide.setAttribute('aria-hidden', String(!active));
         slide.inert = !active;
         /* Make sure the current and next images are requested */
-        if (active || i === (index + 1) % slides.length) slide.querySelectorAll('img[loading="lazy"]').forEach(img => { img.loading = 'eager'; });
+        if (active || i === (index + 1) % n) slide.querySelectorAll('img[loading="lazy"]').forEach(img => { img.loading = 'eager'; });
       });
       dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === index)));
       if (user) restart();
@@ -172,16 +208,16 @@
     function restart() {
       stop();
       if (!delay || paused || !inView || S.reducedMotion.matches || document.hidden) return;
-      timer = setInterval(() => go(index + 1), delay);
+      timer = setInterval(() => go(null, { step: 1 }), delay);
     }
 
-    root.querySelectorAll('.slider-arrow').forEach(btn => btn.addEventListener('click', () => go(index + (btn.dataset.dir === 'next' ? 1 : -1), { user: true })));
+    root.querySelectorAll('.slider-arrow').forEach(btn => btn.addEventListener('click', () => go(null, { user: true, step: btn.dataset.dir === 'next' ? 1 : -1 })));
     dots.forEach((dot, i) => dot.addEventListener('click', () => go(i, { user: true })));
     root.addEventListener('keydown', event => {
       if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
       const rtl = document.documentElement.dir === 'rtl';
       const forward = (event.key === 'ArrowLeft') === rtl;
-      go(index + (forward ? 1 : -1), { user: true });
+      go(null, { user: true, step: forward ? 1 : -1 });
     });
     root.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') { paused = true; stop(); } });
     root.addEventListener('pointerleave', event => { if (event.pointerType === 'mouse') { paused = false; restart(); } });
@@ -207,20 +243,18 @@
       startX = null;
       if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
       const forward = document.documentElement.dir === 'rtl' ? dx > 0 : dx < 0;
-      go(index + (forward ? 1 : -1), { user: true });
+      go(null, { user: true, step: forward ? 1 : -1 });
     };
     viewport.addEventListener('pointerup', end);
     viewport.addEventListener('pointercancel', () => { startX = null; });
     /* Don't follow the slide link after a swipe */
     viewport.addEventListener('click', event => { if (moved) { event.preventDefault(); moved = false; } }, true);
 
-    S.onLanguageChange(() => {
-      track.style.transition = 'none';
-      go(index);
-      track.offsetWidth; // apply without animating
-      track.style.transition = '';
-    });
+    S.onLanguageChange(() => { settle(); place(false); });   // direction flips: re-place without animating
+    pos = 1;
+    place(false);
     go(0);
+    settle();
     restart();
   }
 

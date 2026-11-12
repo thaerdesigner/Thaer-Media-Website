@@ -20,7 +20,6 @@
   const lang = () => (document.documentElement.lang === 'en' ? 'en' : 'ar');
   const safe = fn => { try { return fn(); } catch (e) { return null; } };
   const local = safe(() => window.localStorage);
-  const session = safe(() => window.sessionStorage);
 
   /* ---------- Time ---------- */
   /* Sheet times are Palestine time; convert to a real moment for every visitor */
@@ -107,7 +106,7 @@
 
   /* ---------- Rotation (one timer at a time, paused while the tab is hidden) ---------- */
   let people = [];
-  let index = Number(safe(() => session.getItem('regIndex'))) || 0;
+  let index = 0;                                                   // every page load starts from the newest
   let timer = null;
   const later = (fn, ms) => { clearTimeout(timer); timer = setTimeout(fn, ms); };
   function showNext() {
@@ -116,7 +115,6 @@
     fill(people[index]);
     box.classList.add('is-shown');
     index++;
-    safe(() => session.setItem('regIndex', String(index)));
     later(hide, SHOW);
   }
   function hide() { box.classList.remove('is-shown'); later(showNext, GAP); }
@@ -151,18 +149,16 @@
 
   function use(list) {
     const first = !people.length;
+    const top = p => (p ? p.name + '|' + p.time : '');
+    const changed = !first && top(list[0]) !== top(people[0]);
     people = list;
-    /* a new registration (a different newest entry) starts the rotation from the newest */
-    const top = list.length ? list[0].name + '|' + list[0].time : '';
-    if (top && top !== safe(() => session.getItem('regTop'))) {
-      index = 0;
-      safe(() => { session.setItem('regTop', top); session.setItem('regIndex', '0'); });
-    }
+    /* the fresh list has a newer registration than the saved one: show it now */
+    if (changed) { index = 0; restart(300); }
     if (first) restart(FIRST);
   }
   const saved = cached();
   if (saved) use(listFrom(saved.data));                              // instant from the last visit
-  if (!saved || Date.now() - saved.at > 30 * 1000) fetchFresh().then(d => use(listFrom(d))).catch(() => {});
+  fetchFresh().then(d => use(listFrom(d))).catch(() => {});
 
   if (S && S.onLanguageChange) S.onLanguageChange(() => { if (people.length && box.classList.contains('is-shown')) fill(people[(index - 1 + people.length) % people.length]); });
   new MutationObserver(() => { if (people.length && box.classList.contains('is-shown')) fill(people[(index - 1 + people.length) % people.length]); })

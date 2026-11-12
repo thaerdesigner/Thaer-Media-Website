@@ -117,8 +117,17 @@
     box.classList.add('is-shown');
     index++;
     safe(() => session.setItem('regIndex', String(index)));
-    later(() => { box.classList.remove('is-shown'); later(showNext, GAP); }, SHOW);
+    later(hide, SHOW);
   }
+  function hide() { box.classList.remove('is-shown'); later(showNext, GAP); }
+  /* keep the card while the mouse is on it or a finger touches it */
+  const hold = () => { if (box.classList.contains('is-shown')) clearTimeout(timer); };
+  const release = () => { if (box.classList.contains('is-shown')) later(hide, 2500); };
+  box.addEventListener('mouseenter', hold);
+  box.addEventListener('mouseleave', release);
+  box.addEventListener('touchstart', hold, { passive: true });
+  box.addEventListener('touchend', release, { passive: true });
+  box.addEventListener('touchcancel', release, { passive: true });
   function restart(delay) {
     if (!people.length) return;
     box.classList.remove('is-shown');

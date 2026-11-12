@@ -37,7 +37,7 @@
   <link rel="preconnect" href="https://script.googleusercontent.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="assets/css/site.css?v=40">
-  <link rel="stylesheet" href="assets/css/home.css?v=34">
+  <link rel="stylesheet" href="assets/css/home.css?v=37">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"ProfessionalService","name":"Thaer Media","alternateName":"ثائر القريناوي","url":"https://thaerdesigner.com/","image":"https://thaerdesigner.com/assets/previews/home-preview.png?v=2","logo":"https://thaerdesigner.com/assets/icon/icon-512.png","email":"thaeralqrenawi@gmail.com","telephone":"+970599351383","description":"تصميم السوشيال ميديا، والهوية البصرية، وإدارة الحملات الإعلانية، وتصاميم المطبوعات، وصناعة المحتوى.","sameAs":["https://www.instagram.com/thaerdesigner/","https://www.facebook.com/thaerdesigner12","https://www.linkedin.com/in/thaerdesigner/","https://www.behance.net/gallery/215783633/My-Portfolio-2022-2024","https://x.com/thaerdesigner","https://www.threads.net/@thaerdesigner","https://www.tiktok.com/@thaerdesigner"]}
   </script>
@@ -192,9 +192,20 @@
         <h2 id="testimonialsTitle" data-html data-ar="<span class='kicker'>آراء العملاء:</span> ماذا قالوا بعد التسليم؟" data-en="<span class='kicker'>Client reviews:</span> what they said after delivery"><span class="kicker">آراء العملاء:</span> ماذا قالوا بعد التسليم؟</h2>
         <p data-ar="ردود حقيقية وصلتنا من عملائنا بعد التسليم." data-en="Real replies we received from our clients after delivery.">ردود حقيقية وصلتنا من عملائنا بعد التسليم.</p>
       </div>
-      <div class="reviews reveal" id="reviews" role="region" aria-label="آراء العملاء" data-label-ar="آراء العملاء" data-label-en="Client reviews">
-        <div class="reviews-row" data-dir="left"><div class="reviews-track"></div></div>
-        <div class="reviews-row" data-dir="right"><div class="reviews-track"></div></div>
+      <!-- Laptops & tablets: one featured review, clients listed beside it -->
+      <div class="spot reveal" id="reviewsSpot" role="region" aria-roledescription="carousel" aria-label="آراء العملاء" data-label-ar="آراء العملاء" data-label-en="Client reviews">
+        <figure class="spot-card" id="spotCard" aria-live="polite">
+          <svg class="spot-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M13 7C7.9 8.7 5 12.6 5 18.4V25h9v-9H9.7c.2-3.2 1.8-5.3 4.8-6.4L13 7Zm14 0c-5.1 1.7-8 5.6-8 11.4V25h9v-9h-4.3c.2-3.2 1.8-5.3 4.8-6.4L27 7Z"/></svg>
+          <div class="spot-body" id="spotBody"></div>
+          <div class="spot-foot">
+            <span class="spot-count" id="spotCount"></span>
+            <span class="spot-arrows">
+              <button class="slider-arrow" type="button" data-spot="prev" aria-label="الرأي السابق" data-label-ar="الرأي السابق" data-label-en="Previous review"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+              <button class="slider-arrow" type="button" data-spot="next" aria-label="الرأي التالي" data-label-ar="الرأي التالي" data-label-en="Next review"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>
+            </span>
+          </div>
+        </figure>
+        <ul class="spot-list" id="spotList" aria-label="العملاء" data-label-ar="العملاء" data-label-en="Clients"></ul>
       </div>
       <!-- Phones: one review at a time, swipe or use the arrows -->
       <div class="reviews-mobile reveal" id="reviewsMobile" role="region" aria-roledescription="carousel" aria-label="آراء العملاء" data-label-ar="آراء العملاء" data-label-en="Client reviews">
@@ -227,7 +238,7 @@
 
 <script src="assets/js/data.js?v=38"></script>
 <script src="assets/js/site.js?v=33"></script>
-<script src="assets/js/home.js?v=36"></script>
+<script src="assets/js/home.js?v=37"></script>
 <script src="assets/js/justify.js?v=3"></script>
 <script src="assets/js/registrations.js?v=38"></script>
 </body>

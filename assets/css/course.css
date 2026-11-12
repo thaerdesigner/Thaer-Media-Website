@@ -37,7 +37,7 @@
   .course-copy{justify-items:stretch}
   .course-copy .eyebrow{justify-self:start}
   .course-copy .btn{justify-self:start}
-  .register-card{grid-template-columns:1fr}
+  .register-card{grid-template-columns:minmax(0,1fr)}
 }
 @media (max-width:480px){
   .course-facts{grid-template-columns:1fr}

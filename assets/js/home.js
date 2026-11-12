@@ -38,14 +38,17 @@
       };
       requestAnimationFrame(tick);
     };
+    /* counters already on screen start right away; the rest when scrolled to */
+    const onScreen = el => { const r = el.getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0; };
+    const later = counters.filter(el => { if (onScreen(el)) { run(el); return false; } return true; });
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
         observer.unobserve(entry.target);
         run(entry.target);
       });
-    }, { threshold: 0.6 });
-    counters.forEach(c => observer.observe(c));
+    }, { threshold: 0.2 });
+    later.forEach(c => observer.observe(c));
   }
 
   /* ---------- Promo slides ---------- */

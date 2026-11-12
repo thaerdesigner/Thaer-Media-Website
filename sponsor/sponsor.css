@@ -313,3 +313,8 @@ html[dir="rtl"] .trainer-stats dd{text-align:right}
 .reg-toast.is-shown:active{transform:scale(.97);border-color:var(--accent);transition-duration:.15s}
 .reg-cta:active{transform:scale(.95)}
 @media print{.reg-toast{display:none}}
+
+/* ---------- Text blocks: justified paragraphs (both languages, all widths) ---------- */
+:is(p,blockquote,dd,.trainer-points li){text-align:justify;text-justify:inter-word;text-wrap:pretty}
+.tj-off{text-align:inherit!important}
+.head .eyebrow{text-align-last:center}

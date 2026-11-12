@@ -189,7 +189,10 @@ html[dir="rtl"] .work-card-arrow svg{transform:scaleX(-1)}
 @media (max-width:700px){.work-grid{grid-auto-rows:auto}.work-card--wide{aspect-ratio:3/2}.work-grid{grid-template-columns:1fr;gap:14px}.work-card-body{padding:16px 18px}.work-card-arrow{width:40px;height:40px}}
 
 /* ---------- About ---------- */
-.about-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(32px,5vw,72px)}
+.about-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:1fr auto auto 1fr;grid-template-areas:"media ." "media head" "media copy" "media .";column-gap:clamp(32px,5vw,72px);row-gap:16px}
+.about-grid .section-head{grid-area:head;margin-bottom:0}
+.about-media{grid-area:media;align-self:center}
+.about-copy{grid-area:copy}
 .about-media{position:relative;padding:12px;border-radius:var(--radius-lg);background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow)}
 .about-media img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:calc(var(--radius-lg) - 8px)}
 .about-badge{position:absolute;bottom:28px;inset-inline-start:28px}
@@ -205,7 +208,12 @@ html[dir="rtl"] .work-card-arrow svg{transform:scaleX(-1)}
   content:"";width:20px;height:20px;flex:none;border-radius:50%;
   background:var(--gold) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231c1606' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 5 5L20 7'/%3E%3C/svg%3E") center/12px no-repeat;
 }
-@media (max-width:960px){.about-grid{grid-template-columns:1fr}.about-media{max-width:640px}}
+@media (max-width:960px){.about-grid{column-gap:28px}.about-points{grid-template-columns:1fr}}
+@media (max-width:699px){
+  .about-grid{grid-template-columns:1fr;grid-template-rows:none;grid-template-areas:"head" "media" "copy";row-gap:0}
+  .about-grid .section-head{margin-bottom:clamp(22px,3vw,36px)}
+  .about-media{max-width:640px;margin-bottom:clamp(32px,5vw,72px)}
+}
 @media (max-width:480px){.about-points{grid-template-columns:1fr}.about-badge{bottom:22px;inset-inline-start:22px}}
 
 /* ---------- Process ---------- */

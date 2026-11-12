@@ -38,6 +38,7 @@ const SITE_DATA = window.SITE_DATA = {
      - per: عدد التصاميم في الباقة، لحساب سعر التصميم الواحد تلقائياً.
      - reach: [أقل, أكثر] الوصول المتوقع للحملة.
      - badge: شارة صغيرة فوق البطاقة (اختياري).
+     - tag: تصنيف صغير يظهر فوق اسم الباقة (مثل «موشن جرافيك»).
      - desc: وصف قصير تحت اسم الباقة. hideName: true ← لا يظهر اسم الباقة في البطاقة.
      - notes: true ← تظهر سطور الملاحظات (features) وسطر التعديلات في البطاقة.
      - perks: مزايا مميزة تظهر في صندوق خاص داخل البطاقة وفي رسالة الطلب (perksTitle عنوانها).
@@ -96,11 +97,11 @@ const SITE_DATA = window.SITE_DATA = {
         teaser: { ar: "حسب الطلب", en: "Custom quote" },
         revisions: true,
         items: [
-          { id: "motion",    name: { ar: "باقة 30 ثانية بدون تعليق صوتي", en: "30-second pack, no voice-over" }, usd: 50, ils: 150, qty: true, unit: { ar: "فيديو", en: "video" },
+          { id: "motion",    tag: { ar: "موشن جرافيك", en: "Motion graphics" }, name: { ar: "باقة 30 ثانية بدون تعليق صوتي", en: "30-second pack, no voice-over" }, usd: 50, ils: 150, qty: true, unit: { ar: "فيديو", en: "video" },
             desc: { ar: "اطلب الآن فيديو موشن جرافيك احترافي ومميز يظهر علامتك التجارية، بدون تعليق صوتي وبسعر مميز.", en: "Order a professional, distinctive motion graphic that showcases your brand, without voice-over, at a special price." } },
-          { id: "motion-vo", name: { ar: "باقة 30 ثانية مع تعليق صوتي", en: "30-second pack with voice-over" }, usd: 80, ils: 240, qty: true, unit: { ar: "فيديو", en: "video" },
+          { id: "motion-vo", tag: { ar: "موشن جرافيك", en: "Motion graphics" }, name: { ar: "باقة 30 ثانية مع تعليق صوتي", en: "30-second pack with voice-over" }, usd: 80, ils: 240, qty: true, unit: { ar: "فيديو", en: "video" },
             desc: { ar: "اطلب الآن فيديو موشن جرافيك احترافي ومميز يظهر علامتك التجارية، مع تعليق صوتي احترافي وبسعر مميز.", en: "Order a professional, distinctive motion graphic that showcases your brand, with a professional voice-over, at a special price." } },
-          { id: "montage",   name: { ar: "باقة 60 ثانية مونتاج فيديو", en: "60-second video editing pack" }, usd: 50, ils: 150, qty: true, unit: { ar: "فيديو", en: "video" },
+          { id: "montage",   tag: { ar: "مونتاج فيديو", en: "Video editing" }, name: { ar: "باقة 60 ثانية مونتاج فيديو", en: "60-second video editing pack" }, usd: 50, ils: 150, qty: true, unit: { ar: "فيديو", en: "video" },
             desc: { ar: "اطلب الآن مونتاج مميز لفيديوهاتك بطريقة احترافية وجميلة بسعر مميز.", en: "Order standout, professional and beautiful editing for your videos at a special price." } }
         ]
       },

@@ -186,3 +186,10 @@ html[dir="rtl"] .plan-perks::after{animation-name:perksShineRtl}
 }
 :root[data-theme="light"] .plan-perks{background:linear-gradient(135deg,rgba(11,107,91,.12),rgba(11,107,91,.03));border-color:rgba(11,107,91,.4)}
 :root[data-theme="light"] .plan-perks::after{background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.55) 45%,transparent 60%)}
+
+/* small category label above a package name (e.g. motion graphics / video editing) */
+.plan-tag{
+  align-self:flex-start;display:inline-flex;align-items:center;gap:7px;margin-bottom:-6px;padding:4px 12px;border-radius:var(--radius-pill);
+  border:1px solid var(--border-strong);background:var(--surface-hover);color:var(--accent-text);font-size:.78rem;font-weight:700;line-height:1.4
+}
+.plan-tag::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}

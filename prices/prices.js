@@ -85,6 +85,7 @@
     return `
       <li class="plan card${item.badge ? ' plan--featured' : ''}${item.hideName ? ' plan--noname' : ''}" data-id="${id}">
         ${item.badge ? `<span class="plan-badge">${esc(t(item.badge))}</span>` : ''}
+        ${item.tag ? `<span class="plan-tag">${esc(t(item.tag))}</span>` : ''}
         ${item.hideName ? '' : `<h3 class="plan-name">${esc(t(item.name))}</h3>`}
         <p class="plan-price">${price}</p>
         ${item.desc ? `<p class="plan-desc">${esc(t(item.desc))}</p>` : ''}

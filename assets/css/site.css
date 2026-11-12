@@ -404,6 +404,8 @@ html[dir="rtl"] .reg-toast{padding:12px 14px 12px 12px}
 /* touch: gentle press */
 .reg-toast.is-shown:active{transform:scale(.97);border-color:rgba(237,189,77,.75);transition-duration:.15s}
 .reg-cta:active{transform:scale(.95)}
+/* tablet and laptop: centred at the bottom, clear of the side buttons */
+@media (min-width:481px){.reg-toast{inset-inline:0;margin-inline:auto;width:min(400px,calc(100vw - 200px))}}
 @media print{.reg-toast{display:none}}
 
 /* ---------- Forms ---------- */

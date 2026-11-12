@@ -312,6 +312,8 @@ html[dir="rtl"] .trainer-stats dd{text-align:right}
 /* touch: gentle press */
 .reg-toast.is-shown:active{transform:scale(.97);border-color:var(--accent);transition-duration:.15s}
 .reg-cta:active{transform:scale(.95)}
+/* tablet and laptop: centred at the bottom, clear of the side buttons */
+@media (min-width:481px){.reg-toast{inset-inline:0;margin-inline:auto;width:min(400px,calc(100vw - 200px))}}
 @media print{.reg-toast{display:none}}
 
 /* ---------- Text blocks: justified text (classes set by assets/js/justify.js) ---------- */

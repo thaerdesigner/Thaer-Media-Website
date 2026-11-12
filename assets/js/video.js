@@ -116,7 +116,8 @@
   video.addEventListener('loadeddata', () => box.classList.remove('is-loading'));
   video.addEventListener('play', () => box.classList.remove('is-paused'));
   video.addEventListener('pause', () => box.classList.add('is-paused'));
-  video.addEventListener('ended', () => { video.currentTime = 0; play(); });
+  /* when a video ends: play the next one; after the last video, stop */
+  video.addEventListener('ended', () => { if (index < n - 1) show(index + 1); });
   video.addEventListener('timeupdate', () => {
     if (video.duration) progress.value = Math.round(video.currentTime / video.duration * 1000);
     progress.style.setProperty('--p', (progress.value / 10) + '%');
@@ -173,7 +174,11 @@
 
   /* Swipe left / right on touch screens */
   let start = null;
-  frame.addEventListener('touchstart', e => { if (e.touches.length === 1) start = { x: e.touches[0].clientX, y: e.touches[0].clientY }; }, { passive: true });
+  frame.addEventListener('touchstart', e => {
+    /* dragging the progress bar or touching the controls is not a swipe */
+    if (e.touches.length !== 1 || e.target.closest('.reel-controls, .reel-progress, button, input')) { start = null; return; }
+    start = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  }, { passive: true });
   frame.addEventListener('touchend', e => {
     if (!start) return;
     const dx = e.changedTouches[0].clientX - start.x, dy = e.changedTouches[0].clientY - start.y;

@@ -144,33 +144,36 @@
             ? '<svg viewBox="0 0 24 24"><path d="M12 3.5c.9.8 1.4 1.6 1.4 2.4a1.4 1.4 0 0 1-2.8 0c0-.8.5-1.6 1.4-2.4Z"/><path d="M12 7.5V10"/><rect x="4" y="10" width="16" height="4.5" rx="1.5"/><path d="M4 12.2c1.3 1 2.7 1 4 0s2.7-1 4 0 2.7 1 4 0 2.7-1 4 0"/><path d="M5 14.5v5h14v-5"/><path d="M3.5 19.5h17"/></svg>'
             : esc(item.initial || '')}</span>`;
 
-  /* Laptops & tablets: one featured review at a time; the client list beside
-     it picks a review, and the reviews rotate by themselves (paused while the
-     mouse or keyboard focus is on them, or when the section is off screen). */
+  /* Laptops & tablets: every review is built once and stacked in the same
+     place; switching only cross-fades (no text is rebuilt, so nothing jumps).
+     The box takes the height of the longest review. Client logos below pick
+     a review; reviews rotate by themselves, paused on hover/focus or when
+     the section is off screen. */
   const spot = document.getElementById('reviewsSpot');
-  const spotBody = document.getElementById('spotBody');
-  const spotList = document.getElementById('spotList');
-  const spotCount = document.getElementById('spotCount');
+  const stage = document.getElementById('spotStage');
+  const clientsBox = document.getElementById('spotClients');
   const SPOT_TIME = 8000;
   let spotIndex = 0, spotTimer = null, spotPaused = false, spotVisible = false;
-  spotList.innerHTML = D.testimonials.map((item, i) => `
-    <li><button class="spot-client" type="button" data-i="${i}" aria-pressed="${i === 0}">
-      ${avatarHtml(item)}
-      <span class="spot-client-text"><strong ${attrs(item.author)}>${esc(item.author.ar)}</strong><small ${attrs(item.service)}>${esc(item.service.ar)}</small></span>
-      <span class="spot-progress" aria-hidden="true"></span>
-    </button></li>`).join('');
-  const clients = [...spotList.querySelectorAll('.spot-client')];
-  function showSpot(i, animate) {
-    spotIndex = (i + D.testimonials.length) % D.testimonials.length;
-    const item = D.testimonials[spotIndex];
-    spotBody.innerHTML = `
-      <blockquote ${attrs(item.quote)}>${esc(S.t(item.quote))}</blockquote>
+  stage.insertAdjacentHTML('beforeend', D.testimonials.map((item, i) => `
+    <figure class="spot-item${i === 0 ? ' is-active' : ''}"${i === 0 ? '' : ' aria-hidden="true"'}>
+      <blockquote ${attrs(item.quote)}>${esc(item.quote.ar)}</blockquote>
       <figcaption class="review-author">${avatarHtml(item)}
-        <span class="review-meta"><strong ${attrs(item.author)}>${esc(S.t(item.author))}</strong><span class="review-service" ${attrs(item.service)}>${esc(S.t(item.service))}</span></span>
-      </figcaption>`;
-    spotCount.innerHTML = `<b>${String(spotIndex + 1).padStart(2, '0')}</b> / ${String(D.testimonials.length).padStart(2, '0')}`;
+        <span class="review-meta"><strong ${attrs(item.author)}>${esc(item.author.ar)}</strong><span class="review-service" ${attrs(item.service)}>${esc(item.service.ar)}</span></span>
+      </figcaption>
+    </figure>`).join(''));
+  clientsBox.innerHTML = D.testimonials.map((item, i) => `
+    <button class="spot-client" type="button" data-i="${i}" aria-pressed="${i === 0}" aria-label="${esc(item.author.ar)}" data-label-ar="${esc(item.author.ar)}" data-label-en="${esc(item.author.en)}" title="${esc(item.author.ar)}">
+      ${avatarHtml(item)}<span class="spot-progress" aria-hidden="true"></span>
+    </button>`).join('');
+  const items = [...stage.querySelectorAll('.spot-item')];
+  const clients = [...clientsBox.querySelectorAll('.spot-client')];
+  function showSpot(i) {
+    spotIndex = (i + items.length) % items.length;
+    items.forEach((el, k) => {
+      el.classList.toggle('is-active', k === spotIndex);
+      if (k === spotIndex) el.removeAttribute('aria-hidden'); else el.setAttribute('aria-hidden', 'true');
+    });
     clients.forEach((c, k) => c.setAttribute('aria-pressed', String(k === spotIndex)));
-    if (animate && !S.reducedMotion.matches) { spotBody.classList.remove('is-in'); void spotBody.offsetWidth; spotBody.classList.add('is-in'); }
     restartSpot();
   }
   function restartSpot() {
@@ -178,20 +181,17 @@
     spot.classList.remove('is-running'); void spot.offsetWidth;
     if (spotPaused || !spotVisible || S.reducedMotion.matches) return;
     spot.classList.add('is-running');
-    spotTimer = setTimeout(() => showSpot(spotIndex + 1, true), SPOT_TIME);
+    spotTimer = setTimeout(() => showSpot(spotIndex + 1), SPOT_TIME);
   }
-  spotList.addEventListener('click', e => { const c = e.target.closest('.spot-client'); if (c) showSpot(+c.dataset.i, true); });
-  spot.querySelectorAll('[data-spot]').forEach(btn => btn.addEventListener('click', () => showSpot(spotIndex + (btn.dataset.spot === 'next' ? 1 : -1), true)));
+  clientsBox.addEventListener('click', e => { const c = e.target.closest('.spot-client'); if (c) showSpot(+c.dataset.i); });
+  spot.querySelectorAll('[data-spot]').forEach(btn => btn.addEventListener('click', () => showSpot(spotIndex + (btn.dataset.spot === 'next' ? 1 : -1))));
   const pause = on => { spotPaused = on; spot.classList.toggle('is-paused', on); if (on) clearTimeout(spotTimer); else restartSpot(); };
-  spot.addEventListener('mouseenter', () => pause(true));
-  spot.addEventListener('mouseleave', () => pause(false));
-  spot.addEventListener('focusin', () => pause(true));
-  spot.addEventListener('focusout', e => { if (!spot.contains(e.relatedTarget)) pause(false); });
+  stage.addEventListener('mouseenter', () => pause(true));
+  stage.addEventListener('mouseleave', () => pause(false));
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => { spotVisible = entries[0].isIntersecting; restartSpot(); }, { threshold: .35 }).observe(spot);
   } else { spotVisible = true; }
-  showSpot(0, false);
-  S.onLanguageChange(() => showSpot(spotIndex, false));
+  showSpot(0);
 
   /* Phones: a swipeable row, one full review per view, dots + arrows.
      Looping like the slides: a copy of the last review sits before the first

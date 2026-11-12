@@ -30,6 +30,84 @@ const SITE_DATA = window.SITE_DATA = {
     endpoint: "https://script.google.com/macros/s/AKfycbx2x8ksZpzntr-jYywK6xWpI91owJ2K62uyO96Aqo-G_eDfweUuRGSfuuA7f7_HWbNvBg/exec"
   },
 
+  /* ======================== صفحة الأسعار (prices/) ========================
+     - usd: السعر بالدولار، ils: السعر بالشيكل (اترك أحدهما إن لم يوجد).
+     - from: true  ← يظهر «يبدأ من» والسعر النهائي بعد النقاش.
+     - quote: true ← بدون سعر، يظهر «حسب الطلب» وزر «اطلب عرض سعر».
+     - qty: true   ← يستطيع العميل اختيار العدد (unit = اسم الوحدة).
+     - per: عدد التصاميم في الباقة، لحساب سعر التصميم الواحد تلقائياً.
+     - reach: [أقل, أكثر] الوصول المتوقع للحملة.
+     - badge: شارة صغيرة فوق البطاقة (اختياري).
+     ======================================================================== */
+  pricing: {
+    revisions: { ar: "التعديل الأول مجاني ويشمل كل ملاحظاتك دفعة واحدة، وكل تعديل بعده بـ 5 دولارات.", en: "The first revision is free and covers all your notes in one round; each revision after that is $5." },
+    categories: [
+      {
+        id: "social",
+        title: { ar: "تصاميم السوشيال ميديا", en: "Social media designs" },
+        intro: { ar: "تصاميم منشورات لحساباتك، بتصميم منفرد أو بباقات أوفر.", en: "Post designs for your accounts, one at a time or in better-value packs." },
+        revisions: true,
+        items: [
+          { id: "social-1",  name: { ar: "تصميم منفرد", en: "Single design" }, usd: 10, ils: 30, qty: true, unit: { ar: "تصميم", en: "design" } },
+          { id: "social-5",  name: { ar: "باقة 5 تصاميم", en: "5-design pack" }, usd: 45, ils: 135, per: 5 },
+          { id: "social-7",  name: { ar: "باقة 7 تصاميم", en: "7-design pack" }, usd: 60, ils: 180, per: 7 },
+          { id: "social-10", name: { ar: "باقة 10 تصاميم", en: "10-design pack" }, usd: 80, ils: 240, per: 10 },
+          { id: "social-15", name: { ar: "باقة 15 تصميماً", en: "15-design pack" }, usd: 120, ils: 360, per: 15 },
+          { id: "social-20", name: { ar: "باقة 20 تصميماً", en: "20-design pack" }, usd: 150, ils: 450, per: 20 },
+          { id: "social-30", name: { ar: "باقة 30 تصميماً", en: "30-design pack" }, usd: 200, ils: 600, per: 30 }
+        ]
+      },
+      {
+        id: "print",
+        title: { ar: "تصاميم المطبوعات", en: "Print designs" },
+        intro: { ar: "بروشورات وبطاقات ولافتات وكل ما يُطبع لنشاطك.", en: "Brochures, cards, signs and everything your business prints." },
+        revisions: true,
+        items: [
+          { id: "print", name: { ar: "تصميم مطبوعات", en: "Print design" }, ils: 50, from: true,
+            features: [{ ar: "السعر حسب تعقيد التصميم والتعديلات", en: "Price depends on the design’s complexity and revisions" }] }
+        ]
+      },
+      {
+        id: "brand",
+        title: { ar: "تصاميم البراند (الهوية البصرية)", en: "Brand designs (visual identity)" },
+        intro: { ar: "شعار وهوية بصرية متكاملة، والسعر حسب نطاق العمل.", en: "A logo and a complete visual identity, priced by the scope of work." },
+        revisions: true,
+        items: [
+          { id: "brand", name: { ar: "هوية بصرية حسب طلبك", en: "Visual identity built for you" }, quote: true,
+            features: [{ ar: "نحدّد السعر بعد معرفة احتياجك", en: "We set the price once we know what you need" }] }
+        ]
+      },
+      {
+        id: "content",
+        title: { ar: "صناعة المحتوى", en: "Content creation" },
+        intro: { ar: "موشن جرافيك ومونتاج فيديو، والسعر حسب المدة وتعقيد المادة.", en: "Motion graphics and video editing, priced by length and complexity." },
+        revisions: true,
+        items: [
+          { id: "motion",    name: { ar: "موشن جرافيك 30 ثانية", en: "30-second motion graphic" }, usd: 50, ils: 150, qty: true, unit: { ar: "فيديو", en: "video" },
+            features: [{ ar: "بدون تعليق صوتي", en: "Without voice-over" }] },
+          { id: "motion-vo", name: { ar: "موشن جرافيك 30 ثانية + تعليق صوتي", en: "30-second motion graphic + voice-over" }, usd: 80, ils: 240, qty: true, unit: { ar: "فيديو", en: "video" },
+            features: [{ ar: "مع تعليق صوتي (فويس أوفر)", en: "With voice-over" }] },
+          { id: "montage",   name: { ar: "مونتاج فيديو", en: "Video editing" }, usd: 50, ils: 150, qty: true, unit: { ar: "دقيقة", en: "minute" },
+            features: [{ ar: "السعر لكل دقيقة من الفيديو النهائي", en: "Price per minute of the final video" }] }
+        ]
+      },
+      {
+        id: "ads",
+        title: { ar: "الحملات الإعلانية - الإعلانات الممولة", en: "Ad campaigns - sponsored ads" },
+        intro: { ar: "حملات ممولة على منصات التواصل بمدة ووصول متوقع لكل باقة.", en: "Sponsored social media campaigns, each with a set duration and expected reach." },
+        note: { ar: "أرقام الوصول تقديرية، وتعتمد على الجمهور المستهدف وجودة المحتوى والميزانية.", en: "Reach figures are estimates and depend on the target audience, content quality and budget." },
+        items: [
+          { id: "ads-5",  name: { ar: "حملة 5 أيام",  en: "5-day campaign" },  ils: 110, reach: [30000, 50000] },
+          { id: "ads-7",  name: { ar: "حملة 7 أيام",  en: "7-day campaign" },  ils: 200, reach: [50000, 70000] },
+          { id: "ads-10", name: { ar: "حملة 10 أيام", en: "10-day campaign" }, ils: 270, reach: [80000, 100000] },
+          { id: "ads-15", name: { ar: "حملة 15 يوماً", en: "15-day campaign" }, ils: 350, reach: [100000, 130000] },
+          { id: "ads-30", name: { ar: "عرض الملوك الخاص — 30 يوماً", en: "The Kings’ offer — 30 days" }, ils: 500, reach: [300000, 500000],
+            badge: { ar: "الأوفر والأنسب لأصحاب الأنشطة التجارية", en: "Best value for business owners" } }
+        ]
+      }
+    ]
+  },
+
   /* حسابات التواصل الاجتماعي — تظهر في فوتر كل الصفحات */
   socials: [
     { key: "whatsapp",  url: "https://wa.me/970599351383" },
@@ -52,6 +130,7 @@ const SITE_DATA = window.SITE_DATA = {
     { href: "#about",        ar: "من نحن",       en: "About" },
     { href: "#process",      ar: "كيف نعمل",     en: "Process" },
     { href: "#testimonials", ar: "آراء العملاء", en: "Reviews" },
+    { href: "prices/",       ar: "الأسعار",      en: "Prices" },
     { href: "contact/",      ar: "تواصل معنا",   en: "Contact" }
   ],
 

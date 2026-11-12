@@ -97,7 +97,7 @@
     const nav = document.getElementById('navLinks');
     if (!nav) return;
     nav.innerHTML = D.nav.map(item => {
-      const current = (page === 'contact' && item.href === 'contact/') ? ' aria-current="page"' : '';
+      const current = ((page === 'contact' && item.href === 'contact/') || (page === 'prices' && item.href === 'prices/')) ? ' aria-current="page"' : '';
       return `<a href="${esc(url(item.href))}" data-ar="${esc(item.ar)}" data-en="${esc(item.en)}"${current}>${esc(item.ar)}</a>`;
     }).join('');
   }

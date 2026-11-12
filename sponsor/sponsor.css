@@ -268,3 +268,25 @@ html[dir="rtl"] .trainer-stats dd{text-align:right}
   *,*::before,*::after{animation:none!important;transition:none!important}
   html{scroll-behavior:auto}
 }
+
+/* ---------- Registration notification (shared script: ../assets/js/registrations.js) ---------- */
+.reg-toast{
+  position:fixed;z-index:60;bottom:max(20px,env(safe-area-inset-bottom,0px));inset-inline-start:max(20px,env(safe-area-inset-left,0px));
+  display:flex;align-items:center;gap:12px;width:min(340px,calc(100vw - 40px));padding:12px 14px;
+  border-radius:18px;background:var(--card);border:1px solid var(--line);box-shadow:0 14px 34px rgba(31,37,48,.14);color:var(--ink);
+  opacity:0;visibility:hidden;transform:translateY(16px) scale(.98);
+  transition:opacity .35s ease,transform .35s ease,visibility 0s linear .35s;
+}
+.reg-toast.is-shown{opacity:1;visibility:visible;transform:none;transition:opacity .35s ease,transform .35s ease}
+.reg-icon{width:36px;height:36px;flex:none;display:grid;place-items:center;border-radius:50%;background:var(--sage);color:#fff;box-shadow:0 0 0 5px var(--sage-soft)}
+.reg-icon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.reg-body{display:grid;gap:1px;min-width:0;flex:1}
+.reg-top{display:flex;gap:6px;font-size:.72rem;color:var(--ink-3);font-weight:500}
+.reg-top .reg-time::before{content:"·";margin-inline-end:6px}
+.reg-name{font-size:.92rem;font-weight:700;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.reg-course{font-size:.78rem;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:480px){
+  .reg-toast{bottom:max(14px,env(safe-area-inset-bottom,0px));inset-inline-start:max(14px,env(safe-area-inset-left,0px));width:calc(100vw - 28px);gap:10px;padding:10px 12px}
+  .reg-icon{width:32px;height:32px}
+}
+@media print{.reg-toast{display:none}}

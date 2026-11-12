@@ -66,7 +66,9 @@
   function fill(box, p) {
     const en = S.lang() === 'en';
     box.querySelector('.reg-label').textContent = en ? 'New registration' : 'تسجيل جديد';
-    box.querySelector('.reg-time').textContent = relTime(p.time);
+    const when = relTime(p.time);
+    box.querySelector('.reg-time').textContent = when;
+    box.querySelector('.reg-time').hidden = !when;   // older rows may have no time
     box.querySelector('.reg-name').textContent = p.name;
     box.querySelector('.reg-course').textContent = (en ? 'for ' : 'في ') + (p.workshop || '');
     const cta = box.querySelector('.reg-cta');

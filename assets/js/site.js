@@ -281,7 +281,7 @@
     details: v => (v.length < 5 ? MSG.details : null)
   };
 
-  function whatsappForm(form, { rules, message, status }) {
+  function whatsappForm(form, { rules, message, status, onSend }) {
     if (!form) return;
     form.noValidate = true;
     const clean = (name, raw) => {
@@ -343,6 +343,7 @@
       if (invalid.length) { invalid[0].focus(); return; }
       const values = Object.fromEntries(fields.map(field => [field.name, clean(field.name, field.value)]));
       const link = whatsappUrl(message(values, lang()));
+      if (onSend) onSend(values, lang());
       window.open(link, '_blank', 'noopener');
       /* With "noopener" browsers return null even on success, so always show
          a confirmation that doubles as a fallback link (e.g. popup blocked). */

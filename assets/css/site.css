@@ -6,9 +6,11 @@
    ========================================================================== */
 
 /* ---------- Fonts ---------- */
-@font-face{font-family:"Expo Arabic";src:url("https://db.onlinewebfonts.com/t/9004b72f96afb1e5f13389f489791113.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:"Expo Arabic";src:url("https://db.onlinewebfonts.com/t/b009a8fb757127bf4c5ad1d5abd060e9.woff2") format("woff2");font-weight:500 600;font-style:normal;font-display:swap}
-@font-face{font-family:"Expo Arabic";src:url("https://db.onlinewebfonts.com/t/5a46b722115434b86e5e9719ff7f6f23.woff2") format("woff2");font-weight:700 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Expo Arabic";src:url("../fonts/expo-arabic-300.woff2") format("woff2");font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:"Expo Arabic";src:url("../fonts/expo-arabic-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Expo Arabic";src:url("../fonts/expo-arabic-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Expo Arabic";src:url("../fonts/expo-arabic-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Expo Arabic";src:url("../fonts/expo-arabic-700.woff2") format("woff2");font-weight:700 900;font-style:normal;font-display:swap}
 
 /* ---------- Design tokens ---------- */
 :root{
@@ -68,7 +70,7 @@
   --ease:cubic-bezier(.2,.8,.2,1);
 
   /* Type */
-  --font-ar:"Expo Arabic","IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;
+  --font-ar:"Expo Arabic",Tahoma,"Segoe UI",sans-serif;
   --font-en:"Manrope","Segoe UI",Roboto,Arial,sans-serif;
   --fs-display:clamp(1.85rem,1rem + 3.3vw,3.5rem);
   --fs-h1:clamp(1.7rem,1.2rem + 1.9vw,2.6rem);

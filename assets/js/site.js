@@ -82,7 +82,7 @@
     if (theme === 'light') doc.setAttribute('data-theme', 'light');
     else doc.removeAttribute('data-theme');
     document.querySelectorAll('img[data-logo]').forEach(img => {
-      img.src = url(theme === 'light' ? 'assets/images/logo-light.png' : 'assets/images/logo.png');
+      img.src = url(theme === 'light' ? 'assets/images/logo-light.webp' : 'assets/images/logo.webp');
     });
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.content = theme === 'light' ? '#f4f9f5' : '#063632';
@@ -174,7 +174,7 @@
       <div class="container">
         <div class="footer-grid">
           <div class="footer-brand">
-            <a class="brand" href="${esc(url(isHome ? '#home' : ''))}" aria-label="Thaer Media"><img data-logo src="${esc(url('assets/images/logo.png'))}" alt="Thaer Media" width="113" height="44" loading="lazy" decoding="async"></a>
+            <a class="brand" href="${esc(url(isHome ? '#home' : ''))}" aria-label="Thaer Media"><img data-logo src="${esc(url('assets/images/logo.webp'))}" alt="Thaer Media" width="113" height="44" loading="lazy" decoding="async"></a>
             <p data-ar="نوظّف خبرتنا لنجاح علامتك التجارية، من الهوية البصرية إلى الحملات الإعلانية." data-en="We put our expertise to work for your brand, from visual identity to ad campaigns.">نوظّف خبرتنا لنجاح علامتك التجارية، من الهوية البصرية إلى الحملات الإعلانية.</p>
             <ul class="socials" aria-label="حساباتنا" data-label-ar="حساباتنا على منصات التواصل" data-label-en="Our social accounts">${socials}</ul>
           </div>

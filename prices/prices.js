@@ -88,6 +88,11 @@
         ${item.hideName ? '' : `<h3 class="plan-name">${esc(t(item.name))}</h3>`}
         <p class="plan-price">${price}</p>
         ${item.desc ? `<p class="plan-desc">${esc(t(item.desc))}</p>` : ''}
+        ${item.perks ? `
+        <div class="plan-perks">
+          <p class="plan-perks-title"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>${esc(t(item.perksTitle || { ar: 'مزايا إضافية', en: 'Extras' }))}</p>
+          <ul>${item.perks.map(k => `<li>${esc(t(k))}</li>`).join('')}</ul>
+        </div>` : ''}
         ${feats.length ? `<ul class="plan-features">${feats.map(f => `<li>${f}</li>`).join('')}</ul>` : ''}
         <div class="plan-actions">
           <button class="btn btn--primary btn--sm" type="button" data-now="${id}">${esc(t(item.quote ? T.askQuote : T.now))}</button>
@@ -231,7 +236,8 @@
     return list.map((l, i) => {
       const it = ITEMS[l.id];
       const qty = it.qty ? ` × ${l.qty} ${t(it.unit)}` : '';
-      return `${i + 1}. ${lineName(it)}${qty}: ${priceText(it, l.qty)}`;
+      const perks = it.perks ? ` (${it.perks.map(k => t(k)).join(lang() === 'en' ? ' + ' : ' + ')})` : '';
+      return `${i + 1}. ${lineName(it)}${qty}: ${priceText(it, l.qty)}${perks}`;
     });
   }
 

@@ -40,6 +40,7 @@ const SITE_DATA = window.SITE_DATA = {
      - badge: شارة صغيرة فوق البطاقة (اختياري).
      - desc: وصف قصير تحت اسم الباقة. hideName: true ← لا يظهر اسم الباقة في البطاقة.
      - notes: true ← تظهر سطور الملاحظات (features) وسطر التعديلات في البطاقة.
+     - perks: مزايا مميزة تظهر في صندوق خاص داخل البطاقة وفي رسالة الطلب (perksTitle عنوانها).
      - teaser: السعر الظاهر لهذا القسم في صندوق الأسعار بالصفحة الرئيسية.
      ======================================================================== */
   pricing: {
@@ -115,7 +116,12 @@ const SITE_DATA = window.SITE_DATA = {
           { id: "ads-10", name: { ar: "حملة 10 أيام", en: "10-day campaign" }, usd: 90,  ils: 270, reach: [80000, 100000] },
           { id: "ads-15", name: { ar: "حملة 15 يوماً", en: "15-day campaign" }, usd: 117, ils: 350, reach: [100000, 130000] },
           { id: "ads-30", name: { ar: "عرض الملوك الخاص — 30 يوماً", en: "The Kings’ offer — 30 days" }, usd: 167, ils: 500, reach: [300000, 500000],
-            badge: { ar: "الأوفر والأنسب لأصحاب الأنشطة التجارية", en: "Best value for business owners" } }
+            badge: { ar: "الأوفر والأنسب لأصحاب الأنشطة التجارية", en: "Best value for business owners" },
+            perksTitle: { ar: "مزايا حصرية لهذا العرض", en: "Exclusive to this offer" },
+            perks: [
+              { ar: "تصاميم الحملة مجانية", en: "Campaign designs included free" },
+              { ar: "ترويج من 3 إلى 4 منشورات", en: "Promote 3 to 4 posts" }
+            ] }
         ]
       }
     ]

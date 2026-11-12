@@ -70,9 +70,9 @@
   const listFrom = data => (data && data.people || [])
     .filter(p => p && p.name && hidden.indexOf(String(p.name).trim()) === -1)
     .sort((a, b) => stamp(b) - stamp(a));                         // newest first
-  const cached = () => safe(() => JSON.parse(local.getItem(KEY) || 'null'));
+  const cached = () => { const c = safe(() => JSON.parse(local.getItem(KEY) || 'null')); return c && c.from === cfg.endpoint ? c : null; };   // ignore a list saved from an older link
   const fetchFresh = () => fetch(cfg.endpoint).then(r => r.json()).then(data => {
-    safe(() => local.setItem(KEY, JSON.stringify({ at: Date.now(), data })));
+    safe(() => local.setItem(KEY, JSON.stringify({ at: Date.now(), from: cfg.endpoint, data })));
     return data;
   });
 

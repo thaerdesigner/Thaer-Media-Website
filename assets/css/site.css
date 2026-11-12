@@ -371,9 +371,9 @@ html[dir="rtl"] .reg-toast{padding:12px 14px 12px 12px}
 .reg-course{font-size:.78rem;color:var(--text-muted);line-height:1.5;overflow-wrap:anywhere}
 .reg-cta{flex:none;padding:6px 12px;border-radius:999px;background:var(--btn-primary-bg);color:var(--btn-primary-text);font-size:.78rem;font-weight:800;white-space:nowrap}
 @media (max-width:480px){
-  .reg-toast{bottom:max(16px,env(safe-area-inset-bottom,0px));inset-inline-start:max(16px,env(safe-area-inset-left,0px));width:calc(100vw - 100px);gap:10px;padding:10px}
+  .reg-toast{bottom:calc(max(18px,env(safe-area-inset-bottom,0px)) + 64px);inset-inline-start:12px;width:calc(100vw - 24px);gap:10px;padding:10px 12px}
   .reg-icon{width:32px;height:32px}
-  .reg-cta{display:none}
+  .reg-cta{padding:6px 10px;font-size:.74rem}
 }
 @media print{.reg-toast{display:none}}
 

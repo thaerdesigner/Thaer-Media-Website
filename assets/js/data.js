@@ -145,11 +145,11 @@ const SITE_DATA = window.SITE_DATA = {
   nav: [
     { href: "#home",         ar: "الرئيسية",     en: "Home" },
     { href: "#services",     ar: "خدماتنا",      en: "Services" },
+    { href: "prices/",       ar: "الأسعار",      en: "Prices" },
     { href: "#work",         ar: "أعمالنا",      en: "Work" },
     { href: "#about",        ar: "من نحن",       en: "About" },
     { href: "#process",      ar: "كيف نعمل",     en: "Process" },
     { href: "#testimonials", ar: "آراء العملاء", en: "Reviews" },
-    { href: "prices/",       ar: "الأسعار",      en: "Prices" },
     { href: "contact/",      ar: "تواصل معنا",   en: "Contact" }
   ],
 

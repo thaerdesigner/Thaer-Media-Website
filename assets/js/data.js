@@ -27,7 +27,7 @@ const SITE_DATA = window.SITE_DATA = {
   registrations: {
     workshop: { ar: "من المنشور إلى المبيعات", en: "From Posts to Sales" },   // اسم الورشة الظاهر في الإشعار
     hide: ["تجربة الموقع احذفني رجاء"],                                     // أسماء لا تظهر في الإشعارات
-    endpoint: "https://script.google.com/macros/s/AKfycbx2x8ksZpzntr-jYywK6xWpI91owJ2K62uyO96Aqo-G_eDfweUuRGSfuuA7f7_HWbNvBg/exec"
+    endpoint: "https://script.google.com/macros/s/AKfycbzZYd4U41f8RqVzGMJXSCyZi_zVU7zBya3E5Pc0njIS6GfpXZQ6TSTVOVCgyhHGS1TmwA/exec"
   },
 
   /* ======================== صفحة الأسعار (prices/) ========================

@@ -45,7 +45,7 @@
   document.getElementById('promoCta').href = url(D.slidesLink);
   document.getElementById('promoTrack').innerHTML = D.slides.map((s, i) => `
     <div class="slide"><a class="promo-slide" href="${esc(url(D.slidesLink))}">
-      <img src="${esc(url(s.ar))}" data-src-ar="${esc(s.ar)}" data-src-en="${esc(s.en)}"
+      <img data-sm src="${esc(S.sized(url(s.ar), { hasAttribute: () => true }))}" data-src-ar="${esc(s.ar)}" data-src-en="${esc(s.en)}"
            alt="${esc(s.altAr)}" data-alt-ar="${esc(s.altAr)}" data-alt-en="${esc(s.altEn)}"
            width="1440" height="480" decoding="async" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}>
     </a></div>`).join('');
@@ -72,7 +72,7 @@
     <a class="work-card${w.wide ? ' work-card--wide' : ''}" href="${esc(url(w.href))}" data-work="${esc(w.href)}">
       ${w.coverVideo
         ? `<video class="work-card-video" muted loop playsinline preload="none" poster="${esc(url(w.poster))}" data-src="${esc(url(w.coverVideo))}" aria-hidden="true"></video>`
-        : `<img src="${esc(url(w.coverAr))}" data-src-ar="${esc(w.coverAr)}" data-src-en="${esc(w.coverEn)}" alt="" width="1200" height="800" loading="lazy" decoding="async">`}
+        : `<img data-sm src="${esc(S.sized(url(w.coverAr), { hasAttribute: () => true }))}" data-src-ar="${esc(w.coverAr)}" data-src-en="${esc(w.coverEn)}" alt="" width="1200" height="800" loading="lazy" decoding="async">`}
       <span class="work-card-body">
         <h3 ${attrs(w.title)}>${esc(w.title.ar)}</h3>
         <span class="work-card-arrow" aria-hidden="true">${S.icons.arrow}</span>

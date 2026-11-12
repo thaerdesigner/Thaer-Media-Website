@@ -32,6 +32,8 @@
     if (value.startsWith('#')) return isHome ? value : ROOT + value;
     return new URL(value.replace(/^\/+/, ''), ROOT).href;
   };
+  /* Images marked data-sm have a lighter "-sm.webp" copy used on phones */
+  const sized = (src, el) => (el && el.hasAttribute('data-sm') && window.matchMedia('(max-width:760px)').matches ? src.replace(/\.webp(\?|$)/, '-sm.webp$1') : src);
   const whatsappUrl = message => `https://wa.me/${D.contact.whatsappNumber}${message ? `?text=${encodeURIComponent(message)}` : ''}`;
   /* Converts Arabic-Indic digits to Latin digits */
   const latinDigits = value => String(value ?? '').replace(/[٠-٩۰-۹]/g, d => String('٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹'.indexOf(d) % 10));
@@ -70,7 +72,7 @@
     document.querySelectorAll('[data-alt-ar]').forEach(el => { el.alt = el.getAttribute('data-alt-' + key) || ''; });
     document.querySelectorAll('[data-placeholder-ar]').forEach(el => { el.placeholder = el.getAttribute('data-placeholder-' + key) || ''; });
     document.querySelectorAll('[data-label-ar]').forEach(el => { el.setAttribute('aria-label', el.getAttribute('data-label-' + key) || ''); });
-    document.querySelectorAll('[data-src-ar]').forEach(el => { el.src = url(el.getAttribute('data-src-' + key)); });
+    document.querySelectorAll('[data-src-ar]').forEach(el => { el.src = sized(url(el.getAttribute('data-src-' + key)), el); });
     const title = document.body.getAttribute('data-title-' + key);
     if (title) document.title = title;
     try { localStorage.setItem('lang', value); } catch (e) { /* storage unavailable */ }
@@ -354,7 +356,7 @@
   /* ---------- Public API for page scripts ---------- */
   window.SITE = {
     data: D, root: ROOT, page, isHome, reducedMotion,
-    lang, t, esc, url, whatsappUrl, latinDigits, icons: ICONS,
+    lang, t, esc, url, sized, whatsappUrl, latinDigits, icons: ICONS,
     onLanguageChange: fn => langListeners.push(fn),
     applyLanguage, whatsappForm
   };

@@ -60,7 +60,7 @@
     <li class="gallery-item">
       <button type="button" class="gallery-open video-card" data-index="${i}" data-label-ar="تشغيل: ${esc(item.alt.ar)}" data-label-en="Play: ${esc(item.alt.en)}" aria-label="تشغيل: ${esc(item.alt.ar)}">
         <span class="gallery-frame">
-          <img src="${esc(url(item.poster))}" alt="${esc(item.alt.ar)}" data-alt-ar="${esc(item.alt.ar)}" data-alt-en="${esc(item.alt.en)}" ${i < 4 ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">
+          <img src="${esc(url(item.poster))}" srcset="${esc(url(item.poster).replace(/\.webp$/, '-sm.webp'))} 360w, ${esc(url(item.poster))} 720w" sizes="(max-width:640px) 46vw, 270px" alt="${esc(item.alt.ar)}" data-alt-ar="${esc(item.alt.ar)}" data-alt-en="${esc(item.alt.en)}" ${i < 2 ? 'fetchpriority="high"' : i < 4 ? '' : 'loading="lazy"'} decoding="async">
           <span class="video-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5-11-6.5Z"/></svg></span>
           ${item.duration ? `<span class="video-duration" dir="ltr">${esc(item.duration)}</span>` : ''}
         </span>

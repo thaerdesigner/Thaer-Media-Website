@@ -50,7 +50,7 @@
     <li class="gallery-item">
       <button type="button" class="gallery-open" data-index="${i}" data-label-ar="عرض: ${esc(item.alt.ar)}" data-label-en="View: ${esc(item.alt.en)}" aria-label="عرض: ${esc(item.alt.ar)}">
         <span class="gallery-frame">
-          <img src="${esc(url(thumb))}"${slug !== 'social' ? ` srcset="${esc(url(thumb).replace(/\.webp$/, '-sm.webp'))} 560w, ${esc(url(thumb))} 1100w" sizes="(max-width:640px) 92vw, 46vw"` : ''} data-full="${esc(url(item.image))}" alt="${esc(item.alt.ar)}" data-alt-ar="${esc(item.alt.ar)}" data-alt-en="${esc(item.alt.en)}" ${i < 4 ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">
+          <img src="${esc(url(thumb))}"${slug !== 'social' ? ` srcset="${esc(url(thumb).replace(/\.webp$/, '-sm.webp'))} 560w, ${esc(url(thumb))} 1100w" sizes="(max-width:640px) 92vw, 46vw"` : ''} data-full="${esc(url(item.image))}" alt="${esc(item.alt.ar)}" data-alt-ar="${esc(item.alt.ar)}" data-alt-en="${esc(item.alt.en)}" ${i < 2 ? 'fetchpriority="high"' : i < 4 ? '' : 'loading="lazy"'} decoding="async">
         </span>
         <span class="gallery-zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M11 8v6M8 11h6"/></svg></span>
       </button>

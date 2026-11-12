@@ -205,8 +205,9 @@ const CONFIG = {
   if (location.hash) history.replaceState(null, '', location.pathname + location.search);
 
   /* Photo */
-  document.querySelectorAll('[data-photo]').forEach(img => { img.src = CONFIG.photo; });
-  document.querySelectorAll('[data-trainer]').forEach(img => { img.src = CONFIG.trainerPhoto; });
+  const setPhoto = (img, src) => { if (img.getAttribute('src') !== src) { img.removeAttribute('srcset'); img.src = src; } };
+  document.querySelectorAll('[data-photo]').forEach(img => setPhoto(img, CONFIG.photo));
+  document.querySelectorAll('[data-trainer]').forEach(img => setPhoto(img, CONFIG.trainerPhoto));
 
   /* Hero figure */
   document.querySelectorAll('[data-amount="full"]').forEach(el => {

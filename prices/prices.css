@@ -24,7 +24,23 @@ body[data-page="prices"] .site-footer{margin-top:clamp(24px,3vw,32px)}
 .plans{display:grid;gap:18px;grid-template-columns:repeat(3,minmax(0,1fr))}
 .plans--two,.plans--four{grid-template-columns:repeat(2,minmax(0,1fr))}
 .plans--one{grid-template-columns:1fr}
-.plans--five .plan--featured{grid-column:span 2}
+.plans--five{grid-template-columns:repeat(4,minmax(0,1fr))}
+/* five packages: four in a row, the featured offer as a wide card underneath */
+.plans--five .plan--featured{grid-column:1/-1}
+@media (min-width:901px){
+  .plans--five .plan--featured{
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr) minmax(240px,.8fr);
+    grid-template-areas:"badge perks actions" "name perks actions" "price perks actions" "feat perks actions";
+    align-items:center;column-gap:32px;row-gap:8px
+  }
+  .plans--five .plan--featured .plan-badge{grid-area:badge;justify-self:start}
+  .plans--five .plan--featured .plan-name{grid-area:name}
+  .plans--five .plan--featured .plan-price{grid-area:price}
+  .plans--five .plan--featured .plan-features{grid-area:feat;border-top:0;padding-top:4px}
+  .plans--five .plan--featured .plan-perks{grid-area:perks;align-self:center}
+  .plans--five .plan--featured .plan-actions{grid-area:actions;grid-template-columns:1fr;align-self:center;margin-top:0}
+}
+@media (min-width:601px) and (max-width:900px){.plans--five{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:900px){
   .plans,.plans--three{grid-template-columns:repeat(2,minmax(0,1fr))}
   .plans--three .plan:last-child{grid-column:1/-1}
@@ -133,7 +149,7 @@ html.dialog-open{overflow:hidden}
 .order-form .field textarea{min-height:72px}
 
 @media (max-width:600px){
-  .plans,.plans--two,.plans--three,.plans--four{grid-template-columns:1fr}
+  .plans,.plans--two,.plans--three,.plans--four,.plans--five{grid-template-columns:1fr}
   .plans--three .plan:last-child,.plans--five .plan--featured{grid-column:auto}
   .prices-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:calc(var(--gutter) * -1);padding-inline:var(--gutter);padding-bottom:4px}
   .prices-tabs::-webkit-scrollbar{display:none}

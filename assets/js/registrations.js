@@ -152,6 +152,12 @@
   function use(list) {
     const first = !people.length;
     people = list;
+    /* a new registration (a different newest entry) starts the rotation from the newest */
+    const top = list.length ? list[0].name + '|' + list[0].time : '';
+    if (top && top !== safe(() => session.getItem('regTop'))) {
+      index = 0;
+      safe(() => { session.setItem('regTop', top); session.setItem('regIndex', '0'); });
+    }
     if (first) restart(FIRST);
   }
   const saved = cached();

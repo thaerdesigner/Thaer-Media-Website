@@ -456,6 +456,21 @@ html[dir="rtl"] .breadcrumb svg{transform:scaleX(-1)}
 .cta .btn--ghost:hover{border-color:var(--gold);color:var(--gold)}
 .cta .eyebrow{background:rgba(5,35,32,.5);border-color:rgba(237,189,77,.3);color:#ffc247}
 .cta .eyebrow::before{background:var(--gold);box-shadow:0 0 0 3px rgba(237,189,77,.18)}
+/* Light theme: the CTA follows the same light palette as the rest of the site */
+:root[data-theme="light"] .cta{
+  background:
+    radial-gradient(600px 300px at 15% 0%,rgba(226,185,97,.18),transparent 70%),
+    radial-gradient(600px 320px at 90% 100%,rgba(17,111,94,.12),transparent 70%),
+    linear-gradient(150deg,#ffffff,#eef6f1);
+  border-color:var(--border);color:var(--text);
+}
+:root[data-theme="light"] .cta::before{background:radial-gradient(circle at 30% 30%,rgba(226,185,97,.16),transparent 30%),radial-gradient(circle at 70% 70%,rgba(17,111,94,.1),transparent 32%)}
+:root[data-theme="light"] .cta p{color:var(--text-muted)}
+:root[data-theme="light"] .cta .btn--primary{background:var(--btn-primary-bg);color:var(--btn-primary-text);box-shadow:var(--btn-primary-shadow)}
+:root[data-theme="light"] .cta .btn--ghost{background:var(--surface-hover);border-color:var(--border-strong);color:var(--text)}
+:root[data-theme="light"] .cta .btn--ghost:hover{border-color:var(--accent-text);color:var(--accent-text)}
+:root[data-theme="light"] .cta .eyebrow{background:rgba(255,255,255,.8);border-color:rgba(11,107,91,.2);color:#0b6b5b}
+:root[data-theme="light"] .cta .eyebrow::before{background:#0b6b5b;box-shadow:0 0 0 3px rgba(11,107,91,.14)}
 
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion:reduce){

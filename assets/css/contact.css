@@ -44,3 +44,4 @@ html[dir="rtl"] .contact-method-text .ltr{text-align:right}
 .notfound .cta{min-height:52vh;align-content:center}
 .notfound h1{font-size:var(--fs-h1)}
 .notfound-code{font-size:clamp(4rem,3rem + 6vw,8rem);font-weight:800;line-height:1;color:transparent;-webkit-text-stroke:2px rgba(237,189,77,.8)}
+:root[data-theme="light"] .notfound-code{-webkit-text-stroke-color:rgba(11,107,91,.75)}

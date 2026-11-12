@@ -248,7 +248,8 @@ html[dir="rtl"] .work-card-arrow svg{transform:scaleX(-1)}
 html[dir="ltr"] .review{direction:ltr;border-radius:22px 22px 6px 22px}
 .review:hover{transform:translateY(-4px);border-color:var(--review-accent)}
 .review-mark{position:absolute;top:16px;inset-inline-end:18px;width:30px;height:30px;fill:var(--review-accent);opacity:.22}
-.review blockquote{margin:0;flex:1;padding-inline-end:28px;font-size:1rem;line-height:1.6;font-weight:500;letter-spacing:.005em;color:var(--text)}
+/* justified so every line reaches the same width */
+.review blockquote{margin:0;flex:1;padding-inline-end:28px;font-size:1rem;line-height:1.6;font-weight:500;letter-spacing:.005em;color:var(--text);text-align:justify;text-justify:inter-word;hyphens:none}
 html[lang="en"] .review blockquote{line-height:1.5}
 .review-author{display:flex;align-items:center;gap:12px;padding-top:14px;border-top:1px dashed var(--review-border)}
 .review-avatar{

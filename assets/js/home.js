@@ -122,22 +122,6 @@
      Two rows of message-style cards drifting in opposite directions. Each row
      holds its cards twice so the loop is seamless; the copy is hidden from
      screen readers. Hover, touch or keyboard focus pauses the motion. */
-  const reviewCard = (item, hidden) => `
-    <figure class="review"${hidden ? ' aria-hidden="true"' : ''}>
-      <svg class="review-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M13 7C7.9 8.7 5 12.6 5 18.4V25h9v-9H9.7c.2-3.2 1.8-5.3 4.8-6.4L13 7Zm14 0c-5.1 1.7-8 5.6-8 11.4V25h9v-9h-4.3c.2-3.2 1.8-5.3 4.8-6.4L27 7Z"/></svg>
-      <blockquote ${attrs(item.quote)}>${esc(item.quote.ar)}</blockquote>
-      <figcaption class="review-author">
-        <span class="review-avatar${item.logo || item.icon ? ' has-logo' : ''}${item.icon ? ' is-icon' : ''}" aria-hidden="true">${item.logo
-          ? `<img src="${esc(url(item.logo))}" alt="" width="80" height="80" loading="lazy" decoding="async">`
-          : item.icon === 'cake'
-            ? '<svg viewBox="0 0 24 24"><path d="M12 3.5c.9.8 1.4 1.6 1.4 2.4a1.4 1.4 0 0 1-2.8 0c0-.8.5-1.6 1.4-2.4Z"/><path d="M12 7.5V10"/><rect x="4" y="10" width="16" height="4.5" rx="1.5"/><path d="M4 12.2c1.3 1 2.7 1 4 0s2.7-1 4 0 2.7 1 4 0 2.7-1 4 0"/><path d="M5 14.5v5h14v-5"/><path d="M3.5 19.5h17"/></svg>'
-            : esc(item.initial || '')}</span>
-        <span class="review-meta">
-          <strong ${attrs(item.author)}>${esc(item.author.ar)}</strong>
-          <span class="review-service" ${attrs(item.service)}>${esc(item.service.ar)}</span>
-        </span>
-      </figcaption>
-    </figure>`;
   const avatarHtml = item => `<span class="review-avatar${item.logo || item.icon ? ' has-logo' : ''}${item.icon ? ' is-icon' : ''}" aria-hidden="true">${item.logo
           ? `<img src="${esc(url(item.logo))}" alt="" width="80" height="80" loading="lazy" decoding="async">`
           : item.icon === 'cake'
@@ -153,7 +137,7 @@
   const stage = document.getElementById('spotStage');
   const clientsBox = document.getElementById('spotClients');
   const SPOT_TIME = 5000;   // keep in sync with the spotProgress animation in home.css
-  let spotIndex = 0, spotTimer = null, spotPaused = false, spotVisible = false;
+  let spotIndex = 0, spotTimer = null, spotVisible = false;
   stage.insertAdjacentHTML('beforeend', D.testimonials.map((item, i) => `
     <figure class="spot-item${i === 0 ? ' is-active' : ''}"${i === 0 ? '' : ' aria-hidden="true"'}>
       <blockquote ${attrs(item.quote)}>${esc(item.quote.ar)}</blockquote>
@@ -179,76 +163,28 @@
   function restartSpot() {
     clearTimeout(spotTimer);
     spot.classList.remove('is-running'); void spot.offsetWidth;
-    if (spotPaused || !spotVisible || S.reducedMotion.matches) return;
+    if (!spotVisible || S.reducedMotion.matches) return;
     spot.classList.add('is-running');
     spotTimer = setTimeout(() => showSpot(spotIndex + 1), SPOT_TIME);
   }
   clientsBox.addEventListener('click', e => { const c = e.target.closest('.spot-client'); if (c) showSpot(+c.dataset.i); });
   spot.querySelectorAll('[data-spot]').forEach(btn => btn.addEventListener('click', () => showSpot(spotIndex + (btn.dataset.spot === 'next' ? 1 : -1))));
-  const pause = on => { spotPaused = on; spot.classList.toggle('is-paused', on); if (on) clearTimeout(spotTimer); else restartSpot(); };
-  stage.addEventListener('mouseenter', () => pause(true));
-  stage.addEventListener('mouseleave', () => pause(false));
+  /* phones: swipe the box sideways to change the review */
+  let touchX = null;
+  stage.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+  stage.addEventListener('touchend', e => {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    touchX = null;
+    if (Math.abs(dx) < 40) return;
+    const rtl = document.documentElement.dir === 'rtl';
+    showSpot(spotIndex + ((dx < 0) !== rtl ? 1 : -1));
+  }, { passive: true });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => { spotVisible = entries[0].isIntersecting; restartSpot(); }, { threshold: .35 }).observe(spot);
   } else { spotVisible = true; }
   showSpot(0);
 
-  /* Phones: a swipeable row, one full review per view, dots + arrows.
-     Looping like the slides: a copy of the last review sits before the first
-     and a copy of the first after the last; landing on a copy jumps silently
-     to the real review, so "next" on the last review continues to the first. */
-  const scroller = document.getElementById('reviewsScroller');
-  const dotsBox = document.getElementById('reviewsDots');
-  const total = D.testimonials.length;
-  const list = [D.testimonials[total - 1], ...D.testimonials, D.testimonials[0]];
-  scroller.innerHTML = list.map((item, i) => reviewCard(item, i === 0 || i === list.length - 1)).join('');
-  const mCards = [...scroller.children];
-  mCards[0].inert = true;
-  mCards[mCards.length - 1].inert = true;
-  dotsBox.innerHTML = D.testimonials.map((_, i) => `<span class="reviews-dot"${i === 0 ? ' aria-current="true"' : ''}></span>`).join('');
-  const mDots = [...dotsBox.children];
-  let mPos = 1;                                   // position among mCards (1 = first real review)
-  const smoothOk = () => !S.reducedMotion.matches;
-  function showCard(pos, smooth) {
-    mPos = pos;
-    /* scroll only the row (never the page): move by the distance between centres */
-    const box = scroller.getBoundingClientRect(), r = mCards[pos].getBoundingClientRect();
-    const delta = (r.left + r.width / 2) - (box.left + box.width / 2);
-    if (Math.abs(delta) > 1) scroller.scrollBy({ left: delta, behavior: smooth && smoothOk() ? 'smooth' : 'instant' });
-    const real = (pos - 1 + total) % total;
-    mDots.forEach((d, i) => d.toggleAttribute('aria-current', i === real));
-  }
-  function centred() {
-    const box = scroller.getBoundingClientRect(), mid = box.left + box.width / 2;
-    let best = 0, dist = Infinity;
-    mCards.forEach((c, i) => { const r = c.getBoundingClientRect(); const d = Math.abs(r.left + r.width / 2 - mid); if (d < dist) { dist = d; best = i; } });
-    return best;
-  }
-  function settle() {
-    const pos = centred();
-    if (pos === 0) showCard(total, false);
-    else if (pos === mCards.length - 1) showCard(1, false);
-    else showCard(pos, false);
-  }
-  let settleTimer;
-  if ('onscrollend' in window) scroller.addEventListener('scrollend', settle);
-  else scroller.addEventListener('scroll', () => { clearTimeout(settleTimer); settleTimer = setTimeout(settle, 140); }, { passive: true });
-  /* live dot update while swiping */
-  scroller.addEventListener('scroll', () => {
-    const real = (centred() - 1 + total) % total;
-    mDots.forEach((d, i) => d.toggleAttribute('aria-current', i === real));
-  }, { passive: true });
-  document.querySelectorAll('#reviewsMobile .slider-arrow').forEach(btn => btn.addEventListener('click', () => {
-    const pos = centred();
-    showCard(Math.max(0, Math.min(mCards.length - 1, pos + (btn.dataset.dir === 'next' ? 1 : -1))), true);
-  }));
-  const startAtFirst = () => {
-    if (getComputedStyle(scroller).display === 'none') return;
-    showCard(1, false);
-  };
-  requestAnimationFrame(startAtFirst);
-  window.matchMedia('(max-width:700px)').addEventListener('change', startAtFirst);
-  S.onLanguageChange(() => requestAnimationFrame(() => showCard(mPos, false)));
 
   /* ---------- Hero title: always exactly two lines ----------
      Each line is nowrap; if a line is wider than its column (e.g. a wider

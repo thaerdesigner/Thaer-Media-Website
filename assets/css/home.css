@@ -279,26 +279,6 @@ html[lang="en"] .review blockquote{line-height:1.5}
   --review-avatar-text:#ffffff;
   --review-tag-bg:rgba(11,107,91,.09);
 }
-/* Phones: swipeable row instead of the drifting rows */
-.reviews-mobile{display:none}
-@media (max-width:700px){
-  .spot{display:none}
-  .reviews-mobile{display:block}
-  .reviews-scroller{
-    display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
-    margin-inline:calc(var(--gutter) * -1);padding:6px var(--gutter) 10px;scroll-padding-inline:var(--gutter);
-    scrollbar-width:none;-webkit-overflow-scrolling:touch;
-  }
-  .reviews-scroller::-webkit-scrollbar{display:none}
-  .reviews-scroller:focus-visible{outline:none;box-shadow:none}
-  .reviews-scroller .review{width:calc(100vw - var(--gutter) * 2 - 24px);scroll-snap-align:center;padding:20px 18px 16px;gap:14px}
-  .reviews-scroller .review:hover{transform:none}
-  .reviews-scroller .review blockquote{font-size:.98rem}
-  .reviews-nav{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:14px}
-  .reviews-nav .slider-arrow{width:40px;height:40px}
-  .reviews-dots{display:flex;gap:6px}
-  .reviews-dot{width:7px;height:7px;border-radius:99px;background:var(--text-subtle);transition:width .3s var(--ease),background-color .3s var(--ease)}
-  .reviews-dot[aria-current]{width:20px;background:var(--review-accent)}
 }
 
 /* ---------- Prices band (links to /prices/) ---------- */
@@ -363,8 +343,21 @@ html[lang="en"] .spot-item blockquote{line-height:1.6}
 .spot-progress{position:absolute;inset-inline:6px;bottom:-9px;height:3px;border-radius:3px;background:var(--review-accent);transform:scaleX(0);transform-origin:right;opacity:0}
 html[dir="ltr"] .spot-progress{transform-origin:left}
 .spot.is-running .spot-client[aria-pressed="true"] .spot-progress{opacity:1;animation:spotProgress 5s linear forwards}
-.spot.is-paused .spot-progress{animation-play-state:paused}
 @keyframes spotProgress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @media (prefers-reduced-motion:reduce){.spot-item,.spot-item.is-active{transition:none}}
-/* phones keep the swipeable reviews */
-@media (max-width:700px){.spot{display:none}}
+/* phones: quote mark above the text, smaller logos that wrap */
+@media (max-width:700px){
+  .spot{gap:16px}
+  .spot-stage{padding:52px 20px 20px}
+  .spot-mark{top:16px;inset-inline-end:auto;inset-inline-start:20px;width:30px;opacity:.3}
+  .spot-item{gap:16px}
+  .spot-item blockquote{padding-inline-end:0;font-size:1.02rem;line-height:1.75}
+  .spot-item .review-author{padding-top:14px}
+  .spot-item .review-avatar{width:42px;height:42px}
+  .spot-nav{gap:10px}
+  .spot-nav .slider-arrow{width:38px;height:38px;flex:none}
+  .spot-clients{display:grid;grid-template-columns:repeat(4,auto);gap:8px 10px}
+  .spot-client{padding:2px}
+  .spot-client .review-avatar{width:30px;height:30px;font-size:.75rem}
+  .spot-progress{bottom:-7px;inset-inline:4px}
+}

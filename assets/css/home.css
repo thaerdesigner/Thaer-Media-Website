@@ -279,7 +279,6 @@ html[lang="en"] .review blockquote{line-height:1.5}
   --review-avatar-text:#ffffff;
   --review-tag-bg:rgba(11,107,91,.09);
 }
-}
 
 /* ---------- Prices band (links to /prices/) ---------- */
 .prices-band{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(24px,4vw,56px);padding:clamp(24px,4vw,44px);border-color:rgba(237,189,77,.4)}

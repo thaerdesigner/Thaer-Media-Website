@@ -50,7 +50,6 @@ const SITE_DATA = window.SITE_DATA = {
         items: [
           { id: "social-1",  name: { ar: "تصميم منفرد", en: "Single design" }, usd: 10, ils: 30, qty: true, unit: { ar: "تصميم", en: "design" } },
           { id: "social-5",  name: { ar: "باقة 5 تصاميم", en: "5-design pack" }, usd: 45, ils: 135, per: 5 },
-          { id: "social-7",  name: { ar: "باقة 7 تصاميم", en: "7-design pack" }, usd: 60, ils: 180, per: 7 },
           { id: "social-10", name: { ar: "باقة 10 تصاميم", en: "10-design pack" }, usd: 80, ils: 240, per: 10 },
           { id: "social-15", name: { ar: "باقة 15 تصميماً", en: "15-design pack" }, usd: 120, ils: 360, per: 15 },
           { id: "social-20", name: { ar: "باقة 20 تصميماً", en: "20-design pack" }, usd: 150, ils: 450, per: 20 },

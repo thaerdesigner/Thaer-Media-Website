@@ -321,3 +321,23 @@ html[lang="en"] .review blockquote{line-height:1.5}
   .review{scroll-snap-align:center}
   .review[aria-hidden="true"]{display:none}
 }
+
+/* ---------- Prices band (links to /prices/) ---------- */
+.prices-band{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(24px,4vw,56px);padding:clamp(24px,4vw,44px);border-color:rgba(237,189,77,.4)}
+:root[data-theme="light"] .prices-band{border-color:rgba(11,107,91,.3)}
+.prices-band-copy{display:grid;justify-items:start;gap:14px}
+.prices-band-copy h2{font-size:var(--fs-h2)}
+.prices-band-copy p{color:var(--text-muted);font-size:var(--fs-lead)}
+.prices-band-copy .btn{margin-top:6px}
+.prices-band-list{display:grid;gap:10px;margin:0;padding:0}
+.prices-band-list a{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 18px;border-radius:var(--radius-sm);
+  background:var(--surface-hover);border:1px solid var(--border);font-weight:700;
+  transition:border-color .2s var(--ease),transform .2s var(--ease),color .2s var(--ease)
+}
+.prices-band-list a:hover{border-color:var(--accent-text);transform:translateX(-4px)}
+html[dir="ltr"] .prices-band-list a:hover{transform:translateX(4px)}
+.prices-band-price{flex:none;font-size:var(--fs-small);font-weight:600;color:var(--text-muted)}
+.prices-band-price strong{font-size:1.05rem;font-weight:800;color:var(--accent-text)}
+@media (max-width:900px){.prices-band{grid-template-columns:1fr}}
+@media (max-width:480px){.prices-band-list a{padding:12px 14px;font-size:.92rem}}

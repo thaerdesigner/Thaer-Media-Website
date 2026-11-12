@@ -349,6 +349,28 @@
   }
 
   Carousel(document.getElementById('promoSlider'));
+  /* ---------- Prices band: "from" price of each service, from SITE_DATA.pricing ---------- */
+  const band = document.getElementById('pricesBand');
+  function renderPricesBand() {
+    const PR = S.data.pricing;
+    if (!band || !PR) return;
+    const en = S.lang() === 'en';
+    band.innerHTML = PR.categories.map(cat => {
+      const priced = cat.items.filter(i => !i.quote);
+      let price;
+      if (!priced.length) price = en ? 'Custom quote' : 'حسب الطلب';
+      else {
+        const usd = priced.filter(i => i.usd != null).map(i => i.usd);
+        const ils = priced.map(i => i.ils).filter(v => v != null);
+        const value = usd.length ? (en ? `$${Math.min(...usd)}` : `${Math.min(...usd)}$`) : (en ? `₪${Math.min(...ils)}` : `${Math.min(...ils)} شيكل`);
+        price = `${en ? 'From' : 'يبدأ من'} <strong><bdi dir="auto">${S.esc(value)}</bdi></strong>`;
+      }
+      return `<li><a href="${S.esc(S.url('prices/#' + cat.id))}"><span>${S.esc(S.t(cat.title))}</span><span class="prices-band-price">${price}</span></a></li>`;
+    }).join('');
+  }
+  renderPricesBand();
+  S.onLanguageChange(renderPricesBand);
+
   S.ready();
   animateCounters();
 })();

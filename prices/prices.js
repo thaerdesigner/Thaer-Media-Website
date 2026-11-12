@@ -101,7 +101,7 @@
             <h2 id="${esc(cat.id)}Title">${esc(t(cat.title))}</h2>
             ${cat.intro ? `<p>${esc(t(cat.intro))}</p>` : ''}
           </div>
-          <ul class="plans plans--${cat.items.length === 5 ? 'five' : cat.items.length > 3 ? 'many' : 'few'}">${cat.items.map(i => card(ITEMS[i.id])).join('')}</ul>
+          <ul class="plans plans--${['', 'one', 'two', 'three', 'four', 'five', 'six'][cat.items.length] || 'many'}">${cat.items.map(i => card(ITEMS[i.id])).join('')}</ul>
           ${cat.note ? `<p class="prices-note">${esc(t(cat.note))}</p>` : ''}
         </div>
       </section>`).join('');

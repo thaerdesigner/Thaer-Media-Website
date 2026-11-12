@@ -38,6 +38,8 @@ const SITE_DATA = window.SITE_DATA = {
      - per: عدد التصاميم في الباقة، لحساب سعر التصميم الواحد تلقائياً.
      - reach: [أقل, أكثر] الوصول المتوقع للحملة.
      - badge: شارة صغيرة فوق البطاقة (اختياري).
+     - desc: وصف قصير تحت اسم الباقة. hideName: true ← لا يظهر اسم الباقة في البطاقة.
+     - teaser: السعر الظاهر لهذا القسم في صندوق الأسعار بالصفحة الرئيسية.
      ======================================================================== */
   pricing: {
     revisions: { ar: "التعديل الأول مجاني ويشمل كل ملاحظاتك دفعة واحدة، وكل تعديل بعده بـ 5 دولارات.", en: "The first revision is free and covers all your notes in one round; each revision after that is $5." },
@@ -46,23 +48,31 @@ const SITE_DATA = window.SITE_DATA = {
         id: "social",
         title: { ar: "تصاميم السوشيال ميديا", en: "Social media designs" },
         intro: { ar: "تصاميم منشورات لحساباتك، بتصميم منفرد أو بباقات أوفر.", en: "Post designs for your accounts, one at a time or in better-value packs." },
+        teaser: { ar: "10$ ما يعادل 30 شيكل", en: "$10 (≈ ₪30)" },
         revisions: true,
         items: [
-          { id: "social-1",  name: { ar: "تصميم منفرد", en: "Single design" }, usd: 10, ils: 30, qty: true, unit: { ar: "تصميم", en: "design" } },
-          { id: "social-5",  name: { ar: "باقة 5 تصاميم", en: "5-design pack" }, usd: 45, ils: 135, per: 5 },
-          { id: "social-10", name: { ar: "باقة 10 تصاميم", en: "10-design pack" }, usd: 80, ils: 240, per: 10 },
-          { id: "social-15", name: { ar: "باقة 15 تصميماً", en: "15-design pack" }, usd: 120, ils: 360, per: 15 },
-          { id: "social-20", name: { ar: "باقة 20 تصميماً", en: "20-design pack" }, usd: 150, ils: 450, per: 20 },
-          { id: "social-30", name: { ar: "باقة 30 تصميماً", en: "30-design pack" }, usd: 200, ils: 600, per: 30 }
+          { id: "social-1",  name: { ar: "تصميم منفرد", en: "Single design" }, usd: 10, ils: 30, qty: true, unit: { ar: "تصميم", en: "design" },
+            desc: { ar: "اطلب تصميماً لنشاطك التجاري بشكل لافت ومميز للنشر عبر منصات التواصل الاجتماعي.", en: "Order an eye-catching, distinctive design for your business to post on social media." } },
+          { id: "social-5",  name: { ar: "باقة 5 تصاميم", en: "5-design pack" }, usd: 45, ils: 135, per: 5,
+            desc: { ar: "اطلب الآن باقة من 5 تصاميم احترافية لنشاطك التجاري عبر منصات التواصل الاجتماعي.", en: "Order a pack of 5 professional designs for your business on social media." } },
+          { id: "social-10", name: { ar: "باقة 10 تصاميم", en: "10-design pack" }, usd: 80, ils: 240, per: 10,
+            desc: { ar: "اطلب الآن باقة من 10 تصاميم احترافية لنشاطك التجاري عبر منصات التواصل الاجتماعي.", en: "Order a pack of 10 professional designs for your business on social media." } },
+          { id: "social-15", name: { ar: "باقة 15 تصميم", en: "15-design pack" }, usd: 120, ils: 360, per: 15,
+            desc: { ar: "اطلب الآن باقة من 15 تصميم احترافي لنشاطك التجاري عبر منصات التواصل الاجتماعي.", en: "Order a pack of 15 professional designs for your business on social media." } },
+          { id: "social-20", name: { ar: "باقة 20 تصميم", en: "20-design pack" }, usd: 150, ils: 450, per: 20,
+            desc: { ar: "اطلب الآن باقة من 20 تصميم احترافي لنشاطك التجاري عبر منصات التواصل الاجتماعي.", en: "Order a pack of 20 professional designs for your business on social media." } },
+          { id: "social-30", name: { ar: "باقة 30 تصميم", en: "30-design pack" }, usd: 200, ils: 600, per: 30,
+            desc: { ar: "اطلب الآن باقة من 30 تصميم احترافي لنشاطك التجاري عبر منصات التواصل الاجتماعي.", en: "Order a pack of 30 professional designs for your business on social media." } }
         ]
       },
       {
         id: "print",
         title: { ar: "تصاميم المطبوعات", en: "Print designs" },
         intro: { ar: "بروشورات وبطاقات ولافتات وكل ما يُطبع لنشاطك.", en: "Brochures, cards, signs and everything your business prints." },
+        teaser: { ar: "يبدأ من 17$ ما يعادل 50 شيكل", en: "From $17 (≈ ₪50)" },
         revisions: true,
         items: [
-          { id: "print", name: { ar: "تصميم مطبوعات", en: "Print design" }, ils: 50, from: true,
+          { id: "print", name: { ar: "تصميم مطبوعات", en: "Print design" }, hideName: true, usd: 17, ils: 50, from: true,
             features: [{ ar: "السعر حسب تعقيد التصميم والتعديلات", en: "Price depends on the design’s complexity and revisions" }] }
         ]
       },
@@ -70,9 +80,10 @@ const SITE_DATA = window.SITE_DATA = {
         id: "brand",
         title: { ar: "تصاميم البراند (الهوية البصرية)", en: "Brand designs (visual identity)" },
         intro: { ar: "شعار وهوية بصرية متكاملة، والسعر حسب نطاق العمل.", en: "A logo and a complete visual identity, priced by the scope of work." },
+        teaser: { ar: "حسب الطلب", en: "Custom quote" },
         revisions: true,
         items: [
-          { id: "brand", name: { ar: "هوية بصرية حسب طلبك", en: "Visual identity built for you" }, quote: true,
+          { id: "brand", name: { ar: "هوية بصرية", en: "Visual identity" }, hideName: true, quote: true,
             features: [{ ar: "نحدّد السعر بعد معرفة احتياجك", en: "We set the price once we know what you need" }] }
         ]
       },
@@ -80,27 +91,29 @@ const SITE_DATA = window.SITE_DATA = {
         id: "content",
         title: { ar: "صناعة المحتوى", en: "Content creation" },
         intro: { ar: "موشن جرافيك ومونتاج فيديو، والسعر حسب المدة وتعقيد المادة.", en: "Motion graphics and video editing, priced by length and complexity." },
+        teaser: { ar: "حسب الطلب", en: "Custom quote" },
         revisions: true,
         items: [
-          { id: "motion",    name: { ar: "موشن جرافيك 30 ثانية", en: "30-second motion graphic" }, usd: 50, ils: 150, qty: true, unit: { ar: "فيديو", en: "video" },
-            features: [{ ar: "بدون تعليق صوتي", en: "Without voice-over" }] },
-          { id: "motion-vo", name: { ar: "موشن جرافيك 30 ثانية + تعليق صوتي", en: "30-second motion graphic + voice-over" }, usd: 80, ils: 240, qty: true, unit: { ar: "فيديو", en: "video" },
-            features: [{ ar: "مع تعليق صوتي (فويس أوفر)", en: "With voice-over" }] },
-          { id: "montage",   name: { ar: "مونتاج فيديو", en: "Video editing" }, usd: 50, ils: 150, qty: true, unit: { ar: "دقيقة", en: "minute" },
-            features: [{ ar: "السعر لكل دقيقة من الفيديو النهائي", en: "Price per minute of the final video" }] }
+          { id: "motion",    name: { ar: "باقة 30 ثانية بدون تعليق صوتي", en: "30-second pack, no voice-over" }, usd: 50, ils: 150, qty: true, unit: { ar: "فيديو", en: "video" },
+            desc: { ar: "اطلب الآن فيديو موشن جرافيك احترافي ومميز يظهر علامتك التجارية، بدون تعليق صوتي وبسعر مميز.", en: "Order a professional, distinctive motion graphic that showcases your brand, without voice-over, at a special price." } },
+          { id: "motion-vo", name: { ar: "باقة 30 ثانية مع تعليق صوتي", en: "30-second pack with voice-over" }, usd: 80, ils: 240, qty: true, unit: { ar: "فيديو", en: "video" },
+            desc: { ar: "اطلب الآن فيديو موشن جرافيك احترافي ومميز يظهر علامتك التجارية، مع تعليق صوتي احترافي وبسعر مميز.", en: "Order a professional, distinctive motion graphic that showcases your brand, with a professional voice-over, at a special price." } },
+          { id: "montage",   name: { ar: "باقة 60 ثانية مونتاج فيديو", en: "60-second video editing pack" }, usd: 50, ils: 150, qty: true, unit: { ar: "فيديو", en: "video" },
+            desc: { ar: "اطلب الآن مونتاج مميز لفيديوهاتك بطريقة احترافية وجميلة بسعر مميز.", en: "Order standout, professional and beautiful editing for your videos at a special price." } }
         ]
       },
       {
         id: "ads",
         title: { ar: "الحملات الإعلانية - الإعلانات الممولة", en: "Ad campaigns - sponsored ads" },
         intro: { ar: "حملات ممولة على منصات التواصل بمدة ووصول متوقع لكل باقة.", en: "Sponsored social media campaigns, each with a set duration and expected reach." },
+        teaser: { ar: "تبدأ من 37$ ما يعادل 110 شيكل", en: "From $37 (≈ ₪110)" },
         note: { ar: "أرقام الوصول تقديرية، وتعتمد على الجمهور المستهدف وجودة المحتوى والميزانية.", en: "Reach figures are estimates and depend on the target audience, content quality and budget." },
         items: [
-          { id: "ads-5",  name: { ar: "حملة 5 أيام",  en: "5-day campaign" },  ils: 110, reach: [30000, 50000] },
-          { id: "ads-7",  name: { ar: "حملة 7 أيام",  en: "7-day campaign" },  ils: 200, reach: [50000, 70000] },
-          { id: "ads-10", name: { ar: "حملة 10 أيام", en: "10-day campaign" }, ils: 270, reach: [80000, 100000] },
-          { id: "ads-15", name: { ar: "حملة 15 يوماً", en: "15-day campaign" }, ils: 350, reach: [100000, 130000] },
-          { id: "ads-30", name: { ar: "عرض الملوك الخاص — 30 يوماً", en: "The Kings’ offer — 30 days" }, ils: 500, reach: [300000, 500000],
+          { id: "ads-5",  name: { ar: "حملة 5 أيام",  en: "5-day campaign" },  usd: 37,  ils: 110, reach: [30000, 50000] },
+          { id: "ads-7",  name: { ar: "حملة 7 أيام",  en: "7-day campaign" },  usd: 67,  ils: 200, reach: [50000, 70000] },
+          { id: "ads-10", name: { ar: "حملة 10 أيام", en: "10-day campaign" }, usd: 90,  ils: 270, reach: [80000, 100000] },
+          { id: "ads-15", name: { ar: "حملة 15 يوماً", en: "15-day campaign" }, usd: 117, ils: 350, reach: [100000, 130000] },
+          { id: "ads-30", name: { ar: "عرض الملوك الخاص — 30 يوماً", en: "The Kings’ offer — 30 days" }, usd: 167, ils: 500, reach: [300000, 500000],
             badge: { ar: "الأوفر والأنسب لأصحاب الأنشطة التجارية", en: "Best value for business owners" } }
         ]
       }

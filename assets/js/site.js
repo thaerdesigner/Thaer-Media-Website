@@ -150,7 +150,7 @@
     if (!footer) return;
     /* Inner pages (galleries, contact, course) get a minimal footer with a
        single "Home" button; the full footer is only on the homepage and 404. */
-    if (['gallery', 'contact', 'course'].includes(page)) {
+    if (['gallery', 'contact', 'course', 'prices'].includes(page)) {
       footer.classList.add('site-footer--simple');
       footer.innerHTML = `
       <div class="container">

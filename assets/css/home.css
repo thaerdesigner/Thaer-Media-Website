@@ -337,7 +337,6 @@ html[lang="en"] .review blockquote{line-height:1.5}
 }
 .prices-band-list a:hover{border-color:var(--accent-text);transform:translateX(-4px)}
 html[dir="ltr"] .prices-band-list a:hover{transform:translateX(4px)}
-.prices-band-price{flex:none;font-size:var(--fs-small);font-weight:600;color:var(--text-muted)}
-.prices-band-price strong{font-size:1.05rem;font-weight:800;color:var(--accent-text)}
+.prices-band-price{flex:none;font-size:.95rem;font-weight:800;color:var(--accent-text);text-align:end}
 @media (max-width:900px){.prices-band{grid-template-columns:1fr}}
-@media (max-width:480px){.prices-band-list a{padding:12px 14px;font-size:.92rem}}
+@media (max-width:600px){.prices-band-list a{flex-direction:column;align-items:flex-start;gap:4px;padding:12px 14px;font-size:.92rem}.prices-band-price{text-align:start}}

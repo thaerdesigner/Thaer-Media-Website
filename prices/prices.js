@@ -26,9 +26,11 @@
   const ils = n => (lang() === 'en' ? `₪${num(n)}` : `${num(n)} شيكل`);
   const T = {
     from: { ar: 'يبدأ من', en: 'From' },
-    quote: { ar: 'حسب الطلب', en: 'Custom quote' },
+    quote: { ar: 'السعر حسب الطلب', en: 'Price on request' },
+    equals: { ar: 'ما يعادل', en: '≈' },
+    equalsCard: { ar: 'ويعادل', en: '≈' },
     quoteLine: { ar: 'عرض سعر حسب الطلب', en: 'custom quote' },
-    perDesign: { ar: 'للتصميم الواحد', en: 'per design' },
+    perDesign: { ar: 'سعر التصميم الواحد', en: 'Price per design' },
     designs: { ar: 'تصاميم', en: 'designs' },
     reach: { ar: 'الوصول المتوقع', en: 'Expected reach' },
     people: { ar: 'شخص', en: 'people' },
@@ -52,11 +54,14 @@
   function priceText(item, qty) {
     qty = qty || 1;
     if (item.quote) return t(T.quoteLine);
-    const parts = [];
-    if (item.usd != null) parts.push(usd(item.usd * qty));
-    if (item.ils != null) parts.push(item.usd != null ? `(${ils(item.ils * qty)})` : ils(item.ils * qty));
-    return (item.from ? t(T.from) + ' ' : '') + parts.join(' ');
+    let text;
+    if (item.usd != null && item.ils != null) text = `${usd(item.usd * qty)} ${t(T.equals)} ${ils(item.ils * qty)}`;
+    else text = item.usd != null ? usd(item.usd * qty) : ils(item.ils * qty);
+    return (item.from ? t(T.from) + ' ' : '') + text;
   }
+
+  /* escaped text with dollar amounts kept left-to-right inside Arabic */
+  const money = text => esc(text).replace(/(\$?\d[\d.,]*\$?)/g, '<bdi dir="ltr">$1</bdi>');
 
   /* ---------- Cards ---------- */
   function card(item) {
@@ -65,13 +70,11 @@
     if (item.quote) price = `<span class="plan-price-main">${esc(t(T.quote))}</span>`;
     else {
       const main = item.usd != null ? usd(item.usd) : ils(item.ils);
-      const second = item.usd != null && item.ils != null ? `<span class="plan-price-alt">${esc(ils(item.ils))}</span>` : '';
-      price = `${item.from ? `<span class="plan-price-from">${esc(t(T.from))}</span>` : ''}<span class="plan-price-main">${esc(main)}</span>${second}`;
+      const second = item.usd != null && item.ils != null ? `<span class="plan-price-alt">${esc(t(T.equalsCard))} ${esc(ils(item.ils))}</span>` : '';
+      price = `${item.from ? `<span class="plan-price-from">${esc(t(T.from))}</span>` : ''}<bdi class="plan-price-main" dir="${item.usd != null ? 'ltr' : 'auto'}">${esc(main)}</bdi>${second}`;
     }
-    const unit = item.qty && item.unit ? `<span class="plan-unit">/ ${esc(t(item.unit))}</span>` : '';
     const feats = [];
-    if (item.per) feats.push(`${item.per} ${t(T.designs)}`);
-    if (item.per && item.usd) feats.push(`${usd(Math.round(item.usd / item.per * 10) / 10)} ${t(T.perDesign)}`);
+    if (item.per && item.usd) feats.push(`${t(T.perDesign)}: <bdi dir="ltr">${usd(Math.round(item.usd / item.per * 10) / 10)}</bdi>`);
     if (item.reach) {
       const [a, b] = item.reach.map(num);
       feats.push(`${t(T.reach)}<br><strong class="plan-reach">${lang() === 'en' ? `${a}–${b} people` : `من ${a} إلى ${b} شخص`}</strong>`);
@@ -79,10 +82,11 @@
     (item.features || []).forEach(f => feats.push(esc(t(f))));
     if (item.cat.revisions) feats.push(esc(t(T.firstFree)));
     return `
-      <li class="plan card${item.badge ? ' plan--featured' : ''}" data-id="${id}">
+      <li class="plan card${item.badge ? ' plan--featured' : ''}${item.hideName ? ' plan--noname' : ''}" data-id="${id}">
         ${item.badge ? `<span class="plan-badge">${esc(t(item.badge))}</span>` : ''}
-        <h3 class="plan-name">${esc(t(item.name))}</h3>
-        <p class="plan-price">${price}${unit}</p>
+        ${item.hideName ? '' : `<h3 class="plan-name">${esc(t(item.name))}</h3>`}
+        <p class="plan-price">${price}</p>
+        ${item.desc ? `<p class="plan-desc">${esc(t(item.desc))}</p>` : ''}
         <ul class="plan-features">${feats.map(f => `<li>${f}</li>`).join('')}</ul>
         <div class="plan-actions">
           <button class="btn btn--primary btn--sm" type="button" data-now="${id}">${esc(t(item.quote ? T.askQuote : T.now))}</button>
@@ -125,7 +129,7 @@
     });
     if (!priced) return { text: t(T.quoteLine), note: quote };
     let text = (from ? t(T.from) + ' ' : '') + ils(ilsSum);
-    if (allUsd) text = (from ? t(T.from) + ' ' : '') + `${usd(usdSum)} (${ils(ilsSum)})`;
+    if (allUsd) text = (from ? t(T.from) + ' ' : '') + `${usd(usdSum)} ${t(T.equals)} ${ils(ilsSum)}`;
     return { text, note: from || quote };
   }
 
@@ -137,7 +141,7 @@
     document.body.classList.toggle('has-cart', cart.length > 0);
     if (!cart.length) return;
     $('cartCount').textContent = `${t(T.order)}: ${T.services(count(cart))}`;
-    $('cartTotal').textContent = `${t(T.total)}: ${totals(cart).text}`;
+    $('cartTotal').innerHTML = `${esc(t(T.total))}: ${money(totals(cart).text)}`;
   }
 
   function lineName(it) { return `${t(it.cat.title)} — ${t(it.name)}`; }
@@ -162,12 +166,12 @@
       return `
         <li class="order-line">
           <span class="order-line-text"><strong>${esc(t(it.name))}</strong><small>${esc(t(it.cat.title))}</small></span>
-          <span class="order-line-price">${esc(priceText(it, l.qty))}</span>
+          <span class="order-line-price">${money(priceText(it, l.qty))}</span>
           ${qty || mode === 'cart' ? `<span class="order-line-tools">${qty}${mode === 'cart' ? `<button type="button" class="order-remove" data-remove="${i}">${esc(t(T.remove))}</button>` : ''}</span>` : ''}
         </li>`;
     }).join('');
     const tot = totals(lines);
-    $('orderTotal').innerHTML = `<span>${esc(t(T.total))}</span><strong>${esc(tot.text)}</strong>${tot.note ? `<small>${esc(t(T.totalNote))}</small>` : ''}`;
+    $('orderTotal').innerHTML = `<span>${esc(t(T.total))}</span><strong>${money(tot.text)}</strong>${tot.note ? `<small>${esc(t(T.totalNote))}</small>` : ''}`;
   }
 
   function addToCart(id, button) {

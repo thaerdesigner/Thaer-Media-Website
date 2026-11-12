@@ -144,9 +144,32 @@
     const list = rows[r] || [];
     track.innerHTML = list.map(item => reviewCard(item, false)).join('') + list.map(item => reviewCard(item, true)).join('');
   });
-  const reviews = document.getElementById('reviews');
-  reviews.addEventListener('touchstart', () => reviews.classList.add('is-paused'), { passive: true });
-  reviews.addEventListener('touchend', () => setTimeout(() => reviews.classList.remove('is-paused'), 2500), { passive: true });
+  /* Phones: a swipeable row, one full review per view, dots + arrows */
+  const scroller = document.getElementById('reviewsScroller');
+  const dotsBox = document.getElementById('reviewsDots');
+  scroller.innerHTML = D.testimonials.map(item => reviewCard(item, false)).join('');
+  const mCards = [...scroller.children];
+  dotsBox.innerHTML = mCards.map((_, i) => `<span class="reviews-dot"${i === 0 ? ' aria-current="true"' : ''}></span>`).join('');
+  const mDots = [...dotsBox.children];
+  let mIndex = 0;
+  const scrollToCard = (i, smooth = true) => {
+    mIndex = Math.max(0, Math.min(mCards.length - 1, i));
+    const card = mCards[mIndex];
+    const left = card.offsetLeft - (scroller.clientWidth - card.offsetWidth) / 2;
+    scroller.scrollTo({ left, behavior: smooth && !S.reducedMotion.matches ? 'smooth' : 'auto' });
+  };
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.intersectionRatio < 0.6) return;
+      mIndex = mCards.indexOf(e.target);
+      mDots.forEach((d, i) => d.toggleAttribute('aria-current', i === mIndex));
+    }), { root: scroller, threshold: [0.6] });
+    mCards.forEach(c => io.observe(c));
+  }
+  document.querySelectorAll('#reviewsMobile .slider-arrow').forEach(btn => btn.addEventListener('click', () => {
+    scrollToCard(mIndex + (btn.dataset.dir === 'next' ? 1 : -1));
+  }));
+  S.onLanguageChange(() => scrollToCard(mIndex, false));
 
   /* ---------- Hero title: always exactly two lines ----------
      Each line is nowrap; if a line is wider than its column (e.g. a wider

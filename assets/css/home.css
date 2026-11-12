@@ -278,12 +278,26 @@ html[lang="en"] .review blockquote{line-height:1.5}
   --review-avatar-text:#ffffff;
   --review-tag-bg:rgba(11,107,91,.09);
 }
-@media (max-width:640px){
-  .reviews{gap:14px}
-  .reviews-track{gap:14px}
-  @keyframes reviewsMove{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 7px))}}
-  .review{padding:18px 18px 16px;gap:14px}
-  .review blockquote{font-size:.95rem}
+/* Phones: swipeable row instead of the drifting rows */
+.reviews-mobile{display:none}
+@media (max-width:700px){
+  .reviews{display:none}
+  .reviews-mobile{display:block}
+  .reviews-scroller{
+    display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
+    margin-inline:calc(var(--gutter) * -1);padding:6px var(--gutter) 10px;scroll-padding-inline:var(--gutter);
+    scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  }
+  .reviews-scroller::-webkit-scrollbar{display:none}
+  .reviews-scroller:focus-visible{outline:none;box-shadow:none}
+  .reviews-scroller .review{width:calc(100vw - var(--gutter) * 2 - 24px);scroll-snap-align:center;padding:20px 18px 16px;gap:14px}
+  .reviews-scroller .review:hover{transform:none}
+  .reviews-scroller .review blockquote{font-size:.98rem}
+  .reviews-nav{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:14px}
+  .reviews-nav .slider-arrow{width:40px;height:40px}
+  .reviews-dots{display:flex;gap:6px}
+  .reviews-dot{width:7px;height:7px;border-radius:99px;background:var(--text-subtle);transition:width .3s var(--ease),background-color .3s var(--ease)}
+  .reviews-dot[aria-current]{width:20px;background:var(--review-accent)}
 }
 /* Reduced motion: no drift, rows scroll by hand */
 @media (prefers-reduced-motion:reduce){

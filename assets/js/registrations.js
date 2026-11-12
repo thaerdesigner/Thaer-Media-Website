@@ -16,24 +16,40 @@
   const FIRST = 600;     // ms before the first card
   const SHOW = 6000;     // how long each card stays
   const GAP = 400;       // just the fade between cards
-  const KEY = 'regFeed';
+  const KEY = 'regFeed2';
   const lang = () => (document.documentElement.lang === 'en' ? 'en' : 'ar');
   const safe = fn => { try { return fn(); } catch (e) { return null; } };
   const local = safe(() => window.localStorage);
   const session = safe(() => window.sessionStorage);
 
   /* ---------- Time ---------- */
+  /* Sheet times are Palestine time; convert to a real moment for every visitor */
+  function gazaDate(y, mo, d, h, mi, se) {
+    const guess = Date.UTC(y, mo - 1, d, h, mi, se);
+    let offset = 2 * 3600000;
+    safe(() => {
+      const f = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Gaza', hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+      const o = {}; f.formatToParts(new Date(guess)).forEach(x => { o[x.type] = +x.value; });
+      offset = Date.UTC(o.year, o.month - 1, o.day, o.hour, o.minute, o.second) - guess;
+    });
+    return new Date(guess - offset);
+  }
   function parseTime(v) {
     if (!v) return null;
-    let d = new Date(v);
-    if (isNaN(d)) {
-      const t = String(v).trim();
-      const m = t.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})(?:[ T]+(\d{1,2}):(\d{2})(?::(\d{2}))?)?/)
-             || t.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})(?:[ T]+(\d{1,2}):(\d{2})(?::(\d{2}))?)?/);
-      if (!m) return null;
-      const ymd = m[1].length === 4 ? [m[1], m[2], m[3]] : [m[3], m[2], m[1]];
-      d = new Date(+ymd[0], +ymd[1] - 1, +ymd[2], +(m[4] || 0), +(m[5] || 0), +(m[6] || 0));
-    }
+    const t = String(v).trim()
+      .replace(/[\u0660-\u0669]/g, c => c.charCodeAt(0) - 0x0660)
+      .replace(/[\u06F0-\u06F9]/g, c => c.charCodeAt(0) - 0x06F0);
+    if (/^\d{4}-\d{2}-\d{2}T/.test(t)) { const d = new Date(t); return isNaN(d) ? null : d; }   // ISO from the script
+    const date = t.match(/(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/) || t.match(/(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})/);
+    if (!date) return null;
+    const ymd = date[1].length === 4 ? [date[1], date[2], date[3]] : [date[3], date[2], date[1]];
+    const rest = t.replace(date[0], ' ');
+    const tm = rest.match(/(\d{1,2}):(\d{2})(?::(\d{2}))?/);
+    let h = tm ? +tm[1] : 0;
+    const pm = /م|pm/i.test(rest), am = /ص|am/i.test(rest);
+    if (pm && h < 12) h += 12;
+    if (am && h === 12) h = 0;
+    const d = gazaDate(+ymd[0], +ymd[1], +ymd[2], h, tm ? +tm[2] : 0, tm && tm[3] ? +tm[3] : 0);
     return isNaN(d) ? null : d;
   }
   function relTime(v) {
@@ -44,13 +60,16 @@
     if (diff < 60) return en ? 'just now' : 'الآن';
     const rtf = new Intl.RelativeTimeFormat(en ? 'en' : 'ar', { numeric: 'auto' });
     const steps = [[3600, 'minute', 60], [86400, 'hour', 3600], [604800, 'day', 86400], [2629800, 'week', 604800], [31557600, 'month', 2629800], [Infinity, 'year', 31557600]];
-    for (const [limit, unit, size] of steps) if (diff < limit) return rtf.format(-Math.floor(diff / size), unit);
+    for (const [limit, unit, size] of steps) if (diff < limit) return rtf.format(-Math.max(1, Math.round(diff / size)), unit);
     return '';
   }
 
   /* ---------- Data ---------- */
   const hidden = (cfg.hide || []).map(n => String(n).trim());
-  const listFrom = data => (data && data.people || []).filter(p => p && p.name && hidden.indexOf(String(p.name).trim()) === -1);
+  const stamp = p => { const d = parseTime(p.time); return d ? d.getTime() : 0; };
+  const listFrom = data => (data && data.people || [])
+    .filter(p => p && p.name && hidden.indexOf(String(p.name).trim()) === -1)
+    .sort((a, b) => stamp(b) - stamp(a));                         // newest first
   const cached = () => safe(() => JSON.parse(local.getItem(KEY) || 'null'));
   const fetchFresh = () => fetch(cfg.endpoint).then(r => r.json()).then(data => {
     safe(() => local.setItem(KEY, JSON.stringify({ at: Date.now(), data })));

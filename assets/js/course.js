@@ -18,7 +18,7 @@
       try {
         fetch(endpoint, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body });
       } catch (e) { /* the WhatsApp step still works */ }
-      try { localStorage.removeItem('regFeed'); } catch (e) { /* ignore */ }
+      try { localStorage.removeItem('regFeed2'); } catch (e) { /* ignore */ }
     },
     message: (v, lang) => (lang === 'en'
       ? ['I would like to register for the social media and AI tools workshop.', '', `Full name: ${v.fullName}`, `WhatsApp: ${v.whatsapp}`, `Email: ${v.email}`]

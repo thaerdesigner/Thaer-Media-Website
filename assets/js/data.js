@@ -27,7 +27,7 @@ const SITE_DATA = window.SITE_DATA = {
   registrations: {
     workshop: { ar: "من المنشور إلى المبيعات", en: "From Posts to Sales" },   // اسم الورشة الظاهر في الإشعار
     hide: ["تجربة الموقع احذفني رجاء"],                                     // أسماء لا تظهر في الإشعارات
-    endpoint: "https://script.google.com/macros/s/AKfycbwC6AM7gPAZNhBkRQfoADyDovkE13U3SQgdg2i8hOpzp3dmPX88pJ9ymJjXEpv1ZzOyqQ/exec"
+    endpoint: "https://script.google.com/macros/s/AKfycbx2x8ksZpzntr-jYywK6xWpI91owJ2K62uyO96Aqo-G_eDfweUuRGSfuuA7f7_HWbNvBg/exec"
   },
 
   /* حسابات التواصل الاجتماعي — تظهر في فوتر كل الصفحات */

@@ -195,7 +195,18 @@ const SITE_DATA = window.SITE_DATA = {
       title: { ar: "صناعة المحتوى", en: "Content creation" },
       intro: { ar: "مونتاج فيديو وموشن جرافيك لمحتوى قصير يلفت الانتباه على منصات التواصل.", en: "Video editing and motion graphics for short-form content that stands out on social media." },
       gallery: [
-        // { video: "assets/gallery/video/01.mp4", poster: "assets/gallery/video/posters/01.jpg", duration: "0:30", alt: { ar: "وصف الفيديو", en: "Video description" } }
+        { video: "assets/gallery/video/01.mp4", poster: "assets/gallery/video/posters/01.jpg", duration: "1:16", alt: { ar: "على مائدة الكرامة 2 — سفينة الكرامة", en: "Dignity Table 2 — Karama Ship" } },
+        { video: "assets/gallery/video/02.mp4", poster: "assets/gallery/video/posters/02.jpg", duration: "0:40", alt: { ar: "موشن جرافيك — الأردن 2", en: "Motion graphics — Jordan 2" } },
+        { video: "assets/gallery/video/03.mp4", poster: "assets/gallery/video/posters/03.jpg", duration: "1:09", alt: { ar: "حفل تكريم طالبات البراعم — أكاديمية الماهر بالقرآن", en: "Honoring ceremony — Al-Maher Quran Academy" } },
+        { video: "assets/gallery/video/04.mp4", poster: "assets/gallery/video/posters/04.jpg", duration: "0:35", alt: { ar: "إعلان مركز تولين للعناية بالشعر والبشرة", en: "Tuleen hair and skin care center ad" } },
+        { video: "assets/gallery/video/05.mp4", poster: "assets/gallery/video/posters/05.jpg", duration: "1:05", alt: { ar: "حملة ري الظمآن 4 — سفينة الكرامة", en: "Quench the Thirsty campaign 4 — Karama Ship" } },
+        { video: "assets/gallery/video/06.mp4", poster: "assets/gallery/video/posters/06.jpg", duration: "0:23", alt: { ar: "تلاوة قرآن كريم — فاطمة الشناوي", en: "Quran recitation — Fatima Al-Shinnawi" } },
+        { video: "assets/gallery/video/07.mp4", poster: "assets/gallery/video/posters/07.jpg", duration: "1:22", alt: { ar: "فعالية عيد الفطر — أكاديمية الماهر بالقرآن", en: "Eid al-Fitr event — Al-Maher Quran Academy" } },
+        { video: "assets/gallery/video/08.mp4", poster: "assets/gallery/video/posters/08.jpg", duration: "0:32", alt: { ar: "موشن جرافيك — الأردن", en: "Motion graphics — Jordan" } },
+        { video: "assets/gallery/video/09.mp4", poster: "assets/gallery/video/posters/09.jpg", duration: "1:19", alt: { ar: "على مائدة الكرامة 1 — سفينة الكرامة", en: "Dignity Table 1 — Karama Ship" } },
+        { video: "assets/gallery/video/10.mp4", poster: "assets/gallery/video/posters/10.jpg", duration: "0:28", alt: { ar: "حلقة الماهر — أكاديمية الماهر بالقرآن", en: "Al-Maher circle — Al-Maher Quran Academy" } },
+        { video: "assets/gallery/video/11.mp4", poster: "assets/gallery/video/posters/11.jpg", duration: "0:40", alt: { ar: "تلاوة قرآن كريم — فرح المغاري", en: "Quran recitation — Farah Al-Maghari" } },
+        { video: "assets/gallery/video/12.mp4", poster: "assets/gallery/video/posters/12.jpg", duration: "0:23", alt: { ar: "مقتطفات حلقة أبو بكر الصديق — أكاديمية الماهر بالقرآن", en: "Abu Bakr circle highlights — Al-Maher Quran Academy" } }
       ]
     }
   }

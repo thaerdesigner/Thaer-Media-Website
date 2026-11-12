@@ -221,16 +221,71 @@ html[dir="rtl"] .work-card-arrow svg{transform:scaleX(-1)}
   .process-num{grid-row:span 2;font-size:2rem}
 }
 
-/* ---------- Testimonials ---------- */
-.testimonial-slider{padding:clamp(28px,5vw,52px) clamp(20px,5vw,56px) 24px;border-radius:var(--radius-lg);overflow:hidden}
-.quote-mark{position:absolute;top:22px;inset-inline-start:26px;width:56px;height:56px;fill:var(--gold);opacity:.18}
-.testimonial{display:grid;justify-items:center;gap:16px;text-align:center;padding-inline:8px}
-.stars{color:var(--gold);letter-spacing:4px;font-size:1.1rem}
-html[dir="rtl"] .stars{letter-spacing:4px}
-.testimonial blockquote{margin:0;font-size:clamp(1.15rem,1rem + .8vw,1.6rem);font-weight:700;line-height:1.55;max-width:48ch}
-.testimonial blockquote::before{content:"“"}
-.testimonial blockquote::after{content:"”"}
-html[dir="rtl"] .testimonial blockquote::before{content:"«"}
-html[dir="rtl"] .testimonial blockquote::after{content:"»"}
-.testimonial figcaption{color:var(--text-muted);font-size:.95rem;font-weight:600}
-.testimonial-slider .slider-controls{margin-top:24px}
+/* ---------- Client reviews ----------
+   Two rows of message-style cards that drift in opposite directions. */
+.reviews{
+  --review-w:min(380px,82vw);
+  display:grid;gap:18px;
+  -webkit-mask:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
+          mask:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
+}
+.reviews-row{overflow:hidden;direction:ltr;padding-block:6px}
+.reviews-track{display:flex;gap:18px;width:max-content;animation:reviewsMove 70s linear infinite}
+.reviews-row[data-dir="right"] .reviews-track{animation-direction:reverse;animation-duration:80s}
+.reviews:hover .reviews-track,.reviews:focus-within .reviews-track,.reviews.is-paused .reviews-track{animation-play-state:paused}
+/* the track holds every card twice: moving by half its width (plus half a gap) loops seamlessly */
+@keyframes reviewsMove{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 9px))}}
+
+.review{
+  position:relative;flex:none;width:var(--review-w);margin:0;
+  display:flex;flex-direction:column;gap:16px;padding:22px 22px 18px;
+  direction:rtl;text-align:start;
+  border-radius:22px 22px 22px 6px;
+  background:var(--review-bg);border:1px solid var(--review-border);
+  box-shadow:var(--inset-highlight),var(--shadow-sm);
+  transition:transform .3s var(--ease),border-color .3s var(--ease);
+}
+html[dir="ltr"] .review{direction:ltr;border-radius:22px 22px 6px 22px}
+.review:hover{transform:translateY(-4px);border-color:var(--review-accent)}
+.review-mark{position:absolute;top:16px;inset-inline-end:18px;width:30px;height:30px;fill:var(--review-accent);opacity:.22}
+.review blockquote{margin:0;flex:1;padding-inline-end:28px;font-size:1rem;line-height:1.75;font-weight:500;color:var(--text)}
+html[lang="en"] .review blockquote{line-height:1.6}
+.review-author{display:flex;align-items:center;gap:12px;padding-top:14px;border-top:1px dashed var(--review-border)}
+.review-avatar{
+  width:42px;height:42px;flex:none;display:grid;place-items:center;border-radius:50%;
+  background:var(--review-avatar-bg);color:var(--review-avatar-text);font-weight:800;font-size:1.05rem;font-family:var(--font-en);
+}
+.review-meta{display:grid;gap:2px;min-width:0}
+.review-meta strong{font-size:.95rem;font-weight:800;color:var(--text);line-height:1.35}
+.review-service{width:fit-content;padding:1px 10px;border-radius:999px;font-size:.75rem;font-weight:700;background:var(--review-tag-bg);color:var(--review-accent)}
+
+:root{
+  --review-bg:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+  --review-border:rgba(124,203,183,.22);
+  --review-accent:#edbd4d;
+  --review-avatar-bg:linear-gradient(135deg,#f1c64f,#d5a033);
+  --review-avatar-text:#1c1606;
+  --review-tag-bg:rgba(237,189,77,.12);
+}
+:root[data-theme="light"]{
+  --review-bg:#ffffff;
+  --review-border:rgba(7,80,71,.13);
+  --review-accent:#0b6b5b;
+  --review-avatar-bg:linear-gradient(135deg,#0b725e,#075047);
+  --review-avatar-text:#ffffff;
+  --review-tag-bg:rgba(11,107,91,.09);
+}
+@media (max-width:640px){
+  .reviews{gap:14px}
+  .reviews-track{gap:14px}
+  @keyframes reviewsMove{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 7px))}}
+  .review{padding:18px 18px 16px;gap:14px}
+  .review blockquote{font-size:.95rem}
+}
+/* Reduced motion: no drift, rows scroll by hand */
+@media (prefers-reduced-motion:reduce){
+  .reviews-track{animation:none}
+  .reviews-row{overflow-x:auto;scroll-snap-type:x mandatory}
+  .review{scroll-snap-align:center}
+  .review[aria-hidden="true"]{display:none}
+}

@@ -1,6 +1,6 @@
 /* ==========================================================================
    home.js — homepage content and interactions
-   Renders metrics, promo slides, services, work, process and testimonials
+   Renders metrics, promo slides, services, work, process and client reviews
    from data.js, and runs the two carousels.
    ========================================================================== */
 (function () {
@@ -118,13 +118,31 @@
       <p ${attrs(p.desc)}>${esc(p.desc.ar)}</p>
     </li>`).join('');
 
-  /* ---------- Testimonials ---------- */
-  document.getElementById('testimonialTrack').innerHTML = D.testimonials.map(item => `
-    <figure class="slide testimonial">
-      <div class="stars" role="img" aria-label="تقييم 5 من 5" data-label-ar="تقييم 5 من 5" data-label-en="Rated 5 out of 5">★★★★★</div>
+  /* ---------- Testimonials ----------
+     Two rows of message-style cards drifting in opposite directions. Each row
+     holds its cards twice so the loop is seamless; the copy is hidden from
+     screen readers. Hover, touch or keyboard focus pauses the motion. */
+  const reviewCard = (item, hidden) => `
+    <figure class="review"${hidden ? ' aria-hidden="true"' : ''}>
+      <svg class="review-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M13 7C7.9 8.7 5 12.6 5 18.4V25h9v-9H9.7c.2-3.2 1.8-5.3 4.8-6.4L13 7Zm14 0c-5.1 1.7-8 5.6-8 11.4V25h9v-9h-4.3c.2-3.2 1.8-5.3 4.8-6.4L27 7Z"/></svg>
       <blockquote ${attrs(item.quote)}>${esc(item.quote.ar)}</blockquote>
-      <figcaption ${attrs(item.author)}>${esc(item.author.ar)}</figcaption>
-    </figure>`).join('');
+      <figcaption class="review-author">
+        <span class="review-avatar" aria-hidden="true">${esc(item.initial || '')}</span>
+        <span class="review-meta">
+          <strong ${attrs(item.author)}>${esc(item.author.ar)}</strong>
+          <span class="review-service" ${attrs(item.service)}>${esc(item.service.ar)}</span>
+        </span>
+      </figcaption>
+    </figure>`;
+  const half = Math.ceil(D.testimonials.length / 2);
+  const rows = [D.testimonials.slice(0, half), D.testimonials.slice(half)];
+  document.querySelectorAll('#reviews .reviews-track').forEach((track, r) => {
+    const list = rows[r] || [];
+    track.innerHTML = list.map(item => reviewCard(item, false)).join('') + list.map(item => reviewCard(item, true)).join('');
+  });
+  const reviews = document.getElementById('reviews');
+  reviews.addEventListener('touchstart', () => reviews.classList.add('is-paused'), { passive: true });
+  reviews.addEventListener('touchend', () => setTimeout(() => reviews.classList.remove('is-paused'), 2500), { passive: true });
 
   /* ---------- Hero title: always exactly two lines ----------
      Each line is nowrap; if a line is wider than its column (e.g. a wider
@@ -274,7 +292,6 @@
   }
 
   Carousel(document.getElementById('promoSlider'));
-  Carousel(document.getElementById('testimonialSlider'));
   S.ready();
   animateCounters();
 })();

@@ -1,0 +1,7 @@
+# local working files that must never be published
+*.whl
+/*.png
+/*.jpg
+/*.zip
+/*.rar
+.DS_Store

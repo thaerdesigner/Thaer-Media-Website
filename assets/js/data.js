@@ -105,20 +105,20 @@ const SITE_DATA = window.SITE_DATA = {
     ],
 
     /* آراء العملاء — ردود العملاء كما وصلت (بصيغة المخاطبة).
-       initial: الحرف الذي يظهر في الدائرة، service: الخدمة التي قُدّمت للعميل */
+       logo: شعار العميل (مربع، يظهر داخل الدائرة)، وإن لم يتوفر يظهر initial: الحرف، service: الخدمة التي قُدّمت للعميل */
     testimonials: [
       { quote: { ar: "ما شاء الله. والله صرلنا أكثر من سنة شغالين مع بعض، وكل شهر بتطلع التصاميم أحلى من اللي قبله، الناس صارت تعرف منشوراتنا حتى قبل ما تشوف اسمنا", en: "Honestly, we’ve been working together for over a year and every month the designs get better than the last. People now recognize our posts before they even see our name." },
-        author: { ar: "Golden Dent Clinic", en: "Golden Dent Clinic" }, initial: "G", service: { ar: "تصاميم السوشيال ميديا", en: "Social media design" } },
+        author: { ar: "Golden Dent Clinic", en: "Golden Dent Clinic" }, logo: "assets/images/clients/golden-dent.jpg", initial: "G", service: { ar: "تصاميم السوشيال ميديا", en: "Social media design" } },
       { quote: { ar: "أكثر إشي مريحني معك إنك بتفهم شو بدي من أول مرة، ما بضطر أعيد وأزيد، ببعتلك الفكرة بترجعلي بتصميم أحسن من اللي كنت متخيلاه", en: "What I love most is that you get what I want the first time. I never have to repeat myself; I send you the idea and you come back with a design better than I imagined." },
-        author: { ar: "مركز تولين للعناية بالشعر والبشرة", en: "Tuleen Hair & Skin Care Center" }, initial: "ت", service: { ar: "تصاميم السوشيال ميديا", en: "Social media design" } },
+        author: { ar: "مركز تولين للعناية بالشعر والبشرة", en: "Tuleen Hair & Skin Care Center" }, logo: "assets/images/clients/tuleen.jpg", initial: "ت", service: { ar: "تصاميم السوشيال ميديا", en: "Social media design" } },
       { quote: { ar: "للأمانة الهوية اللي عملتها إلنا فرقت معنا كثير، اليوم الزباين بحكولنا إنه شكلنا صار زي الشركات الكبيرة، وهاد بيّن بالمبيعات كثير، بجد شكراً لجهودك", en: "To be honest, the identity you made for us changed a lot. Customers now tell us we look like a big company, and it really shows in our sales. Thank you so much for your effort." },
-        author: { ar: "UniWay للدراسة في ماليزيا", en: "UniWay — Study in Malaysia" }, initial: "U", service: { ar: "الهوية البصرية", en: "Visual identity" } },
+        author: { ar: "UniWay للدراسة في ماليزيا", en: "UniWay — Study in Malaysia" }, logo: "assets/images/clients/uniway.jpg", initial: "U", service: { ar: "الهوية البصرية", en: "Visual identity" } },
       { quote: { ar: "قبل ما نشتغل مع بعض كنا ندفع على الإعلانات وما نعرف وين بتروح المصاري. هالوقت صار في تقرير واضح، والرسائل صارت توصلنا بتكلفة أقل بكثيييير من قبل", en: "Before we worked together, we paid for ads without knowing where the money went. Now there’s a clear report, and messages reach us at a much, much lower cost than before." },
-        author: { ar: "مركز السعد التعليمي", en: "Al-Saad Educational Center" }, initial: "س", service: { ar: "الحملات الإعلانية", en: "Ad campaigns" } },
+        author: { ar: "مركز السعد التعليمي", en: "Al-Saad Educational Center" }, logo: "assets/images/clients/al-saad.jpg", initial: "س", service: { ar: "الحملات الإعلانية", en: "Ad campaigns" } },
       { quote: { ar: "أول حملة عملتها إلنا جابت رسائل أكثر من كل الحملات اللي قبلها مع بعض، صدقاً من وقتها ما بنطلق أي إعلان إلا من عندك", en: "The first campaign you ran for us brought more messages than all our previous campaigns combined. Since then, we don’t launch any ad without you." },
-        author: { ar: "متجر ميديكال ستور", en: "Medical Store" }, initial: "M", service: { ar: "الحملات الإعلانية", en: "Ad campaigns" } },
+        author: { ar: "متجر ميديكال ستور", en: "Medical Store" }, logo: "assets/images/clients/medical-store.jpg", initial: "M", service: { ar: "الحملات الإعلانية", en: "Ad campaigns" } },
       { quote: { ar: "اليافطة اللي صممتها للمحل غيّرت شكل الواجهة كلها، ناس كثير صارت توقف تصوّرها، وصارت علامتنا بالشارع", en: "The sign you designed changed our whole storefront. Lots of people stop to take photos of it, and it has become our landmark on the street." },
-        author: { ar: "دوندورما", en: "Dondurma" }, initial: "د", service: { ar: "المطبوعات", en: "Print design" } },
+        author: { ar: "دوندورما", en: "Dondurma" }, icon: "cake", initial: "د", service: { ar: "المطبوعات", en: "Print design" } },
       { quote: { ar: "عن جد شغلك الإعلامي كثير مميز، الفيديوهات اللي بتعملها بتوصل الرسالة صح، آخر فيديو نزلناه انتشر أكثر من أي إشي نزلناه قبل، يعطيك العافية", en: "Your media work is truly special. Your videos get the message across just right; our latest video spread more than anything we’ve posted before. Thank you!" },
         author: { ar: "Twix", en: "Twix" }, initial: "T", service: { ar: "صناعة المحتوى", en: "Content creation" } },
       { quote: { ar: "بصراحة أكثر إشي بميزك الالتزام: بتسلّم بالموعد، وبترد على طول، وبتتعامل مع المشروع كأنه مشروعك", en: "Honestly, what sets you apart is commitment: you deliver on time, reply right away, and treat the project as if it were your own." },

@@ -248,13 +248,16 @@ html[dir="rtl"] .work-card-arrow svg{transform:scaleX(-1)}
 html[dir="ltr"] .review{direction:ltr;border-radius:22px 22px 6px 22px}
 .review:hover{transform:translateY(-4px);border-color:var(--review-accent)}
 .review-mark{position:absolute;top:16px;inset-inline-end:18px;width:30px;height:30px;fill:var(--review-accent);opacity:.22}
-.review blockquote{margin:0;flex:1;padding-inline-end:28px;font-size:1rem;line-height:1.75;font-weight:500;color:var(--text)}
-html[lang="en"] .review blockquote{line-height:1.6}
+.review blockquote{margin:0;flex:1;padding-inline-end:28px;font-size:1rem;line-height:1.6;font-weight:500;letter-spacing:.005em;color:var(--text)}
+html[lang="en"] .review blockquote{line-height:1.5}
 .review-author{display:flex;align-items:center;gap:12px;padding-top:14px;border-top:1px dashed var(--review-border)}
 .review-avatar{
   width:42px;height:42px;flex:none;display:grid;place-items:center;border-radius:50%;
   background:var(--review-avatar-bg);color:var(--review-avatar-text);font-weight:800;font-size:1.05rem;font-family:var(--font-en);
 }
+.review-avatar.has-logo{background:#fff;overflow:hidden;box-shadow:0 0 0 2px var(--review-border)}
+.review-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.review-avatar svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .review-meta{display:grid;gap:2px;min-width:0}
 .review-meta strong{font-size:.95rem;font-weight:800;color:var(--text);line-height:1.35}
 .review-service{width:fit-content;padding:1px 10px;border-radius:999px;font-size:.75rem;font-weight:700;background:var(--review-tag-bg);color:var(--review-accent)}

@@ -144,32 +144,62 @@
     const list = rows[r] || [];
     track.innerHTML = list.map(item => reviewCard(item, false)).join('') + list.map(item => reviewCard(item, true)).join('');
   });
-  /* Phones: a swipeable row, one full review per view, dots + arrows */
+  /* Phones: a swipeable row, one full review per view, dots + arrows.
+     Looping like the slides: a copy of the last review sits before the first
+     and a copy of the first after the last; landing on a copy jumps silently
+     to the real review, so "next" on the last review continues to the first. */
   const scroller = document.getElementById('reviewsScroller');
   const dotsBox = document.getElementById('reviewsDots');
-  scroller.innerHTML = D.testimonials.map(item => reviewCard(item, false)).join('');
+  const total = D.testimonials.length;
+  const list = [D.testimonials[total - 1], ...D.testimonials, D.testimonials[0]];
+  scroller.innerHTML = list.map((item, i) => reviewCard(item, i === 0 || i === list.length - 1)).join('');
   const mCards = [...scroller.children];
-  dotsBox.innerHTML = mCards.map((_, i) => `<span class="reviews-dot"${i === 0 ? ' aria-current="true"' : ''}></span>`).join('');
+  mCards[0].inert = true;
+  mCards[mCards.length - 1].inert = true;
+  dotsBox.innerHTML = D.testimonials.map((_, i) => `<span class="reviews-dot"${i === 0 ? ' aria-current="true"' : ''}></span>`).join('');
   const mDots = [...dotsBox.children];
-  let mIndex = 0;
-  const scrollToCard = (i, smooth = true) => {
-    mIndex = Math.max(0, Math.min(mCards.length - 1, i));
-    const card = mCards[mIndex];
-    const left = card.offsetLeft - (scroller.clientWidth - card.offsetWidth) / 2;
-    scroller.scrollTo({ left, behavior: smooth && !S.reducedMotion.matches ? 'smooth' : 'auto' });
-  };
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver(entries => entries.forEach(e => {
-      if (e.intersectionRatio < 0.6) return;
-      mIndex = mCards.indexOf(e.target);
-      mDots.forEach((d, i) => d.toggleAttribute('aria-current', i === mIndex));
-    }), { root: scroller, threshold: [0.6] });
-    mCards.forEach(c => io.observe(c));
+  let mPos = 1;                                   // position among mCards (1 = first real review)
+  const smoothOk = () => !S.reducedMotion.matches;
+  function showCard(pos, smooth) {
+    mPos = pos;
+    /* scroll only the row (never the page): move by the distance between centres */
+    const box = scroller.getBoundingClientRect(), r = mCards[pos].getBoundingClientRect();
+    const delta = (r.left + r.width / 2) - (box.left + box.width / 2);
+    if (Math.abs(delta) > 1) scroller.scrollBy({ left: delta, behavior: smooth && smoothOk() ? 'smooth' : 'instant' });
+    const real = (pos - 1 + total) % total;
+    mDots.forEach((d, i) => d.toggleAttribute('aria-current', i === real));
   }
+  function centred() {
+    const box = scroller.getBoundingClientRect(), mid = box.left + box.width / 2;
+    let best = 0, dist = Infinity;
+    mCards.forEach((c, i) => { const r = c.getBoundingClientRect(); const d = Math.abs(r.left + r.width / 2 - mid); if (d < dist) { dist = d; best = i; } });
+    return best;
+  }
+  function settle() {
+    const pos = centred();
+    if (pos === 0) showCard(total, false);
+    else if (pos === mCards.length - 1) showCard(1, false);
+    else showCard(pos, false);
+  }
+  let settleTimer;
+  if ('onscrollend' in window) scroller.addEventListener('scrollend', settle);
+  else scroller.addEventListener('scroll', () => { clearTimeout(settleTimer); settleTimer = setTimeout(settle, 140); }, { passive: true });
+  /* live dot update while swiping */
+  scroller.addEventListener('scroll', () => {
+    const real = (centred() - 1 + total) % total;
+    mDots.forEach((d, i) => d.toggleAttribute('aria-current', i === real));
+  }, { passive: true });
   document.querySelectorAll('#reviewsMobile .slider-arrow').forEach(btn => btn.addEventListener('click', () => {
-    scrollToCard(mIndex + (btn.dataset.dir === 'next' ? 1 : -1));
+    const pos = centred();
+    showCard(Math.max(0, Math.min(mCards.length - 1, pos + (btn.dataset.dir === 'next' ? 1 : -1))), true);
   }));
-  S.onLanguageChange(() => scrollToCard(mIndex, false));
+  const startAtFirst = () => {
+    if (getComputedStyle(scroller).display === 'none') return;
+    showCard(1, false);
+  };
+  requestAnimationFrame(startAtFirst);
+  window.matchMedia('(max-width:700px)').addEventListener('change', startAtFirst);
+  S.onLanguageChange(() => requestAnimationFrame(() => showCard(mPos, false)));
 
   /* ---------- Hero title: always exactly two lines ----------
      Each line is nowrap; if a line is wider than its column (e.g. a wider

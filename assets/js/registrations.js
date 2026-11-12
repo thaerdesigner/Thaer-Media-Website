@@ -70,14 +70,15 @@
     box.querySelector('.reg-time').textContent = when;
     box.querySelector('.reg-time').hidden = !when;   // older rows may have no time
     box.querySelector('.reg-name').textContent = p.name;
-    box.querySelector('.reg-course').textContent = (en ? 'for ' : 'في ') + (p.workshop || '');
+    box.querySelector('.reg-course').textContent = (en ? 'for ' : 'في ') + ((S.data.registrations.workshop && S.data.registrations.workshop[en ? 'en' : 'ar']) || p.workshop || '');
     const cta = box.querySelector('.reg-cta');
     if (cta) cta.textContent = en ? 'Register' : 'سجّل الآن';
     box.querySelector('.reg-close').setAttribute('aria-label', en ? 'Close' : 'إغلاق');
   }
 
   load().then(data => {
-    const people = (data && data.people || []).filter(p => p && p.name);
+    const hidden = (S.data.registrations.hide || []).map(n => n.trim());
+    const people = (data && data.people || []).filter(p => p && p.name && hidden.indexOf(p.name.trim()) === -1);
     if (!people.length) return;
     const box = build();
     let shown = 0;

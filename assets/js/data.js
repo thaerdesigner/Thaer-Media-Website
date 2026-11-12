@@ -25,6 +25,8 @@ const SITE_DATA = window.SITE_DATA = {
      يحفظ كل تسجيل في الشيت، ويعرض في الموقع الاسم ووقت التسجيل واسم الورشة فقط.
      اتركه فارغاً "" لإيقاف الحفظ والإشعارات. */
   registrations: {
+    workshop: { ar: "من المنشور إلى المبيعات", en: "From Posts to Sales" },   // اسم الورشة الظاهر في الإشعار
+    hide: ["تجربة الموقع احذفني رجاء"],                                     // أسماء لا تظهر في الإشعارات
     endpoint: "https://script.google.com/macros/s/AKfycbwC6AM7gPAZNhBkRQfoADyDovkE13U3SQgdg2i8hOpzp3dmPX88pJ9ymJjXEpv1ZzOyqQ/exec"
   },
 

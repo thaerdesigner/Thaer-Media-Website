@@ -256,6 +256,7 @@ html[lang="en"] .review blockquote{line-height:1.5}
   background:var(--review-avatar-bg);color:var(--review-avatar-text);font-weight:800;font-size:1.05rem;font-family:var(--font-en);
 }
 .review-avatar.has-logo{background:#fff;overflow:hidden;box-shadow:0 0 0 2px var(--review-border)}
+.review-avatar.is-icon{color:#147467}
 .review-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .review-avatar svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .review-meta{display:grid;gap:2px;min-width:0}

@@ -127,7 +127,7 @@
       <svg class="review-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M13 7C7.9 8.7 5 12.6 5 18.4V25h9v-9H9.7c.2-3.2 1.8-5.3 4.8-6.4L13 7Zm14 0c-5.1 1.7-8 5.6-8 11.4V25h9v-9h-4.3c.2-3.2 1.8-5.3 4.8-6.4L27 7Z"/></svg>
       <blockquote ${attrs(item.quote)}>${esc(item.quote.ar)}</blockquote>
       <figcaption class="review-author">
-        <span class="review-avatar${item.logo ? ' has-logo' : ''}" aria-hidden="true">${item.logo
+        <span class="review-avatar${item.logo || item.icon ? ' has-logo' : ''}${item.icon ? ' is-icon' : ''}" aria-hidden="true">${item.logo
           ? `<img src="${esc(url(item.logo))}" alt="" width="80" height="80" loading="lazy" decoding="async">`
           : item.icon === 'cake'
             ? '<svg viewBox="0 0 24 24"><path d="M12 3.5c.9.8 1.4 1.6 1.4 2.4a1.4 1.4 0 0 1-2.8 0c0-.8.5-1.6 1.4-2.4Z"/><path d="M12 7.5V10"/><rect x="4" y="10" width="16" height="4.5" rx="1.5"/><path d="M4 12.2c1.3 1 2.7 1 4 0s2.7-1 4 0 2.7 1 4 0 2.7-1 4 0"/><path d="M5 14.5v5h14v-5"/><path d="M3.5 19.5h17"/></svg>'

@@ -120,9 +120,9 @@ const SITE_DATA = window.SITE_DATA = {
       { quote: { ar: "اليافطة اللي صممتها للمحل غيّرت شكل الواجهة كلها، ناس كثير صارت توقف تصوّرها، وصارت علامتنا بالشارع", en: "The sign you designed changed our whole storefront. Lots of people stop to take photos of it, and it has become our landmark on the street." },
         author: { ar: "دوندورما", en: "Dondurma" }, icon: "cake", initial: "د", service: { ar: "المطبوعات", en: "Print design" } },
       { quote: { ar: "عن جد شغلك الإعلامي كثير مميز، الفيديوهات اللي بتعملها بتوصل الرسالة صح، آخر فيديو نزلناه انتشر أكثر من أي إشي نزلناه قبل، يعطيك العافية", en: "Your media work is truly special. Your videos get the message across just right; our latest video spread more than anything we’ve posted before. Thank you!" },
-        author: { ar: "Twix", en: "Twix" }, initial: "T", service: { ar: "صناعة المحتوى", en: "Content creation" } },
+        author: { ar: "Twix", en: "Twix" }, logo: "assets/images/clients/twix.jpg", initial: "T", service: { ar: "صناعة المحتوى", en: "Content creation" } },
       { quote: { ar: "بصراحة أكثر إشي بميزك الالتزام: بتسلّم بالموعد، وبترد على طول، وبتتعامل مع المشروع كأنه مشروعك", en: "Honestly, what sets you apart is commitment: you deliver on time, reply right away, and treat the project as if it were your own." },
-        author: { ar: "معرض Milano للبدل الشبابية", en: "Milano Youth Suits Showroom" }, initial: "M", service: { ar: "تعاون مستمر", en: "Ongoing partnership" } }
+        author: { ar: "معرض Milano للبدل الشبابية", en: "Milano Youth Suits Showroom" }, logo: "assets/images/clients/milano.jpg", initial: "M", service: { ar: "تعاون مستمر", en: "Ongoing partnership" } }
     ]
   },
 

@@ -195,9 +195,7 @@
               <a href="mailto:${esc(D.contact.email)}">${ICONS.mail}<span class="ltr">${esc(D.contact.email)}</span></a>
             </div>
           </div>
-        </div>
-        <div class="footer-bottom">
-          <p>© ${year} Thaer Media. <span data-ar="جميع الحقوق محفوظة." data-en="All rights reserved.">جميع الحقوق محفوظة.</span></p>
+          <p class="footer-rights">© ${year} Thaer Media. <span data-ar="جميع الحقوق محفوظة." data-en="All rights reserved.">جميع الحقوق محفوظة.</span></p>
         </div>
       </div>`;
   }

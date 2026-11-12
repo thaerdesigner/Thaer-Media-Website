@@ -326,17 +326,19 @@ html[lang="en"] .lang-toggle{font-family:var(--font-ar);font-size:1rem}
 .socials a:hover{color:var(--accent-text);border-color:var(--accent-text);transform:translateY(-2px)}
 .socials svg{width:17px;height:17px;fill:currentColor}
 .socials svg.stroke{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.footer-bottom{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;padding-block:20px 28px;border-top:1px solid var(--hairline);color:var(--text-subtle);font-size:var(--fs-small)}
-.footer-bottom a{color:var(--text-muted)}
-.footer-bottom a:hover{color:var(--accent-text)}
+/* copyright: inside the footer, bottom of the last column (left in Arabic, right in English) */
+.footer-contact-col{grid-row:1;grid-column:4}
+.footer-rights{grid-row:1;grid-column:4;align-self:end;justify-self:end;text-align:end;color:var(--text-subtle);font-size:var(--fs-small)}
 @media (max-width:900px){
   .footer-grid{grid-template-columns:1fr 1fr;gap:36px 24px}
   .footer-brand{grid-column:1/-1}
+  .footer-contact-col{grid-row:3;grid-column:1}
+  .footer-rights{grid-row:3;grid-column:2}
 }
 @media (max-width:480px){
   .footer-grid{grid-template-columns:1fr 1fr;padding-block:44px 32px}
   .footer-contact-col{grid-column:1/-1}
-  .footer-bottom{justify-content:center;text-align:center}
+  .footer-rights{grid-row:4;grid-column:1/-1;justify-self:center;text-align:center}
 }
 
 /* ---------- Floating WhatsApp ---------- */

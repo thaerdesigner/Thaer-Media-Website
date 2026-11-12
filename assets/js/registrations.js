@@ -111,7 +111,7 @@
   let timer = null;
   const later = (fn, ms) => { clearTimeout(timer); timer = setTimeout(fn, ms); };
   function showNext() {
-    if (!people.length || document.hidden) return;
+    if (!people.length || document.hidden || atBottom) return;
     index = index % people.length;
     fill(people[index]);
     box.classList.add('is-shown');
@@ -138,6 +138,16 @@
     else restart(400);
   });
   window.addEventListener('pageshow', e => { if (e.persisted) restart(400); });
+  /* step aside while the copyright line at the very bottom is on screen */
+  let atBottom = false;
+  const rights = document.querySelector('.footer-rights, .footer-copy');
+  if (rights && 'IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      atBottom = entries[0].isIntersecting;
+      if (atBottom) { clearTimeout(timer); box.classList.remove('is-shown'); }
+      else restart(400);
+    }).observe(rights);
+  }
 
   function use(list) {
     const first = !people.length;

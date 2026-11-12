@@ -15,7 +15,7 @@
 
   const FIRST = 600;     // ms before the first card
   const SHOW = 6000;     // how long each card stays
-  const GAP = 4000;      // pause between cards
+  const GAP = 400;       // just the fade between cards
   const KEY = 'regFeed';
   const lang = () => (document.documentElement.lang === 'en' ? 'en' : 'ar');
   const safe = fn => { try { return fn(); } catch (e) { return null; } };

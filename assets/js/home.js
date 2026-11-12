@@ -152,7 +152,7 @@
   const spot = document.getElementById('reviewsSpot');
   const stage = document.getElementById('spotStage');
   const clientsBox = document.getElementById('spotClients');
-  const SPOT_TIME = 8000;
+  const SPOT_TIME = 5000;   // keep in sync with the spotProgress animation in home.css
   let spotIndex = 0, spotTimer = null, spotPaused = false, spotVisible = false;
   stage.insertAdjacentHTML('beforeend', D.testimonials.map((item, i) => `
     <figure class="spot-item${i === 0 ? ' is-active' : ''}"${i === 0 ? '' : ' aria-hidden="true"'}>

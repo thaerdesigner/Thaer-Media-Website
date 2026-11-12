@@ -1,18 +1,22 @@
 /* ==========================================================================
-   justify.js — block-style (justified) paragraphs without wide word gaps
-   CSS justifies paragraphs on every page. This script measures the spaces
-   in each one and, where justifying would stretch a space too much (narrow
-   columns, short lines), falls back to the normal alignment for that
-   paragraph only. It re-checks on width, visibility and language changes.
+   justify.js — block-style (justified) text on every page
+   Paragraphs, headings, descriptions and list items get justified lines.
+   - Text keeps its own side: start-aligned text stays at the start, centred
+     text keeps a centred last line.
+   - Where justifying would stretch the spaces between words, the text size
+     is nudged a little (up to ±10%) until the spaces stay small.
+   It re-checks on width, visibility and language changes.
    ========================================================================== */
 (function () {
   'use strict';
   if (!window.ResizeObserver || !document.createRange) return;
 
-  const SELECTOR = 'p, blockquote, dd, .trainer-points li';
-  const MAX_GAP = 0.5;              // widest allowed space, in em (a normal space is ~0.24em)
-  const OFF = 'tj-off';
-  const widths = new WeakMap();
+  const SELECTOR = 'main :is(p, blockquote, dd, dt, h1, h2, h3, h4, li, figcaption), .site-footer p, .footer-brand p';
+  const SKIP = '.reg-toast, nav, button, a, label, select, .btn, .menu, .site-header';
+  const GOOD = 0.5;        // a space up to this width (em) counts as small (a normal space is ~0.24em)
+  const LIMIT = 0.7;       // beyond this even after resizing, leave the text unjustified
+  const STEPS = [0.985, 1.015, 0.97, 1.03, 0.955, 1.045, 0.94, 1.06, 0.925, 1.075, 0.91, 1.09, 0.9, 1.1];
+  const seen = new WeakMap();
 
   function widestSpace(el) {
     const size = parseFloat(getComputedStyle(el).fontSize) || 16;
@@ -31,39 +35,76 @@
     return worst;
   }
 
+  function lines(el) {
+    const cs = getComputedStyle(el);
+    const lh = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.5;
+    return Math.round((el.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom)) / lh);
+  }
+
   function check(el) {
+    el.classList.remove('tj', 'tj-c', 'tj-off');
+    el.style.fontSize = '';
     if (!el.isConnected || !el.offsetWidth) return;
-    el.classList.remove(OFF);
-    if (getComputedStyle(el).textAlign !== 'justify') return;
-    if (widestSpace(el) > MAX_GAP) el.classList.add(OFF);
+    const cs = getComputedStyle(el);
+    const rtl = cs.direction === 'rtl';
+    const align = cs.textAlign;
+    const start = align === 'start' || align === 'justify' || align === (rtl ? 'right' : 'left');
+    if (!start && align !== 'center') return;                 // end-aligned text stays as it is
+    el.classList.add('tj');
+    if (align === 'center') el.classList.add('tj-c');
+    if (lines(el) < 2) return;                                // one line: nothing to stretch
+    let worst = widestSpace(el);
+    if (worst <= GOOD) return;
+    const base = parseFloat(cs.fontSize);
+    let best = { s: 1, w: worst };
+    for (const s of STEPS) {
+      el.style.fontSize = (base * s).toFixed(2) + 'px';
+      worst = widestSpace(el);
+      if (worst < best.w) best = { s, w: worst };
+      if (worst <= GOOD) break;
+    }
+    el.style.fontSize = best.s === 1 ? '' : (base * best.s).toFixed(2) + 'px';
+    if (best.w > LIMIT) { el.style.fontSize = ''; el.classList.remove('tj', 'tj-c'); if (align === 'justify') el.classList.add('tj-off'); }
   }
 
   const observer = new ResizeObserver(entries => {
     entries.forEach(entry => {
-      const w = Math.round(entry.contentRect.width);
-      if (widths.get(entry.target) === w) return;
-      widths.set(entry.target, w);
-      check(entry.target);
+      const el = entry.target;
+      const w = el.offsetWidth;
+      if (seen.get(el) === w) return;
+      check(el);
+      seen.set(el, el.offsetWidth);
     });
   });
 
+  function hasText(el) {
+    for (const n of el.childNodes) if (n.nodeType === 3 && n.textContent.trim()) return true;
+    return false;
+  }
   function watchAll() {
     document.querySelectorAll(SELECTOR).forEach(el => {
-      if (el.closest('.reg-toast')) return;
-      if (!widths.has(el)) { widths.set(el, -1); observer.observe(el); }
+      if (seen.has(el) || !hasText(el) || el.closest(SKIP)) return;
+      seen.set(el, -1);
+      observer.observe(el);
     });
   }
-  const recheck = () => document.querySelectorAll(SELECTOR).forEach(el => { if (widths.has(el)) check(el); });
+  function recheckAll() {
+    document.querySelectorAll(SELECTOR).forEach(el => {
+      if (!seen.has(el)) return;
+      check(el);
+      seen.set(el, el.offsetWidth);
+    });
+  }
 
   watchAll();
   /* content added later (reviews, galleries) and language switches */
   let pending = null;
+  const inToast = m => { const el = m.target.nodeType === 1 ? m.target : m.target.parentElement; return el && el.closest('.reg-toast'); };
   new MutationObserver(list => {
-    const inToast = m => { const el = m.target.nodeType === 1 ? m.target : m.target.parentElement; return el && el.closest('.reg-toast'); };
     if (list.every(m => m.type !== 'attributes' && inToast(m))) return;
     clearTimeout(pending);
-    pending = setTimeout(() => { watchAll(); recheck(); }, 60);
+    pending = setTimeout(() => { watchAll(); recheckAll(); }, 60);
   }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'], childList: true, subtree: true, characterData: true });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(recheck);
-  window.addEventListener('load', recheck);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(recheckAll);
+  window.addEventListener('load', recheckAll);
 })();

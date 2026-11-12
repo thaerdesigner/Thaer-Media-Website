@@ -352,13 +352,10 @@ html[lang="en"] .lang-toggle{font-family:var(--font-ar);font-size:1rem}
 .floating-whatsapp.is-hidden{opacity:0;visibility:hidden;transform:translateY(12px)}
 @media (max-width:480px){.floating-whatsapp{inset-inline-end:max(18px,env(safe-area-inset-right,0px));bottom:max(18px,env(safe-area-inset-bottom,0px));width:52px;height:52px}}
 
-/* ---------- Text blocks: justified paragraphs (both languages, all widths) ---------- */
-:is(p,blockquote,dd){text-align:justify;text-justify:inter-word;text-wrap:pretty}
-.tj-off{text-align:inherit!important}
-/* text that was centred stays centred: justified lines, centred last line */
-:is(.section-head--center p,.cta p,.form-note,.footer-bottom p){text-align-last:center}
-.footer-copy{text-align:inherit}
-@media (max-width:960px){:is(.hero-lead,.metric dd){text-align-last:center}}
+/* ---------- Text blocks: justified text (classes set by assets/js/justify.js) ---------- */
+.tj{text-align:justify!important;text-justify:inter-word;text-wrap:pretty}
+.tj-c{text-align-last:center}
+.tj-off{text-align:start!important}
 
 /* ---------- Registration notification ---------- */
 .reg-toast{

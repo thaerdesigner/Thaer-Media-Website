@@ -18,24 +18,31 @@
       <dd><span class="metric-value" data-count="${m.value}">${m.value}</span><span aria-hidden="true">+</span></dd>
     </div>`).join('');
 
+  /* Counters start at 0 straight away (no flash of the final number) and
+     count up once visible. Time is measured from the first animation frame,
+     so the progress never goes below 0 (that showed as -1 on some phones). */
   function animateCounters() {
-    const counters = metrics.querySelectorAll('[data-count]');
+    const counters = [...metrics.querySelectorAll('[data-count]')];
     if (S.reducedMotion.matches || !('IntersectionObserver' in window)) return;
+    counters.forEach(el => { el.textContent = '0'; });
+    const run = el => {
+      const target = Number(el.dataset.count);
+      const duration = 1200;
+      let start = null;
+      const tick = now => {
+        if (start === null) start = now;
+        const p = Math.max(0, Math.min((now - start) / duration, 1));
+        el.textContent = String(Math.max(0, Math.round((1 - Math.pow(1 - p, 3)) * target)));
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = String(target);
+      };
+      requestAnimationFrame(tick);
+    };
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
         observer.unobserve(entry.target);
-        const el = entry.target;
-        const target = Number(el.dataset.count);
-        const start = performance.now();
-        const duration = 1200;
-        const tick = now => {
-          const p = Math.min((now - start) / duration, 1);
-          el.textContent = String(Math.round((1 - Math.pow(1 - p, 3)) * target));
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        el.textContent = '0';
-        requestAnimationFrame(tick);
+        run(entry.target);
       });
     }, { threshold: 0.6 });
     counters.forEach(c => observer.observe(c));

@@ -74,20 +74,21 @@
       price = `${item.from ? `<span class="plan-price-from">${esc(t(T.from))}</span>` : ''}<bdi class="plan-price-main" dir="${item.usd != null ? 'ltr' : 'auto'}">${esc(main)}</bdi>${second}`;
     }
     const feats = [];
-    if (item.per && item.usd) feats.push(`${t(T.perDesign)}: <bdi dir="ltr">${usd(Math.round(item.usd / item.per * 10) / 10)}</bdi>`);
     if (item.reach) {
       const [a, b] = item.reach.map(num);
       feats.push(`${t(T.reach)}<br><strong class="plan-reach">${lang() === 'en' ? `${a}–${b} people` : `من ${a} إلى ${b} شخص`}</strong>`);
     }
-    (item.features || []).forEach(f => feats.push(esc(t(f))));
-    if (item.cat.revisions) feats.push(esc(t(T.firstFree)));
+    if (item.notes) {
+      (item.features || []).forEach(f => feats.push(esc(t(f))));
+      if (item.cat.revisions) feats.push(esc(t(T.firstFree)));
+    }
     return `
       <li class="plan card${item.badge ? ' plan--featured' : ''}${item.hideName ? ' plan--noname' : ''}" data-id="${id}">
         ${item.badge ? `<span class="plan-badge">${esc(t(item.badge))}</span>` : ''}
         ${item.hideName ? '' : `<h3 class="plan-name">${esc(t(item.name))}</h3>`}
         <p class="plan-price">${price}</p>
         ${item.desc ? `<p class="plan-desc">${esc(t(item.desc))}</p>` : ''}
-        <ul class="plan-features">${feats.map(f => `<li>${f}</li>`).join('')}</ul>
+        ${feats.length ? `<ul class="plan-features">${feats.map(f => `<li>${f}</li>`).join('')}</ul>` : ''}
         <div class="plan-actions">
           <button class="btn btn--primary btn--sm" type="button" data-now="${id}">${esc(t(item.quote ? T.askQuote : T.now))}</button>
           <button class="btn btn--ghost btn--sm" type="button" data-add="${id}">${esc(t(T.add))}</button>

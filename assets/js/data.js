@@ -39,6 +39,7 @@ const SITE_DATA = window.SITE_DATA = {
      - reach: [أقل, أكثر] الوصول المتوقع للحملة.
      - badge: شارة صغيرة فوق البطاقة (اختياري).
      - desc: وصف قصير تحت اسم الباقة. hideName: true ← لا يظهر اسم الباقة في البطاقة.
+     - notes: true ← تظهر سطور الملاحظات (features) وسطر التعديلات في البطاقة.
      - teaser: السعر الظاهر لهذا القسم في صندوق الأسعار بالصفحة الرئيسية.
      ======================================================================== */
   pricing: {
@@ -72,7 +73,7 @@ const SITE_DATA = window.SITE_DATA = {
         teaser: { ar: "يبدأ من 17$ ما يعادل 50 شيكل", en: "From $17 (≈ ₪50)" },
         revisions: true,
         items: [
-          { id: "print", name: { ar: "تصميم مطبوعات", en: "Print design" }, hideName: true, usd: 17, ils: 50, from: true,
+          { id: "print", name: { ar: "تصميم مطبوعات", en: "Print design" }, hideName: true, usd: 17, ils: 50, from: true, notes: true,
             features: [{ ar: "السعر حسب تعقيد التصميم والتعديلات", en: "Price depends on the design’s complexity and revisions" }] }
         ]
       },
@@ -83,7 +84,7 @@ const SITE_DATA = window.SITE_DATA = {
         teaser: { ar: "حسب الطلب", en: "Custom quote" },
         revisions: true,
         items: [
-          { id: "brand", name: { ar: "هوية بصرية", en: "Visual identity" }, hideName: true, quote: true,
+          { id: "brand", name: { ar: "هوية بصرية", en: "Visual identity" }, hideName: true, quote: true, notes: true,
             features: [{ ar: "نحدّد السعر بعد معرفة احتياجك", en: "We set the price once we know what you need" }] }
         ]
       },

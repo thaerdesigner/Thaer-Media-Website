@@ -13,12 +13,12 @@
   --card:#fffdf9;
   --ink:#1f2530;
   --ink-2:#4b5262;
-  --ink-3:#7a7f8a;
+  --ink-3:#5f6470;
   --line:#e2d9ca;
   --accent:#b9553a;          /* terracotta */
   --accent-dark:#9b4430;
   --accent-soft:#f3e2d9;
-  --sage:#6f7f5c;
+  --sage:#55653f;
   --sage-soft:#e6eadf;
   --night:#1f2633;
   --radius:18px;
@@ -57,7 +57,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 .mark-text strong{font-size:.95rem;font-weight:600}
 .mark-text small{font-size:.75rem;color:var(--ink-3)}
 .top-actions{display:flex;align-items:center;gap:6px}
-.link-quiet{padding:8px 14px;border-radius:999px;font-weight:500;font-size:.92rem;color:var(--accent)}
+.link-quiet{padding:8px 14px;border-radius:999px;font-weight:600;font-size:.92rem;color:var(--accent-dark)}
 .link-quiet:hover{background:var(--accent-soft)}
 .lang{padding:8px 14px;border-radius:999px;border:1px solid var(--line);font-size:.88rem;font-weight:500;transition:background-color .2s,border-color .2s}
 .lang:hover{background:var(--card);border-color:var(--ink-3)}

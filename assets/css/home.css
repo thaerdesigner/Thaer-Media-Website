@@ -14,6 +14,7 @@ html[lang="en"] .hero h1{line-height:1.12;font-size:min(clamp(1.6rem,.7rem + 3.6
 .hero-lead{max-width:46ch;color:var(--text-muted);font-size:var(--fs-lead)}
 .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:4px}
 .metrics{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:0;margin:14px 0 0}
+.metrics:empty{min-height:72px}
 .metric{display:flex;flex-direction:column-reverse;gap:2px;padding-inline:28px;border-inline-start:1px solid var(--hairline)}
 .metric:first-child{padding-inline-start:0;border-inline-start:0}
 .metric dt{color:var(--text-muted);font-size:var(--fs-small);font-weight:600}
@@ -87,6 +88,7 @@ html[dir="ltr"] .slider-arrow svg{transform:scaleX(-1)}
 .promo{padding-bottom:clamp(24px,4vw,40px)}
 .promo-slider{border-radius:var(--radius-lg);background:#0b2a28;border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
 .promo-slide{display:block;aspect-ratio:3/1}
+#promoTrack:empty{aspect-ratio:3/1}
 .promo-slide img{width:100%;height:100%;object-fit:cover}
 .promo-slider .slider-controls{position:absolute;inset:0;pointer-events:none}
 .promo-slider .slider-controls > *{pointer-events:auto}
@@ -108,6 +110,9 @@ html[dir="ltr"] .promo-cta{left:62.5%}
 }
 
 /* ---------- Services ---------- */
+.services-grid:empty{min-height:560px}
+.work-grid:empty{min-height:820px}
+.process-grid:empty{min-height:220px}
 .services-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
 .service-card{
   display:flex;flex-direction:column;gap:10px;padding:24px;overflow:hidden;

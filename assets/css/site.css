@@ -291,6 +291,7 @@ html[lang="en"] .lang-toggle{font-family:var(--font-ar);font-size:1rem}
 .site-footer{margin-top:var(--section-space);border-top:1px solid var(--hairline);background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.16))}
 :root[data-theme="light"] .site-footer{background:linear-gradient(180deg,rgba(255,255,255,.4),rgba(255,255,255,.75))}
 .site-footer--simple{border-top:0;background:none}
+#siteFooter:empty{min-height:120px}
 /* Thin divider, Home button on the start side (right in Arabic, left in English), copyright on the other */
 .site-footer--simple .container{
   display:flex;align-items:center;justify-content:space-between;gap:16px;

@@ -8,6 +8,8 @@
 }
 .gallery-tabs{display:flex;gap:6px;margin-top:22px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;-webkit-mask:linear-gradient(90deg,transparent,#000 12px,#000 calc(100% - 12px),transparent)}
 .gallery-tabs::-webkit-scrollbar{display:none}
+.gallery-tabs:empty{min-height:38px}
+#galleryGrid:empty{min-height:100vh}
 .gallery-tabs a{
   flex:none;padding:6px 14px;border-radius:var(--radius-pill);border:1px solid var(--border);
   background:var(--surface-hover);color:var(--text-muted);font-size:.85rem;font-weight:700;line-height:1.5;white-space:nowrap;

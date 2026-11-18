@@ -19,6 +19,16 @@
   S.whatsappForm(document.getElementById('contactForm'), {
     rules: { name: 'name', phone: 'phone', details: 'details' },
     status: document.getElementById('contactStatus'),
+    /* Save the message in the Google Sheet (tab «رسائل التواصل») before WhatsApp opens */
+    onSend: (v, lang) => {
+      const endpoint = S.data.registrations && S.data.registrations.endpoint;
+      if (!endpoint) return;
+      const trap = document.getElementById('contactWebsite');
+      const body = JSON.stringify({ type: 'contact', name: v.name, phone: v.phone, details: v.details, lang, website: trap ? trap.value : '' });
+      try {
+        fetch(endpoint, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body });
+      } catch (e) { /* the WhatsApp step still works */ }
+    },
     message: (v, lang) => (lang === 'en'
       ? ['Hello Thaer Media,', '', `Name: ${v.name}`, `Phone: ${v.phone}`, `Details: ${v.details}`]
       : ['مرحباً Thaer Media،', '', `الاسم: ${v.name}`, `رقم الجوال: ${v.phone}`, `تفاصيل الخدمة: ${v.details}`]

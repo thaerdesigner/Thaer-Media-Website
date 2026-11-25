@@ -360,3 +360,8 @@ html[dir="ltr"] .spot-progress{transform-origin:left}
   .spot-client .review-avatar{width:30px;height:30px;font-size:.75rem}
   .spot-progress{bottom:-7px;inset-inline:4px}
 }
+
+/* content-creation cover: dark and light videos stacked; the theme shows one */
+.work-card-video.img-light{opacity:0}
+:root[data-theme="light"] .work-card-video.img-light{opacity:1}
+:root[data-theme="light"] .work-card-video.img-dark{opacity:0}

@@ -81,7 +81,8 @@
   document.getElementById('workGrid').innerHTML = D.workTeaser.map(w => `
     <a class="work-card${w.wide ? ' work-card--wide' : ''}" href="${esc(url(w.href))}" data-work="${esc(w.href)}">
       ${w.coverVideo
-        ? `<video class="work-card-video" muted loop playsinline preload="none" poster="${esc(url(w.poster))}" data-src="${esc(url(w.coverVideo))}" aria-hidden="true"></video>`
+        ? `<video class="work-card-video img-dark" muted loop playsinline preload="none" poster="${esc(url(w.poster))}" data-src="${esc(url(w.coverVideo))}" aria-hidden="true"></video>${w.coverVideoLight
+            ? `<video class="work-card-video img-light" muted loop playsinline preload="none" poster="${esc(url(w.posterLight))}" data-src="${esc(url(w.coverVideoLight))}" aria-hidden="true"></video>` : ''}`
         : `<img data-sm src="${esc(S.sized(url(w.coverAr), { hasAttribute: () => true }))}" data-src-ar="${esc(w.coverAr)}" data-src-en="${esc(w.coverEn)}" alt="" width="1200" height="800" loading="lazy" decoding="async">`}
       <span class="work-card-body">
         <h3 ${attrs(w.title)}>${esc(w.title.ar)}</h3>
@@ -107,17 +108,25 @@
     setTimeout(() => cover.focus({ preventScroll: true }), S.reducedMotion.matches ? 0 : 600);
   });
 
-  /* Animated covers play only while on screen (and never with reduced motion) */
-  const coverVideos = document.querySelectorAll('.work-card-video');
+  /* Animated covers play only while on screen (and never with reduced motion).
+     The card holds a dark and a light video in the same place; only the one
+     for the current theme is loaded and played. */
+  const coverVideos = [...document.querySelectorAll('.work-card-video')];
+  const forTheme = v => !v.classList.contains(document.documentElement.getAttribute('data-theme') === 'light' ? 'img-dark' : 'img-light');
   if (coverVideos.length && 'IntersectionObserver' in window && !S.reducedMotion.matches) {
-    const io = new IntersectionObserver(entries => entries.forEach(entry => {
-      const v = entry.target;
-      if (entry.isIntersecting) {
+    const onScreen = new Set();
+    const refresh = () => coverVideos.forEach(v => {
+      if (onScreen.has(v) && forTheme(v)) {
         if (!v.src) v.src = v.dataset.src;
         v.play().catch(() => {});
       } else v.pause();
-    }), { threshold: 0.25 });
+    });
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => (entry.isIntersecting ? onScreen.add(entry.target) : onScreen.delete(entry.target)));
+      refresh();
+    }, { threshold: 0.25 });
     coverVideos.forEach(v => io.observe(v));
+    new MutationObserver(refresh).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   }
 
   /* ---------- Process ---------- */

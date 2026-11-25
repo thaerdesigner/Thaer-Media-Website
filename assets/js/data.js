@@ -209,7 +209,8 @@ const SITE_DATA = window.SITE_DATA = {
       { href: "work.print/",    coverAr: "assets/work-covers/ar/04-print-design.webp",   coverEn: "assets/work-covers/en/04-print-design.webp",   title: { ar: "تصاميم المطبوعات",      en: "Print design" } },
       { href: "work.ads/",      coverAr: "assets/work-covers/ar/03-advertising.webp",    coverEn: "assets/work-covers/en/03-advertising.webp",    title: { ar: "نتائج الحملات الإعلانية", en: "Ad campaign results" } },
       /* غلاف عريض متحرك (فيديو قصير بدون صوت) — poster صورة تظهر قبل تحميل الفيديو */
-      { href: "work.video/", wide: true, coverVideo: "assets/work-covers/video/content-cover.mp4?v=3", poster: "assets/work-covers/video/content-cover.webp?v=3", title: { ar: "صناعة المحتوى", en: "Content creation" } }
+      { href: "work.video/", wide: true, coverVideo: "assets/work-covers/video/content-cover.mp4?v=3", poster: "assets/work-covers/video/content-cover.webp?v=3",
+        coverVideoLight: "assets/work-covers/video/content-cover-light.mp4?v=1", posterLight: "assets/work-covers/video/content-cover-light.webp?v=1", title: { ar: "صناعة المحتوى", en: "Content creation" } }
     ],
 
     process: [

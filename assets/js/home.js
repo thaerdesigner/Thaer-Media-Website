@@ -53,12 +53,34 @@
 
   /* ---------- Promo slides ---------- */
   document.getElementById('promoCta').href = url(D.slidesLink);
+  const slideLang = () => (S.lang() === 'en' ? 'en' : 'ar');
   document.getElementById('promoTrack').innerHTML = D.slides.map((s, i) => `
-    <div class="slide"><a class="promo-slide" href="${esc(url(D.slidesLink))}">
-      <img data-sm src="${esc(S.sized(url(s.ar), { hasAttribute: () => true }))}" data-src-ar="${esc(s.ar)}" data-src-en="${esc(s.en)}"
+    <div class="slide"${s.duration ? ` data-duration="${Number(s.duration)}"` : ''}><a class="promo-slide" href="${esc(url(D.slidesLink))}">
+      ${s.video
+        ? `<video class="promo-video" muted loop playsinline preload="none" poster="${esc(url(s[slideLang()]))}"
+             data-video-ar="${esc(url(s.video.ar))}" data-video-en="${esc(url(s.video.en))}" data-poster-ar="${esc(url(s.ar))}" data-poster-en="${esc(url(s.en))}"
+             aria-label="${esc(s.altAr)}" data-label-ar="${esc(s.altAr)}" data-label-en="${esc(s.altEn)}"></video>`
+        : `<img data-sm src="${esc(S.sized(url(s.ar), { hasAttribute: () => true }))}" data-src-ar="${esc(s.ar)}" data-src-en="${esc(s.en)}"
            alt="${esc(s.altAr)}" data-alt-ar="${esc(s.altAr)}" data-alt-en="${esc(s.altEn)}"
-           width="1440" height="480" decoding="async" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}>
+           width="1440" height="480" decoding="async" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}>`}
     </a></div>`).join('');
+  /* video slides: play the visible one from the start, pause the others; follow the language */
+  function syncSlideVideos() {
+    document.querySelectorAll('#promoTrack .promo-video').forEach(v => {
+      const lang = slideLang();
+      const poster = v.dataset['poster' + (lang === 'en' ? 'En' : 'Ar')];
+      if (v.getAttribute('poster') !== poster) v.setAttribute('poster', poster);
+      const src = v.dataset['video' + (lang === 'en' ? 'En' : 'Ar')];
+      const slide = v.closest('.slide');
+      const show = slide.classList.contains('is-active') && !slide.classList.contains('is-clone') && !S.reducedMotion.matches;
+      if (show) {
+        if (v.getAttribute('src') !== src) { v.setAttribute('src', src); }
+        try { v.currentTime = 0; } catch (e) { /* not loaded yet */ }
+        v.play().catch(() => {});
+      } else if (!v.paused) v.pause();
+    });
+  }
+  S.onLanguageChange(() => { document.querySelectorAll('#promoTrack .promo-video').forEach(v => { if (v.getAttribute('src')) v.removeAttribute('src'); }); syncSlideVideos(); });
 
   /* ---------- Services ---------- */
   const SERVICE_ICONS = {
@@ -296,13 +318,16 @@
         if (active || i === (index + 1) % n) slide.querySelectorAll('img[loading="lazy"]').forEach(img => { img.loading = 'eager'; });
       });
       dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === index)));
+      if (root.id === 'promoSlider') syncSlideVideos();
       if (user) restart();
     }
-    function stop() { clearInterval(timer); timer = null; }
+    function stop() { clearTimeout(timer); timer = null; }
+    /* each slide can stay longer (data-duration, e.g. a 10-second video) */
     function restart() {
       stop();
       if (!delay || paused || !inView || S.reducedMotion.matches || document.hidden) return;
-      timer = setInterval(() => go(null, { step: 1 }), delay);
+      const wait = Number(slides[index].dataset.duration) || delay;
+      timer = setTimeout(() => { go(null, { step: 1 }); restart(); }, wait);
     }
 
     root.querySelectorAll('.slider-arrow').forEach(btn => btn.addEventListener('click', () => go(null, { user: true, step: btn.dataset.dir === 'next' ? 1 : -1 })));

@@ -89,7 +89,7 @@ html[dir="ltr"] .slider-arrow svg{transform:scaleX(-1)}
 .promo-slider{border-radius:var(--radius-lg);background:#0b2a28;border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
 .promo-slide{display:block;aspect-ratio:3/1}
 #promoTrack:empty{aspect-ratio:3/1}
-.promo-slide img{width:100%;height:100%;object-fit:cover}
+.promo-slide img,.promo-slide video{width:100%;height:100%;object-fit:cover;display:block}
 .promo-slider .slider-controls{position:absolute;inset:0;pointer-events:none}
 .promo-slider .slider-controls > *{pointer-events:auto}
 .promo-slider .slider-arrow{position:absolute;top:50%;translate:0 -50%;background:rgba(5,35,32,.55);border-color:rgba(255,255,255,.3);color:#fff;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}

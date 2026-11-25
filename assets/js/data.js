@@ -172,11 +172,13 @@ const SITE_DATA = window.SITE_DATA = {
 
     /* السلايدات الإعلانية — صورة لكل لغة بمقاس 1440×480 */
     slides: [
+      /* شريحة فيديو: video = ملف الفيديو لكل لغة، ar/en = صورة الغلاف قبل التشغيل، duration = مدة عرضها بالملّي ثانية */
+      { video: { ar: "assets/ad-slides/ad-slide-06.mp4?v=1", en: "assets/ad-slides/ad-slide-06-en.mp4?v=1" }, duration: 10000,
+        ar: "assets/ad-slides/ad-slide-06.webp", en: "assets/ad-slides/ad-slide-06-en.webp", altAr: "مشاهد من داخل ورشة من المنشور إلى المبيعات", altEn: "Scenes from inside the From Posts to Sales workshop" },
       { ar: "assets/ad-slides/ad-slide-01.webp", en: "assets/ad-slides/ad-slide-01-en.webp", altAr: "دورة التواصل الاجتماعي واستخدام منصات الذكاء الاصطناعي", altEn: "Social media and AI platforms course" },
       { ar: "assets/ad-slides/ad-slide-02.webp", en: "assets/ad-slides/ad-slide-02-en.webp", altAr: "تعلّم أساسيات العمل الحر عبر منصات التواصل", altEn: "Learn the basics of freelancing on social media" },
       { ar: "assets/ad-slides/ad-slide-03.webp", en: "assets/ad-slides/ad-slide-03-en.webp", altAr: "اكتسب الفرصة في تعلّم أساسيات التواصل الاجتماعي ومنصات الذكاء الاصطناعي", altEn: "Learn social media and AI platform essentials" },
-      { ar: "assets/ad-slides/ad-slide-04.webp", en: "assets/ad-slides/ad-slide-04-en.webp", altAr: "فرصتك لبناء مصدر دخل إضافي عبر منصات التواصل", altEn: "Build an additional income source through social media" },
-      { ar: "assets/ad-slides/ad-slide-05.webp", en: "assets/ad-slides/ad-slide-05-en.webp", altAr: "سجّل في ورشة التواصل الاجتماعي", altEn: "Register for the social media workshop" }
+      { ar: "assets/ad-slides/ad-slide-04.webp", en: "assets/ad-slides/ad-slide-04-en.webp", altAr: "فرصتك لبناء مصدر دخل إضافي عبر منصات التواصل", altEn: "Build an additional income source through social media" }
     ],
     slidesLink: "socialmedia.courses1/",
 

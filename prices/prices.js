@@ -105,12 +105,18 @@
 
   /* ---------- Tabs: one service at a time ---------- */
   const CAT_ICONS = {
-    social: '<rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M10.5 18.5h3"/><path d="M12 13.4s-3.2-1.9-3.2-4a1.7 1.7 0 0 1 3.2-.8 1.7 1.7 0 0 1 3.2.8c0 2.1-3.2 4-3.2 4Z"/>',
-    print: '<path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="7" rx="1"/>',
-    brand: '<path d="m12 19 7-7 3 3-7 7-3-3Z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5Z"/><path d="m2 2 7.586 7.586"/><circle cx="11" cy="11" r="2"/>',
-    content: '<rect x="2" y="6" width="14" height="12" rx="2"/><path d="m16 10.5 5.2-3a.5.5 0 0 1 .8.4v8.2a.5.5 0 0 1-.8.4l-5.2-3"/><path d="m7.5 9.5 4 2.5-4 2.5Z"/>',
-    ads: '<path d="M3 11v3a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/>'
+    /* a social post: picture + like */
+    social: '<rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="m21 15-4.5-4.5L8 19"/><path d="M15.6 20.2s-2.6-1.5-2.6-3.2a1.3 1.3 0 0 1 2.6-.6 1.3 1.3 0 0 1 2.6.6c0 1.7-2.6 3.2-2.6 3.2Z" fill="currentColor" stroke="none"/>',
+    /* a printed flyer: page with folded corner, picture and text lines */
+    print: '<path d="M14 3H6.5A1.5 1.5 0 0 0 5 4.5v15A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V8Z"/><path d="M14 3v5h5"/><rect x="8" y="10.5" width="8" height="4.5" rx="1"/><path d="M8 18h5"/>',
+    /* a colour palette */
+    brand: '<path d="M12 3a9 9 0 0 0 0 18c1.4 0 2-1 2-2 0-1.4-1.2-1.8-1.2-3 0-1 .8-1.8 1.9-1.8H17a4 4 0 0 0 4-4C21 6.4 17 3 12 3Z"/><circle cx="7.5" cy="11" r="1.1" fill="currentColor"/><circle cx="10" cy="7" r="1.1" fill="currentColor"/><circle cx="15" cy="7.2" r="1.1" fill="currentColor"/>',
+    /* a film clapperboard */
+    content: '<path d="M4 10h16v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="m4 10-.6-3.4a1.5 1.5 0 0 1 1.2-1.7l12.8-2.3a1.5 1.5 0 0 1 1.7 1.2L19.7 7Z"/><path d="m8.5 4.2 2.4 4M13.6 3.3l2.4 4"/>',
+    /* a megaphone */
+    ads: '<path d="M3 10.5v3a1.5 1.5 0 0 0 1.5 1.5H7l8 4.5V4.5L7 9H4.5A1.5 1.5 0 0 0 3 10.5Z"/><path d="M7 15v3.5a1.5 1.5 0 0 0 3 0V16.3"/><path d="M18.5 9.5a3.5 3.5 0 0 1 0 5"/>'
   };
+
   const ids = P.categories.map(c => c.id);
   let active = ids.indexOf(location.hash.slice(1)) !== -1 ? location.hash.slice(1) : ids[0];
 

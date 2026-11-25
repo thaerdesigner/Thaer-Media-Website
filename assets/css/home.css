@@ -102,6 +102,8 @@ html[dir="ltr"] .slider-arrow svg{transform:scaleX(-1)}
 /* The slide artwork leaves room for the button under the headline */
 .promo-cta{position:absolute;top:79%;left:37.3%;translate:-50% -50%;background:linear-gradient(110deg,#f1c64f 0%,#d5a033 100%);color:#1c1606;box-shadow:0 8px 22px rgba(0,0,0,.3)}
 html[dir="ltr"] .promo-cta{left:62.5%}
+.promo-cta{transition:opacity .35s var(--ease),visibility .35s}
+.promo-slider.is-video-slide .promo-cta{opacity:0;visibility:hidden;pointer-events:none}
 @media (max-width:720px){
   .promo-slider .slider-controls{position:static;justify-content:space-between;gap:10px;padding:12px}
   .promo-slider .slider-arrow{position:static;translate:none}

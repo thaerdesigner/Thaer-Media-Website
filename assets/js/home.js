@@ -324,7 +324,11 @@
         if (active || i === (index + 1) % n) slide.querySelectorAll('img[loading="lazy"]').forEach(img => { img.loading = 'eager'; });
       });
       dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === index)));
-      if (root.id === 'promoSlider') syncSlideVideos();
+      if (root.id === 'promoSlider') {
+        syncSlideVideos();
+        /* the video slide has its own "register" button: hide the shared one there */
+        root.classList.toggle('is-video-slide', !!slides[index].querySelector('.promo-video'));
+      }
       if (user) restart();
     }
     function stop() { clearTimeout(timer); timer = null; }

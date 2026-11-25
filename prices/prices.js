@@ -119,12 +119,14 @@
       <button class="prices-tab" type="button" role="tab" id="tab-${esc(cat.id)}" data-cat="${esc(cat.id)}" aria-controls="${esc(cat.id)}" aria-selected="${cat.id === active}" tabindex="${cat.id === active ? 0 : -1}">
         <svg viewBox="0 0 24 24" aria-hidden="true">${CAT_ICONS[cat.id] || ''}</svg><span>${esc(t(cat.title))}</span>
       </button>`).join('');
-    $('pricesPolicy').textContent = t(P.revisions);
+    /* revisions note: a highlighted strip; «مجاني / free» and the price stand out */
+    const policy = esc(t(P.revisions)).replace(/(مجاني|free)/i, '<strong class="policy-free">$1</strong>').replace(/(5 دولارات|\$5)/, '<strong>$1</strong>');
+    $('pricesPolicy').innerHTML = `<span class="policy-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><span class="policy-text">${policy}</span>`;
     $('pricesList').innerHTML = P.categories.map(cat => `
       <section class="prices-section" id="${esc(cat.id)}" role="tabpanel" aria-labelledby="tab-${esc(cat.id)}"${cat.id === active ? '' : ' hidden'}>
         <div class="container">
           <div class="section-head">
-            <h2>${esc(t(cat.title))}</h2>
+            <h2 class="sr-only">${esc(t(cat.title))}</h2>
             ${cat.intro ? `<p>${esc(t(cat.intro))}</p>` : ''}
           </div>
           <ul class="plans plans--${['', 'one', 'two', 'three', 'four', 'five', 'six'][cat.items.length] || 'many'}">${cat.items.map(i => card(ITEMS[i.id])).join('')}</ul>

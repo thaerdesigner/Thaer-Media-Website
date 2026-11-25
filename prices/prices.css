@@ -19,7 +19,20 @@
 .prices-section.is-in .section-head,.prices-section.is-in .plans{animation:panelIn .45s var(--ease) both}
 .prices-section.is-in .plans{animation-delay:.06s}
 @keyframes panelIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.prices-policy{margin:6px auto 0;max-width:62ch;text-align:center;color:var(--text);font-size:var(--fs-small);font-weight:600}
+.prices-policy{
+  display:flex;align-items:center;gap:14px;width:fit-content;max-width:100%;margin:8px auto 0;padding:12px 20px 12px 14px;
+  border-radius:var(--radius);border:1px solid rgba(237,189,77,.5);
+  background:linear-gradient(110deg,rgba(237,189,77,.18),rgba(237,189,77,.05));
+  color:var(--text);font-size:.95rem;font-weight:600;line-height:1.6;box-shadow:var(--shadow-sm)
+}
+html[dir="rtl"] .prices-policy{padding:12px 14px 12px 20px}
+.policy-icon{flex:none;width:40px;height:40px;display:grid;place-items:center;border-radius:50%;background:var(--btn-primary-bg);color:var(--btn-primary-text);box-shadow:0 0 0 5px rgba(237,189,77,.15)}
+.policy-icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.policy-text strong{color:var(--accent-text);font-weight:800;white-space:nowrap}
+.policy-text .policy-free{display:inline-block;padding:0 9px;margin-inline:2px;border-radius:var(--radius-pill);background:var(--btn-primary-bg);color:var(--btn-primary-text)}
+:root[data-theme="light"] .prices-policy{border-color:rgba(11,107,91,.3);background:linear-gradient(110deg,rgba(11,107,91,.1),rgba(11,107,91,.02))}
+:root[data-theme="light"] .policy-icon{box-shadow:0 0 0 5px rgba(11,107,91,.1)}
+@media (max-width:600px){.prices-policy{font-size:.86rem;padding:10px 12px;gap:10px;align-items:flex-start}.policy-icon{width:34px;height:34px}}
 
 .prices-section{scroll-margin-top:calc(var(--prices-sticky,90px) + 84px)}
 /* tighter rhythm on this page: tabs → policy → first section use the same gap */
@@ -212,3 +225,6 @@ html[dir="rtl"] .plan-perks::after{animation-name:perksShineRtl}
 
 /* page intro: natural alignment with balanced lines (no stretched word gaps) */
 .prices-hero p{max-width:68ch;text-wrap:balance}
+/* the tab already names the service: only its short description stays above the cards */
+.prices-section .section-head{margin-bottom:clamp(14px,2vw,20px)}
+.prices-section .section-head p{margin:0}

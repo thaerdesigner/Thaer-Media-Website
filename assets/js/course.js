@@ -14,7 +14,7 @@
       const endpoint = S.data.registrations && S.data.registrations.endpoint;
       if (!endpoint) return;
       const trap = document.getElementById('courseWebsite');
-      const body = JSON.stringify({ fullName: v.fullName, whatsapp: v.whatsapp, email: v.email, lang, website: trap ? trap.value : '' });
+      const body = JSON.stringify({ fullName: v.fullName, whatsapp: v.whatsapp, email: v.email, source: S.registrationSource(), lang, website: trap ? trap.value : '' });
       try {
         fetch(endpoint, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body });
       } catch (e) { /* the WhatsApp step still works */ }

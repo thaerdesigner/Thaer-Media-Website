@@ -352,12 +352,33 @@
     });
   }
 
+  /* ---------- Registration source ----------
+     Each center or ad gets its own link, e.g. .../socialmedia.courses1/?from=talent-space
+     The value is kept for 30 days (so it survives moving around the site) and
+     saved with the workshop registration in the sheet column «المصدر». */
+  const SOURCE_KEY = 'regFrom';
+  (function rememberSource() {
+    try {
+      const q = new URLSearchParams(location.search);
+      const raw = q.get('from') || q.get('utm_campaign') || q.get('utm_source') || '';
+      const value = raw.trim().replace(/[<>"'`]/g, '').slice(0, 60);
+      if (value) localStorage.setItem(SOURCE_KEY, JSON.stringify({ value, at: Date.now() }));
+    } catch (e) { /* storage blocked: no tracking */ }
+  })();
+  function registrationSource() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(SOURCE_KEY) || 'null');
+      if (saved && Date.now() - saved.at < 30 * 864e5) return saved.value;
+    } catch (e) { /* ignore */ }
+    return '';
+  }
+
   /* ---------- Public API for page scripts ---------- */
   window.SITE = {
     data: D, root: ROOT, page, isHome, reducedMotion,
     lang, t, esc, url, sized, whatsappUrl, latinDigits, icons: ICONS,
     onLanguageChange: fn => langListeners.push(fn),
-    applyLanguage, whatsappForm
+    applyLanguage, whatsappForm, registrationSource
   };
 
   /* ---------- Boot ---------- */

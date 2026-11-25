@@ -5,19 +5,32 @@
 .course-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:center;gap:clamp(32px,5vw,72px)}
 .course-visual{--portrait-w:min(420px,100%)}
 .course-badge{bottom:9%;left:50%;translate:-50% 0}
-.course-copy{display:grid;justify-items:start;gap:20px}
-.course-copy h1{display:grid;gap:6px;font-size:var(--fs-h1)}
-.course-title-top{font-size:.72em;color:var(--text-muted);font-weight:700}
-.course-title-accent{color:var(--gold)}
+.course-copy{display:grid;justify-items:start;gap:22px}
+.course-copy h1{display:grid;gap:10px;font-size:var(--fs-h1)}
+.course-title-top{display:flex;align-items:center;gap:12px;font-size:.62em;color:var(--text-muted);font-weight:700}
+.course-title-top::after{content:"";width:48px;height:3px;border-radius:3px;background:var(--gold);opacity:.8}
+:root[data-theme="light"] .course-title-top::after{background:var(--accent-text)}
+.course-title-accent{color:var(--gold);line-height:1.25}
 :root[data-theme="light"] .course-title-accent{color:var(--accent-text)}
-.course-lead{color:var(--text-muted);font-size:var(--fs-lead);max-width:54ch}
-.course-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;width:100%;margin:4px 0 6px}
-.course-fact{padding:18px 20px}
-.course-fact dt{font-size:var(--fs-small);font-weight:600;color:var(--text-subtle)}
-.course-fact dd{margin:4px 0 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px;color:var(--text-muted)}
-.course-fact dd strong{color:var(--text);font-size:1.15rem}
-.course-fact-num{font-size:2rem!important;line-height:1;color:var(--gold)!important}
+.course-lead{color:var(--text-muted);font-size:var(--fs-lead);max-width:56ch;line-height:1.8}
+
+/* facts: one strip in three parts, each with an icon */
+.course-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;margin:0;padding:0;overflow:hidden;border-radius:var(--radius)}
+.course-fact{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"icon dt" "icon dd";align-items:center;column-gap:10px;row-gap:2px;padding:16px 14px}
+.course-fact + .course-fact{border-inline-start:1px solid var(--hairline)}
+.course-fact-icon{grid-area:icon;width:40px;height:40px;display:grid;place-items:center;border-radius:50%;background:rgba(237,189,77,.14);color:var(--gold);box-shadow:inset 0 0 0 1px rgba(237,189,77,.3)}
+:root[data-theme="light"] .course-fact-icon{background:rgba(11,107,91,.1);color:var(--accent-text);box-shadow:inset 0 0 0 1px rgba(11,107,91,.22)}
+.course-fact-icon svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.course-fact dt{grid-area:dt;font-size:.8rem;font-weight:600;color:var(--text-subtle)}
+.course-fact dd{grid-area:dd;margin:0;display:grid;gap:1px;color:var(--text-muted);font-size:.78rem;line-height:1.45}
+.course-fact dd strong{color:var(--text);font-size:1.02rem;font-weight:800}
+.course-fact:first-child dd{display:flex;align-items:baseline;gap:6px;font-size:.9rem}
+.course-fact-num{font-size:1.9rem!important;line-height:1;color:var(--gold)!important}
 :root[data-theme="light"] .course-fact-num{color:var(--accent-text)!important}
+
+.course-cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px}
+.course-cta-note{display:inline-flex;align-items:center;gap:8px;color:var(--text-muted);font-size:var(--fs-small);font-weight:600}
+.course-cta-note svg{width:20px;height:20px;padding:3px;border-radius:50%;background:#25d366;fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 
 .course-register{padding-top:0}
 .register-card{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5vw,64px);padding:clamp(24px,5vw,56px);border-radius:var(--radius-lg)}
@@ -37,9 +50,15 @@
   .course-copy{justify-items:stretch}
   .course-copy .eyebrow{justify-self:start}
   .course-copy .btn{justify-self:start}
+  .course-cta{justify-self:start}
   .register-card{grid-template-columns:minmax(0,1fr)}
 }
-@media (max-width:480px){
+@media (max-width:640px){
   .course-facts{grid-template-columns:1fr}
-  .course-copy .btn{justify-self:stretch}
+  .course-fact + .course-fact{border-inline-start:0;border-top:1px solid var(--hairline)}
+  .course-fact{padding:14px 16px}
+}
+@media (max-width:480px){
+  .course-cta{justify-self:stretch;flex-direction:column;align-items:stretch;text-align:center}
+  .course-cta-note{justify-content:center}
 }

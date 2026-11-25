@@ -92,7 +92,9 @@ html[lang="en"] .plan-price-main{font-family:var(--font-en);letter-spacing:-.02e
 .plan-reach{display:inline-block;margin-top:2px;font-size:1rem;color:var(--text)}
 .plan-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto}
 .plan-actions .btn{padding:0 10px;white-space:normal;line-height:1.25}
-.plan-actions .btn.is-added{border-color:var(--accent-text);color:var(--accent-text)}
+.plan-actions .btn.is-added{border-color:rgba(240,138,122,.55);color:#ffb4a8;background:rgba(240,138,122,.08)}
+:root[data-theme="light"] .plan-actions .btn.is-added{border-color:rgba(179,38,30,.35);color:#b3261e;background:rgba(179,38,30,.05)}
+.plan:has(.is-added){border-color:var(--accent-text)}
 .prices-note{margin-top:16px;color:var(--text-subtle);font-size:var(--fs-small)}
 
 /* ---------- Order bar ---------- */
@@ -207,3 +209,6 @@ html[dir="rtl"] .plan-perks::after{animation-name:perksShineRtl}
   border:1px solid var(--border-strong);background:var(--surface-hover);color:var(--accent-text);font-size:.78rem;font-weight:700;line-height:1.4
 }
 .plan-tag::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+
+/* page intro: natural alignment with balanced lines (no stretched word gaps) */
+.prices-hero p{max-width:68ch;text-wrap:balance}

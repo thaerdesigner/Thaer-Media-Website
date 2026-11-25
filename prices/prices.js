@@ -37,6 +37,7 @@
     days: { ar: 'مدة الحملة', en: 'Duration' },
     add: { ar: 'أضف للطلب', en: 'Add to order' },
     added: { ar: 'أُضيف إلى طلبك ✓', en: 'Added to your order ✓' },
+    inOrder: { ar: 'إزالة من الطلب', en: 'Remove from order' },
     now: { ar: 'اطلب الآن', en: 'Order now' },
     askQuote: { ar: 'اطلب عرض سعر', en: 'Request a quote' },
     firstFree: { ar: 'التعديل الأول مجاني، وكل تعديل بعده بـ 5 دولارات', en: 'First revision free, then $5 per revision' },
@@ -190,6 +191,7 @@
   function count(list) { return list.length; }
 
   function updateBar() {
+    syncAddButtons();
     const bar = $('cartBar');
     bar.hidden = !cart.length;
     document.body.classList.toggle('has-cart', cart.length > 0);
@@ -228,18 +230,27 @@
     $('orderTotal').innerHTML = `<span>${esc(t(T.total))}</span><strong>${money(tot.text)}</strong>${tot.note ? `<small>${esc(t(T.totalNote))}</small>` : ''}`;
   }
 
-  function addToCart(id, button) {
+  function addToCart(id) {
     const line = cart.find(l => l.id === id);
     if (line) { if (ITEMS[id].qty) line.qty++; }
     else cart.push({ id, qty: 1 });
     save(); updateBar();
     $('cartBar').classList.remove('is-bump'); void $('cartBar').offsetWidth; $('cartBar').classList.add('is-bump');
-    if (button) {
-      button.textContent = t(T.added);
-      button.classList.add('is-added');
-      clearTimeout(button._timer);
-      button._timer = setTimeout(() => { button.textContent = t(T.add); button.classList.remove('is-added'); }, 1600);
-    }
+  }
+  function removeFromCart(id) {
+    cart = cart.filter(l => l.id !== id);
+    if (mode === 'cart') lines = cart;
+    save(); updateBar();
+  }
+  /* every "add" button shows whether its package is already in the order;
+     a package in the order gets a "remove" button instead */
+  function syncAddButtons() {
+    document.querySelectorAll('[data-add]').forEach(btn => {
+      const inCart = cart.some(l => l.id === btn.dataset.add);
+      btn.classList.toggle('is-added', inCart);
+      btn.textContent = t(inCart ? T.inOrder : T.add);
+      btn.setAttribute('aria-pressed', String(inCart));
+    });
   }
 
   const dialog = $('orderDialog');
@@ -275,7 +286,7 @@
   $('pricesList').addEventListener('click', e => {
     const add = e.target.closest('[data-add]');
     const now = e.target.closest('[data-now]');
-    if (add) addToCart(add.dataset.add, add);
+    if (add) { if (cart.some(l => l.id === add.dataset.add)) removeFromCart(add.dataset.add); else addToCart(add.dataset.add); }
     if (now) openDialog('direct', now.dataset.now);
   });
 

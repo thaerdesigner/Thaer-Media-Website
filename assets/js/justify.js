@@ -12,7 +12,7 @@
   if (!window.ResizeObserver || !document.createRange) return;
 
   const SELECTOR = 'main :is(p, blockquote, dd, dt, h1, h2, h3, h4, li, figcaption), .site-footer p, .footer-brand p';
-  const SKIP = '.reg-toast, nav, button, a, label, select, .btn, .menu, .site-header';
+  const SKIP = '.reg-toast, nav, button, a, label, select, .btn, .menu, .site-header, .no-tj';
   const GOOD = 0.5;        // a space up to this width (em) counts as small (a normal space is ~0.24em)
   const LIMIT = 0.7;       // beyond this even after resizing, leave the text unjustified
   const STEPS = [0.985, 1.015, 0.97, 1.03, 0.955, 1.045, 0.94, 1.06, 0.925, 1.075, 0.91, 1.09, 0.9, 1.1];

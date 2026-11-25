@@ -54,11 +54,15 @@
   /* ---------- Promo slides ---------- */
   document.getElementById('promoCta').href = url(D.slidesLink);
   const slideLang = () => (S.lang() === 'en' ? 'en' : 'ar');
+  const isLight = () => document.documentElement.getAttribute('data-theme') === 'light';
+  const slideKey = () => slideLang() + (isLight() ? 'Light' : '');
   document.getElementById('promoTrack').innerHTML = D.slides.map((s, i) => `
     <div class="slide"${s.duration ? ` data-duration="${Number(s.duration)}"` : ''}><a class="promo-slide" href="${esc(url(D.slidesLink))}">
       ${s.video
-        ? `<video class="promo-video" muted loop playsinline preload="none" poster="${esc(url(s[slideLang()]))}"
+        ? `<video class="promo-video" muted loop playsinline preload="none" poster="${esc(url(s[slideKey()] || s[slideLang()]))}"
              data-video-ar="${esc(url(s.video.ar))}" data-video-en="${esc(url(s.video.en))}" data-poster-ar="${esc(url(s.ar))}" data-poster-en="${esc(url(s.en))}"
+             data-video-ar-light="${esc(url(s.video.arLight || s.video.ar))}" data-video-en-light="${esc(url(s.video.enLight || s.video.en))}"
+             data-poster-ar-light="${esc(url(s.arLight || s.ar))}" data-poster-en-light="${esc(url(s.enLight || s.en))}"
              aria-label="${esc(s.altAr)}" data-label-ar="${esc(s.altAr)}" data-label-en="${esc(s.altEn)}"></video>`
         : `<img data-sm src="${esc(S.sized(url(s.ar), { hasAttribute: () => true }))}" data-src-ar="${esc(s.ar)}" data-src-en="${esc(s.en)}"
            alt="${esc(s.altAr)}" data-alt-ar="${esc(s.altAr)}" data-alt-en="${esc(s.altEn)}"
@@ -67,10 +71,10 @@
   /* video slides: play the visible one from the start, pause the others; follow the language */
   function syncSlideVideos() {
     document.querySelectorAll('#promoTrack .promo-video').forEach(v => {
-      const lang = slideLang();
-      const poster = v.dataset['poster' + (lang === 'en' ? 'En' : 'Ar')];
+      const key = (slideLang() === 'en' ? 'En' : 'Ar') + (isLight() ? 'Light' : '');
+      const poster = v.dataset['poster' + key];
       if (v.getAttribute('poster') !== poster) v.setAttribute('poster', poster);
-      const src = v.dataset['video' + (lang === 'en' ? 'En' : 'Ar')];
+      const src = v.dataset['video' + key];
       const slide = v.closest('.slide');
       const show = slide.classList.contains('is-active') && !slide.classList.contains('is-clone') && !S.reducedMotion.matches;
       if (show) {
@@ -80,7 +84,9 @@
       } else if (!v.paused) v.pause();
     });
   }
-  S.onLanguageChange(() => { document.querySelectorAll('#promoTrack .promo-video').forEach(v => { if (v.getAttribute('src')) v.removeAttribute('src'); }); syncSlideVideos(); });
+  const resetSlideVideos = () => { document.querySelectorAll('#promoTrack .promo-video').forEach(v => { if (v.getAttribute('src')) v.removeAttribute('src'); }); syncSlideVideos(); };
+  S.onLanguageChange(resetSlideVideos);
+  new MutationObserver(resetSlideVideos).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
   /* ---------- Services ---------- */
   const SERVICE_ICONS = {

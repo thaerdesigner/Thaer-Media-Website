@@ -102,14 +102,28 @@
       </li>`;
   }
 
+  /* ---------- Tabs: one service at a time ---------- */
+  const CAT_ICONS = {
+    social: '<rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M10.5 18.5h3"/><path d="M12 13.4s-3.2-1.9-3.2-4a1.7 1.7 0 0 1 3.2-.8 1.7 1.7 0 0 1 3.2.8c0 2.1-3.2 4-3.2 4Z"/>',
+    print: '<path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="7" rx="1"/>',
+    brand: '<path d="m12 19 7-7 3 3-7 7-3-3Z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5Z"/><path d="m2 2 7.586 7.586"/><circle cx="11" cy="11" r="2"/>',
+    content: '<rect x="2" y="6" width="14" height="12" rx="2"/><path d="m16 10.5 5.2-3a.5.5 0 0 1 .8.4v8.2a.5.5 0 0 1-.8.4l-5.2-3"/><path d="m7.5 9.5 4 2.5-4 2.5Z"/>',
+    ads: '<path d="M3 11v3a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/>'
+  };
+  const ids = P.categories.map(c => c.id);
+  let active = ids.indexOf(location.hash.slice(1)) !== -1 ? location.hash.slice(1) : ids[0];
+
   function render() {
-    $('pricesTabs').innerHTML = P.categories.map(cat => `<a href="#${esc(cat.id)}">${esc(t(cat.title))}</a>`).join('');
+    $('pricesTabs').innerHTML = P.categories.map(cat => `
+      <button class="prices-tab" type="button" role="tab" id="tab-${esc(cat.id)}" data-cat="${esc(cat.id)}" aria-controls="${esc(cat.id)}" aria-selected="${cat.id === active}" tabindex="${cat.id === active ? 0 : -1}">
+        <svg viewBox="0 0 24 24" aria-hidden="true">${CAT_ICONS[cat.id] || ''}</svg><span>${esc(t(cat.title))}</span>
+      </button>`).join('');
     $('pricesPolicy').textContent = t(P.revisions);
     $('pricesList').innerHTML = P.categories.map(cat => `
-      <section class="section prices-section" id="${esc(cat.id)}" aria-labelledby="${esc(cat.id)}Title">
+      <section class="prices-section" id="${esc(cat.id)}" role="tabpanel" aria-labelledby="tab-${esc(cat.id)}"${cat.id === active ? '' : ' hidden'}>
         <div class="container">
           <div class="section-head">
-            <h2 id="${esc(cat.id)}Title">${esc(t(cat.title))}</h2>
+            <h2>${esc(t(cat.title))}</h2>
             ${cat.intro ? `<p>${esc(t(cat.intro))}</p>` : ''}
           </div>
           <ul class="plans plans--${['', 'one', 'two', 'three', 'four', 'five', 'six'][cat.items.length] || 'many'}">${cat.items.map(i => card(ITEMS[i.id])).join('')}</ul>
@@ -117,6 +131,39 @@
         </div>
       </section>`).join('');
   }
+
+  function showCat(id, opts) {
+    if (ids.indexOf(id) === -1) return;
+    active = id;
+    document.querySelectorAll('.prices-tab').forEach(tab => {
+      const on = tab.dataset.cat === id;
+      tab.setAttribute('aria-selected', String(on));
+      tab.tabIndex = on ? 0 : -1;
+      if (on) tab.scrollIntoView({ block: 'nearest', inline: 'center', behavior: S.reducedMotion.matches ? 'auto' : 'smooth' });
+    });
+    document.querySelectorAll('.prices-section').forEach(sec => { sec.hidden = sec.id !== id; });
+    const panel = $(id);
+    if (panel && !S.reducedMotion.matches) { panel.classList.remove('is-in'); void panel.offsetWidth; panel.classList.add('is-in'); }
+    safe(() => history.replaceState(null, '', '#' + id));
+    /* keep the tab bar in view: bring the list top under the sticky bar if the visitor had scrolled past it */
+    if (opts && opts.scroll) {
+      const bar = document.querySelector('.prices-tabbar');
+      const top = $('pricesPolicy').getBoundingClientRect().top;
+      if (top < bar.getBoundingClientRect().bottom) window.scrollTo({ top: window.scrollY + top - bar.getBoundingClientRect().bottom - 8, behavior: 'auto' });
+    }
+  }
+  $('pricesTabs').addEventListener('click', e => { const tab = e.target.closest('.prices-tab'); if (tab) showCat(tab.dataset.cat, { scroll: true }); });
+  $('pricesTabs').addEventListener('keydown', e => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+    e.preventDefault();
+    const rtl = document.documentElement.dir === 'rtl';
+    let i = ids.indexOf(active);
+    if (e.key === 'Home') i = 0; else if (e.key === 'End') i = ids.length - 1;
+    else i = (i + ((e.key === 'ArrowLeft') === rtl ? 1 : -1) + ids.length) % ids.length;
+    showCat(ids[i], { scroll: true });
+    $('tab-' + ids[i]).focus();
+  });
+  window.addEventListener('hashchange', () => showCat(location.hash.slice(1), { scroll: true }));
 
   /* ---------- Order (cart) ---------- */
   let cart = (safe(() => JSON.parse(localStorage.getItem(KEY))) || []).filter(l => ITEMS[l.id]);
@@ -282,5 +329,8 @@
   render();
   updateBar();
   S.onLanguageChange(() => { render(); updateBar(); if (dialog.open) renderLines(); });
+  /* the header height decides where the tab bar sticks */
+  const setHeader = () => { const h = document.querySelector('.site-header'); if (h) document.documentElement.style.setProperty('--prices-sticky', h.offsetHeight + 'px'); };
+  setHeader(); window.addEventListener('resize', setHeader);
   S.ready();
 })();

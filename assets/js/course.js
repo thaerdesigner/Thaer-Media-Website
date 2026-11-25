@@ -14,7 +14,11 @@
       const endpoint = S.data.registrations && S.data.registrations.endpoint;
       if (!endpoint) return;
       const trap = document.getElementById('courseWebsite');
-      const body = JSON.stringify({ fullName: v.fullName, whatsapp: v.whatsapp, email: v.email, source: S.registrationSource(), lang, website: trap ? trap.value : '' });
+      /* center from the registration link (?from=code); unknown or missing → «غير محدد» */
+      const code = S.registrationSource().toLowerCase();
+      const centers = S.data.registrations.centers || {};
+      const center = centers[code] || (code ? 'غير محدد (' + code + ')' : 'غير محدد');
+      const body = JSON.stringify({ fullName: v.fullName, whatsapp: v.whatsapp, email: v.email, center, lang, website: trap ? trap.value : '' });
       try {
         fetch(endpoint, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body });
       } catch (e) { /* the WhatsApp step still works */ }

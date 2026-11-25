@@ -27,7 +27,15 @@ const SITE_DATA = window.SITE_DATA = {
   registrations: {
     workshop: { ar: "من المنشور إلى المبيعات", en: "From Posts to Sales" },   // اسم الورشة الظاهر في الإشعار
     hide: ["تجربة الموقع احذفني رجاء"],                                     // أسماء لا تظهر في الإشعارات
-    endpoint: "https://script.google.com/macros/s/AKfycbzZYd4U41f8RqVzGMJXSCyZi_zVU7zBya3E5Pc0njIS6GfpXZQ6TSTVOVCgyhHGS1TmwA/exec"
+    endpoint: "https://script.google.com/macros/s/AKfycbzZYd4U41f8RqVzGMJXSCyZi_zVU7zBya3E5Pc0njIS6GfpXZQ6TSTVOVCgyhHGS1TmwA/exec",
+    /* المراكز: الرمز يُكتب في رابط التسجيل، والاسم يُحفظ في عمود «المركز» بالشيت.
+       رابط كل مركز:  https://thaerdesigner.com/socialmedia.courses1/?from=الرمز
+       لإضافة مركز جديد: أضف سطراً بنفس الشكل (الرمز بالإنجليزية الصغيرة بدون مسافات).
+       لا يظهر اسم المركز في أي مكان بالموقع. */
+    centers: {
+      talent: "Talent Space",
+      bidaya: "Bidaya Center"
+    }
   },
 
   /* ======================== صفحة الأسعار (prices/) ========================

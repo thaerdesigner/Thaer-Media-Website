@@ -62,7 +62,7 @@
   }
 
   /* escaped text with dollar amounts kept left-to-right inside Arabic */
-  const money = text => esc(text).replace(/(\$?\d[\d.,]*\$?)/g, '<bdi dir="ltr">$1</bdi>');
+  const money = text => esc(text).replace(/(\$?\d[\d.,]*\$?)/g, '<span class="num-ltr">$1</span>');
 
   /* ---------- Cards ---------- */
   function card(item) {

@@ -360,7 +360,7 @@
     if (!band || !PR) return;
     band.innerHTML = PR.categories.map(cat => {
       /* keep dollar amounts like 10$ / $10 in left-to-right order inside Arabic text */
-      const price = S.esc(cat.teaser ? S.t(cat.teaser) : '').replace(/(\$?\d[\d.,]*\$?)/g, '<bdi dir="ltr">$1</bdi>');
+      const price = S.esc(cat.teaser ? S.t(cat.teaser) : '').replace(/(\$?\d[\d.,]*\$?)/g, '<span class="num-ltr">$1</span>');
       return `<li><a href="${S.esc(S.url('prices/#' + cat.id))}"><span>${S.esc(S.t(cat.title))}</span><span class="prices-band-price">${price}</span></a></li>`;
     }).join('');
   }

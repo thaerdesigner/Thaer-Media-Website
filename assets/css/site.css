@@ -555,3 +555,6 @@ html[dir="rtl"] .breadcrumb svg{transform:scaleX(-1)}
 main > .section:last-child{padding-bottom:0}
 .site-footer--simple{margin-top:clamp(28px,3.5vw,40px)}
 .site-footer--simple .container{padding-block:18px 24px}
+
+/* amounts such as 10$ inside Arabic text: keep the exact typed order on every browser */
+.num-ltr{direction:ltr;unicode-bidi:bidi-override;display:inline-block}

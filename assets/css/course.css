@@ -7,9 +7,7 @@
 .course-badge{bottom:9%;left:50%;translate:-50% 0}
 .course-copy{display:grid;justify-items:start;gap:22px}
 .course-copy h1{display:grid;gap:10px;font-size:var(--fs-h1)}
-.course-title-top{display:flex;align-items:center;gap:12px;font-size:.62em;color:var(--text-muted);font-weight:700}
-.course-title-top::after{content:"";width:48px;height:3px;border-radius:3px;background:var(--gold);opacity:.8}
-:root[data-theme="light"] .course-title-top::after{background:var(--accent-text)}
+.course-title-top{font-size:.62em;color:var(--text-muted);font-weight:700}
 .course-title-accent{color:var(--gold);line-height:1.25}
 :root[data-theme="light"] .course-title-accent{color:var(--accent-text)}
 .course-lead{color:var(--text-muted);font-size:var(--fs-lead);max-width:56ch;line-height:1.8}

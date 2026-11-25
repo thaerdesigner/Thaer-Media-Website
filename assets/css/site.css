@@ -550,3 +550,8 @@ html[dir="rtl"] .breadcrumb svg{transform:scaleX(-1)}
 /* full-width buttons may wrap long labels (e.g. English) instead of widening their box */
 .btn--block{white-space:normal;min-width:0;max-width:100%}
 @media (max-width:400px){.btn--block{padding:10px 16px;font-size:.92rem;line-height:1.35;gap:8px}}
+
+/* inner pages: modest gap between the last section and the simple footer */
+main > .section:last-child{padding-bottom:0}
+.site-footer--simple{margin-top:clamp(28px,3.5vw,40px)}
+.site-footer--simple .container{padding-block:18px 24px}

@@ -20,7 +20,7 @@
   const FIRST = 600;     // ms before the first card
   const SHOW = 6000;     // how long each card stays
   const GAP = 400;       // just the fade between cards
-  const KEY = 'regFeed2';
+  const KEY = 'regFeed3';
   const lang = () => (document.documentElement.lang === 'en' ? 'en' : 'ar');
   const safe = fn => { try { return fn(); } catch (e) { return null; } };
   const local = safe(() => window.localStorage);
@@ -152,6 +152,8 @@
   }
 
   function use(list) {
+    /* the live list is empty (e.g. no online registrations yet): hide any card from an old saved copy */
+    if (!list.length) { people = []; clearTimeout(timer); box.classList.remove('is-shown'); return; }
     const first = !people.length;
     const top = p => (p ? p.name + '|' + p.time : '');
     const changed = !first && top(list[0]) !== top(people[0]);

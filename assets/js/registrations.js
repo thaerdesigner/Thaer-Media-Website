@@ -10,7 +10,11 @@
 (function () {
   'use strict';
   const S = window.SITE;
-  const cfg = (S && S.data.registrations) || window.REG_CONFIG;
+  /* a page can set its own feed (e.g. the online workshop shows online registrations only) */
+  const base = S && S.data.registrations;
+  const cfg = window.REG_CONFIG
+    ? Object.assign({}, base || {}, window.REG_CONFIG, window.REG_CONFIG.feed && base ? { endpoint: base.endpoint + '?feed=' + window.REG_CONFIG.feed } : {})
+    : base;
   if (!cfg || !cfg.endpoint) return;
 
   const FIRST = 600;     // ms before the first card

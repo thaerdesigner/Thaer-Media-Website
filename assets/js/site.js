@@ -266,7 +266,9 @@
     name: { ar: 'يرجى كتابة اسمك.', en: 'Please enter your name.' },
     phone: { ar: 'أدخل رقماً صحيحاً، ويُفضّل مع رمز الدولة.', en: 'Enter a valid number, ideally with the country code.' },
     email: { ar: 'أدخل بريداً إلكترونياً صحيحاً.', en: 'Enter a valid email address.' },
-    details: { ar: 'اكتب بإيجاز الخدمة التي تحتاجها.', en: 'Briefly describe the service you need.' }
+    details: { ar: 'اكتب بإيجاز الخدمة التي تحتاجها.', en: 'Briefly describe the service you need.' },
+    country: { ar: 'اكتب اسم بلدك.', en: 'Enter your country.' },
+    choice: { ar: 'اختر طريقة الدفع المناسبة لك.', en: 'Choose a payment method.' }
   };
   const validators = {
     name: v => (v.length < 2 ? MSG.name : null),
@@ -276,7 +278,9 @@
       return (!/^\+?[\d\s().-]+$/.test(v) || digits.length < 8 || digits.length > 15) ? MSG.phone : null;
     },
     email: v => (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? MSG.email : null),
-    details: v => (v.length < 5 ? MSG.details : null)
+    details: v => (v.length < 5 ? MSG.details : null),
+    country: v => (v.length < 2 ? MSG.country : null),
+    choice: v => (!v ? MSG.choice : null)
   };
 
   function whatsappForm(form, { rules, message, status, onSend }) {
@@ -311,7 +315,7 @@
     };
     const check = field => {
       const value = clean(field.name, field.value);
-      const error = !value ? MSG.required : validators[rules[field.name]](value);
+      const error = !value ? (rules[field.name] === 'choice' ? MSG.choice : MSG.required) : validators[rules[field.name]](value);
       showError(field, error);
       return !error;
     };

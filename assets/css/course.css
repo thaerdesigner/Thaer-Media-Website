@@ -61,23 +61,53 @@
   .course-cta-note{justify-content:center}
 }
 
-/* ---------- Online workshop: price offer ---------- */
-.offer{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:22px;width:100%;padding:20px 24px;border-color:rgba(237,189,77,.45)}
-:root[data-theme="light"] .offer{border-color:rgba(11,107,91,.3)}
-.offer-price{display:grid;justify-items:center;gap:4px;padding-inline-end:22px;border-inline-end:1px solid var(--hairline);text-align:center}
-.offer-badge{padding:3px 12px;border-radius:var(--radius-pill);background:#e0533d;color:#fff;font-size:.8rem;font-weight:800}
-.offer-amount{font-size:clamp(2.6rem,2rem + 2vw,3.4rem);line-height:1;font-weight:800;color:var(--gold)}
-:root[data-theme="light"] .offer-amount{color:var(--accent-text)}
-.offer-note{font-size:.78rem;font-weight:700;color:var(--text-muted)}
-.offer-points{display:grid;gap:8px;margin:0;padding:0}
-.offer-points li{display:flex;align-items:center;gap:10px;font-weight:600;font-size:.95rem}
-.offer-points li::before{content:"";width:20px;height:20px;flex:none;border-radius:50%;
-  background:var(--gold) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231c1606' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 5 5L20 7'/%3E%3C/svg%3E") center/12px no-repeat}
-:root[data-theme="light"] .offer-points li::before{background-color:var(--accent-text);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 5 5L20 7'/%3E%3C/svg%3E")}
+/* ---------- Online workshop: price offer (price and discount lead) ---------- */
+.offer{position:relative;overflow:hidden;display:grid;gap:14px;width:100%;padding:26px 26px 20px;border-color:rgba(237,189,77,.55);
+  background-image:radial-gradient(420px 220px at 85% 0%,rgba(237,189,77,.16),transparent 70%),var(--surface)}
+:root[data-theme="light"] .offer{border-color:rgba(11,107,91,.35);background-image:radial-gradient(420px 220px at 85% 0%,rgba(11,107,91,.08),transparent 70%),var(--surface)}
+/* light sweep across the box every few seconds */
+.offer::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.12) 50%,transparent 65%);transform:translateX(-120%);animation:offerSweep 5s ease-in-out 1.2s infinite}
+html[dir="rtl"] .offer::after{animation-name:offerSweepRtl}
+@keyframes offerSweep{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+@keyframes offerSweepRtl{0%,55%{transform:translateX(120%)}100%{transform:translateX(-120%)}}
+/* discount ribbon: pops in, then pulses gently */
+.offer-ribbon{position:absolute;top:18px;inset-inline-end:-6px;padding:8px 20px 8px 18px;border-radius:12px 0 0 12px;
+  background:linear-gradient(110deg,#ff6b4f,#e0402a);color:#fff;font-size:1.05rem;font-weight:800;box-shadow:0 10px 24px rgba(224,64,42,.4);
+  transform-origin:center;animation:ribbonIn .7s cubic-bezier(.34,1.56,.64,1) .3s both,ribbonPulse 2.2s ease-in-out 1.2s infinite}
+html[dir="ltr"] .offer-ribbon{border-radius:0 12px 12px 0}
+.offer-ribbon::before{content:"";position:absolute;inset-inline-end:0;bottom:-6px;border-top:6px solid #a32c1c;border-inline-end:6px solid transparent}
+@keyframes ribbonIn{from{opacity:0;transform:scale(.4) rotate(-12deg)}to{opacity:1;transform:none}}
+@keyframes ribbonPulse{0%,100%{transform:scale(1);box-shadow:0 10px 24px rgba(224,64,42,.4)}50%{transform:scale(1.07);box-shadow:0 12px 30px rgba(224,64,42,.6),0 0 0 6px rgba(255,107,79,.15)}}
+.offer-main{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}
+.offer-amount{font-size:clamp(3.6rem,2.6rem + 3vw,5rem);line-height:.95;font-weight:800;color:var(--gold);text-shadow:0 6px 30px rgba(237,189,77,.25)}
+:root[data-theme="light"] .offer-amount{color:var(--accent-text);text-shadow:none}
+.offer-note{display:inline-flex;align-items:center;gap:8px;font-size:.95rem;font-weight:700;color:var(--text)}
+.offer-dot{width:9px;height:9px;border-radius:50%;background:#ff5b5b;animation:offerDot 1.6s ease-out infinite}
+@keyframes offerDot{0%{box-shadow:0 0 0 0 rgba(255,91,91,.6)}100%{box-shadow:0 0 0 10px rgba(255,91,91,0)}}
+.offer-points{display:flex;flex-wrap:wrap;gap:6px 20px;margin:0;padding:12px 0 0;border-top:1px solid var(--hairline)}
+.offer-points li{display:flex;align-items:center;gap:8px;font-size:.88rem;font-weight:600;color:var(--text-muted)}
+.offer-points li::before{content:"";width:16px;height:16px;flex:none;border-radius:50%;
+  background:rgba(237,189,77,.18) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23edbd4d' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 5 5L20 7'/%3E%3C/svg%3E") center/10px no-repeat}
+:root[data-theme="light"] .offer-points li::before{background-color:rgba(11,107,91,.12);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230b6b5b' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 5 5L20 7'/%3E%3C/svg%3E")}
+@media (prefers-reduced-motion:reduce){.offer::after,.offer-ribbon,.offer-dot{animation:none}}
+
+/* ---------- Online workshop: registration steps ---------- */
+.reg-steps{position:relative;display:grid;gap:22px;margin:10px 0 0;padding:0;counter-reset:none}
+.reg-steps::before{content:"";position:absolute;inset-inline-start:21px;top:22px;bottom:22px;width:2px;background:linear-gradient(180deg,var(--gold),rgba(237,189,77,.15))}
+:root[data-theme="light"] .reg-steps::before{background:linear-gradient(180deg,var(--accent-text),rgba(11,107,91,.15))}
+.reg-steps li{position:relative;display:flex;align-items:flex-start;gap:16px}
+.reg-step-num{flex:none;width:44px;height:44px;display:grid;place-items:center;border-radius:50%;background:var(--btn-primary-bg);color:var(--btn-primary-text);
+  font-weight:800;font-size:1.1rem;box-shadow:0 0 0 6px rgba(237,189,77,.12)}
+:root[data-theme="light"] .reg-step-num{box-shadow:0 0 0 6px rgba(11,107,91,.1)}
+.reg-step-text{display:grid;gap:3px;padding-top:2px}
+.reg-step-text strong{font-size:1.08rem;font-weight:800}
+.reg-step-text small{font-size:.92rem;color:var(--text-muted);line-height:1.6}
+
 .field select{width:100%;min-height:52px;padding:0 14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--field);color:var(--text);font:inherit;cursor:pointer}
 .field select:focus{outline:none;border-color:var(--accent-text);box-shadow:var(--focus-ring)}
 .field select option{color:#111}
 @media (max-width:520px){
-  .offer{grid-template-columns:1fr;gap:14px}
-  .offer-price{padding-inline-end:0;border-inline-end:0;padding-bottom:14px;border-bottom:1px solid var(--hairline)}
+  .offer{padding:22px 18px 16px}
+  .offer-ribbon{top:14px;font-size:.95rem;padding:6px 14px}
+  .offer-main{flex-direction:column;align-items:flex-start;gap:10px}
 }

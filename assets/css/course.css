@@ -70,20 +70,17 @@
 html[dir="rtl"] .offer::after{animation-name:offerSweepRtl}
 @keyframes offerSweep{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
 @keyframes offerSweepRtl{0%,55%{transform:translateX(120%)}100%{transform:translateX(-120%)}}
-/* discount ribbon: pops in, then pulses gently */
-.offer-ribbon{position:absolute;top:18px;inset-inline-end:-6px;padding:8px 20px 8px 18px;border-radius:12px 0 0 12px;
-  background:linear-gradient(110deg,#ff6b4f,#e0402a);color:#fff;font-size:1.05rem;font-weight:800;box-shadow:0 10px 24px rgba(224,64,42,.4);
-  transform-origin:center;animation:ribbonIn .7s cubic-bezier(.34,1.56,.64,1) .3s both,ribbonPulse 2.2s ease-in-out 1.2s infinite}
-html[dir="ltr"] .offer-ribbon{border-radius:0 12px 12px 0}
-.offer-ribbon::before{content:"";position:absolute;inset-inline-end:0;bottom:-6px;border-top:6px solid #a32c1c;border-inline-end:6px solid transparent}
+/* discount: pill badge with a small "limited time" line under it; pops in, then pulses gently */
+.offer-tag{position:absolute;top:18px;inset-inline-end:20px;display:grid;justify-items:center;gap:7px;z-index:1}
+.offer-ribbon{padding:6px 16px;border-radius:var(--radius-pill);background:linear-gradient(110deg,#ff6b4f,#e0402a);color:#fff;font-size:1rem;font-weight:800;
+  box-shadow:0 10px 24px rgba(224,64,42,.4);animation:ribbonIn .7s cubic-bezier(.34,1.56,.64,1) .3s both,ribbonPulse 2.2s ease-in-out 1.2s infinite}
 @keyframes ribbonIn{from{opacity:0;transform:scale(.4) rotate(-12deg)}to{opacity:1;transform:none}}
 @keyframes ribbonPulse{0%,100%{transform:scale(1);box-shadow:0 10px 24px rgba(224,64,42,.4)}50%{transform:scale(1.07);box-shadow:0 12px 30px rgba(224,64,42,.6),0 0 0 6px rgba(255,107,79,.15)}}
-.offer-main{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}
 .offer-amount{font-size:clamp(3.6rem,2.6rem + 3vw,5rem);line-height:.95;font-weight:800;color:var(--gold);text-shadow:0 6px 30px rgba(237,189,77,.25)}
 :root[data-theme="light"] .offer-amount{color:var(--accent-text);text-shadow:none}
-.offer-note{display:inline-flex;align-items:center;gap:8px;font-size:.95rem;font-weight:700;color:var(--text)}
-.offer-dot{width:9px;height:9px;border-radius:50%;background:#ff5b5b;animation:offerDot 1.6s ease-out infinite}
-@keyframes offerDot{0%{box-shadow:0 0 0 0 rgba(255,91,91,.6)}100%{box-shadow:0 0 0 10px rgba(255,91,91,0)}}
+.offer-note{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;color:var(--text-muted)}
+.offer-dot{width:7px;height:7px;border-radius:50%;background:#ff5b5b;animation:offerDot 1.6s ease-out infinite}
+@keyframes offerDot{0%{box-shadow:0 0 0 0 rgba(255,91,91,.6)}100%{box-shadow:0 0 0 8px rgba(255,91,91,0)}}
 .offer-points{display:flex;flex-wrap:wrap;gap:6px 20px;margin:0;padding:12px 0 0;border-top:1px solid var(--hairline)}
 .offer-points li{display:flex;align-items:center;gap:8px;font-size:.88rem;font-weight:600;color:var(--text-muted)}
 .offer-points li::before{content:"";width:16px;height:16px;flex:none;border-radius:50%;
@@ -108,6 +105,8 @@ html[dir="ltr"] .offer-ribbon{border-radius:0 12px 12px 0}
 .field select option{color:#111}
 @media (max-width:520px){
   .offer{padding:22px 18px 16px}
-  .offer-ribbon{top:14px;font-size:.95rem;padding:6px 14px}
-  .offer-main{flex-direction:column;align-items:flex-start;gap:10px}
+  .offer-tag{top:16px;inset-inline-end:14px}
+  .offer-ribbon{font-size:.92rem;padding:5px 13px}
 }
+/* online page: the lead stays one line on wide screens */
+@media (min-width:1280px){body[data-online] .course-lead{font-size:.97rem;white-space:nowrap;max-width:none}}

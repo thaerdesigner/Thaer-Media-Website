@@ -367,3 +367,34 @@ html[dir="ltr"] .spot-progress{transform-origin:left}
 .work-card-video.img-light{opacity:0}
 :root[data-theme="light"] .work-card-video.img-light{opacity:1}
 :root[data-theme="light"] .work-card-video.img-dark{opacity:0}
+
+/* ---------- Headline words rise in ---------- */
+.hero-word{display:inline-block}
+.js .hero h1.is-words-in .hero-word{animation:wordIn .8s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i) * 90ms + 120ms)}
+@keyframes wordIn{from{opacity:0;transform:translateY(.55em) rotate(2deg);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+
+/* ---------- Portrait tilt ---------- */
+.hero-visual{perspective:1100px}
+.hero-visual .portrait-inner{transform:rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg));transition:transform .5s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d}
+
+/* ---------- Services as a bento grid: wide cards alternate with regular ones ---------- */
+@media (min-width:961px){
+  .services-grid{grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-flow:dense}
+  .service-card:nth-child(1),.service-card:nth-child(4),.service-card:nth-child(6){grid-column:span 2}
+  .service-card:is(:nth-child(1),:nth-child(4),:nth-child(6)){display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto auto;align-content:center;column-gap:24px;row-gap:8px;padding:30px 32px;padding-inline-end:200px}
+  .service-card:is(:nth-child(1),:nth-child(4),:nth-child(6)) .service-icon{grid-row:1 / span 3;width:76px;height:76px;border-radius:22px}
+  .service-card:is(:nth-child(1),:nth-child(4),:nth-child(6)) .service-icon svg{width:36px;height:36px}
+  .service-card:is(:nth-child(1),:nth-child(4),:nth-child(6)) h3{font-size:calc(var(--fs-h3) * 1.15)}
+  .service-card:is(:nth-child(1),:nth-child(4),:nth-child(6)) p{flex:none}
+  .service-card:is(:nth-child(1),:nth-child(4),:nth-child(6)) .service-deco{display:block}
+}
+@media (min-width:601px) and (max-width:960px){
+  .service-card:nth-child(1),.service-card:nth-child(6){grid-column:span 2}
+}
+
+/* large faded icon that fills the free side of the wide service cards */
+.service-deco{display:none;position:absolute!important;inset-inline-end:28px;top:50%;width:150px;height:150px;translate:0 -50%;
+  color:var(--gold);opacity:.1;transform:rotate(-10deg);transition:opacity .4s var(--ease),transform .6s var(--ease);pointer-events:none}
+.service-deco svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round}
+.service-card:hover .service-deco{opacity:.18;transform:rotate(0deg) scale(1.05)}
+:root[data-theme="light"] .service-deco{color:var(--accent-text);opacity:.08}

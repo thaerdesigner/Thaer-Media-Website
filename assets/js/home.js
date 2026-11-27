@@ -51,6 +51,39 @@
     later.forEach(c => observer.observe(c));
   }
 
+  /* ---------- Headline: words rise in one after another ---------- */
+  const heroH1 = document.getElementById('heroTitle');
+  function splitHeroWords() {
+    if (!heroH1 || S.reducedMotion.matches) return;
+    let i = 0;
+    heroH1.querySelectorAll('.hero-line').forEach(line => {
+      if (line.querySelector('.hero-word')) return;
+      const words = line.textContent.trim().split(/\s+/);
+      line.innerHTML = words.map(w => `<span class="hero-word" style="--i:${i++}">${esc(w)}</span>`).join(' ');
+    });
+    heroH1.classList.remove('is-words-in'); void heroH1.offsetWidth; heroH1.classList.add('is-words-in');
+  }
+  splitHeroWords();
+  S.onLanguageChange(() => requestAnimationFrame(splitHeroWords));
+
+  /* ---------- Portrait: gentle 3D tilt that follows the mouse ---------- */
+  const heroVisual = document.querySelector('.hero-visual');
+  if (heroVisual && window.matchMedia('(hover:hover) and (pointer:fine)').matches && !S.reducedMotion.matches) {
+    const portrait = heroVisual.querySelector('.portrait');
+    let raf = null;
+    heroVisual.addEventListener('pointermove', e => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = null;
+        const r = heroVisual.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+        portrait.style.setProperty('--tilt-x', (-y * 8).toFixed(2) + 'deg');
+        portrait.style.setProperty('--tilt-y', (x * 10).toFixed(2) + 'deg');
+      });
+    });
+    heroVisual.addEventListener('pointerleave', () => { portrait.style.setProperty('--tilt-x', '0deg'); portrait.style.setProperty('--tilt-y', '0deg'); });
+  }
+
   /* ---------- Promo slides ---------- */
   document.getElementById('promoCta').href = url(D.slidesLink);
   const slideLang = () => (S.lang() === 'en' ? 'en' : 'ar');
@@ -100,6 +133,7 @@
   document.getElementById('servicesGrid').innerHTML = D.services.map(s => `
     <a class="service-card card" href="${esc(url(s.href))}">
       <span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24">${SERVICE_ICONS[s.icon] || ''}</svg></span>
+      <span class="service-deco" aria-hidden="true"><svg viewBox="0 0 24 24">${SERVICE_ICONS[s.icon] || ''}</svg></span>
       <h3 ${attrs(s.title)}>${esc(s.title.ar)}</h3>
       <p ${attrs(s.desc)}>${esc(s.desc.ar)}</p>
       <span class="card-link"><span data-ar="${s.href.startsWith('contact') ? 'اطلب الخدمة' : 'شاهد الأعمال'}" data-en="${s.href.startsWith('contact') ? 'Request this service' : 'View the work'}">${s.href.startsWith('contact') ? 'اطلب الخدمة' : 'شاهد الأعمال'}</span>${S.icons.arrow}</span>

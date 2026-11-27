@@ -558,3 +558,16 @@ main > .section:last-child{padding-bottom:0}
 
 /* amounts such as 10$ inside Arabic text: keep the exact typed order on every browser */
 .num-ltr{direction:ltr;unicode-bidi:bidi-override;display:inline-block}
+
+/* ---------- Spotlight on cards (mouse devices only) ---------- */
+.has-spotlight .card{background-image:radial-gradient(420px circle at var(--mx,-999px) var(--my,-999px),rgba(237,189,77,.13),transparent 45%),var(--surface)}
+.has-spotlight .prices-band-list a{background-image:radial-gradient(300px circle at var(--mx,-999px) var(--my,-999px),rgba(237,189,77,.16),transparent 55%)}
+:root[data-theme="light"].has-spotlight .card{background-image:radial-gradient(420px circle at var(--mx,-999px) var(--my,-999px),rgba(11,107,91,.08),transparent 45%),var(--surface)}
+:root[data-theme="light"].has-spotlight .prices-band-list a{background-image:radial-gradient(300px circle at var(--mx,-999px) var(--my,-999px),rgba(11,107,91,.1),transparent 55%)}
+
+/* ---------- Reading progress bar ---------- */
+.scroll-progress{position:fixed;inset:0 0 auto 0;height:3px;z-index:120;transform-origin:right;transform:scaleX(0);
+  background:linear-gradient(90deg,#d5a033,#f1c64f);box-shadow:0 0 10px rgba(237,189,77,.6);pointer-events:none}
+html[dir="ltr"] .scroll-progress{transform-origin:left}
+:root[data-theme="light"] .scroll-progress{background:linear-gradient(90deg,#075047,#0b725e);box-shadow:none}
+@media print{.scroll-progress{display:none}}

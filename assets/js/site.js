@@ -373,6 +373,45 @@
     return '';
   }
 
+  /* ---------- Spotlight: a soft light follows the mouse over cards ---------- */
+  function setupSpotlight() {
+    if (!window.matchMedia('(hover:hover) and (pointer:fine)').matches || reducedMotion.matches) return;
+    const SEL = '.card, .prices-band-list a';
+    let frame = null, last = null, lit = null;
+    document.addEventListener('pointermove', event => {
+      last = event;
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = null;
+        const el = (last.target instanceof Element && last.target.closest(SEL)) || null;
+        if (lit && lit !== el) { lit.style.removeProperty('--mx'); lit.style.removeProperty('--my'); }
+        lit = el;
+        if (!el) return;
+        const r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', (last.clientX - r.left) + 'px');
+        el.style.setProperty('--my', (last.clientY - r.top) + 'px');
+      });
+    }, { passive: true });
+    document.documentElement.classList.add('has-spotlight');
+  }
+
+  /* ---------- Reading progress: thin bar at the top of the page ---------- */
+  function setupProgress() {
+    const bar = document.createElement('div');
+    bar.className = 'scroll-progress';
+    bar.setAttribute('aria-hidden', 'true');
+    document.body.append(bar);
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.transform = `scaleX(${max > 0 ? Math.min(1, window.scrollY / max) : 0})`;
+    };
+    window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+
   /* ---------- Public API for page scripts ---------- */
   window.SITE = {
     data: D, root: ROOT, page, isHome, reducedMotion,
@@ -385,6 +424,8 @@
   renderNav();
   renderFooter();
   setupFloatingWhatsApp();
+  setupSpotlight();
+  setupProgress();
   applyTheme(currentTheme());
   document.getElementById('themeToggle')?.addEventListener('click', () => applyTheme(currentTheme() === 'light' ? 'dark' : 'light'));
   document.getElementById('langToggle')?.addEventListener('click', () => applyLanguage(lang() === 'ar' ? 'en' : 'ar'));
